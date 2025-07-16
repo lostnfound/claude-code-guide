@@ -985,8 +985,8 @@ kbd.enter-key::after {
 /* Responsive */
 /* Dark mode styles */
 [data-theme="dark"] .step-section {
-    background: #2A2A2A;
-    border-color: #444444;
+    background: #1F1F1F;
+    border-color: #555555;
 }
 
 [data-theme="dark"] .step-section.active {
@@ -1010,6 +1010,10 @@ kbd.enter-key::after {
 
 [data-theme="dark"] .step-header {
     background: transparent;
+}
+
+[data-theme="dark"] .step-header h2 {
+    color: #E5E5E5;
 }
 
 [data-theme="dark"] .step-content h3 {
@@ -1096,6 +1100,31 @@ kbd.enter-key::after {
 
 [data-theme="dark"] kbd.enter-key::after {
     color: #B4B4B4;
+}
+
+/* Dark mode inactive states - 훨씬 더 밝게 */
+[data-theme="dark"] .step-section:not(.active):not(.completed) {
+    opacity: 1;
+    background: #3A3A3A;
+    border-color: #666666;
+}
+
+[data-theme="dark"] .step-section:not(.active):not(.completed) .step-header {
+    background: #3A3A3A;
+}
+
+[data-theme="dark"] .step-section:not(.active):not(.completed) .step-header h2 {
+    color: #E5E5E5;
+    opacity: 0.8;
+}
+
+[data-theme="dark"] .step-section:not(.active):not(.completed) .time-estimate {
+    color: #B4B4B4;
+}
+
+[data-theme="dark"] .step-section:not(.active):not(.completed) .step-number {
+    background: #757575;
+    color: #FFFFFF;
 }
 
 @media (max-width: 768px) {
