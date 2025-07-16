@@ -11,6 +11,11 @@
     background: radial-gradient(ellipse at top, rgba(204, 120, 92, 0.05) 0%, transparent 50%);
 }
 
+/* Dark mode hero background */
+[data-theme="dark"] .landing-hero {
+    background: radial-gradient(ellipse at top, rgba(204, 120, 92, 0.08) 0%, transparent 50%);
+}
+
 .hero-badge {
     background: rgba(204, 120, 92, 0.1);
     color: var(--primary-color);
@@ -23,6 +28,12 @@
     animation: fadeInUp 0.8s ease-out forwards;
 }
 
+/* Dark mode hero badge */
+[data-theme="dark"] .hero-badge {
+    background: rgba(204, 120, 92, 0.2);
+    color: #E09B7A;
+}
+
 .hero-title {
     font-size: clamp(2.5rem, 8vw, 4rem);
     font-weight: 700;
@@ -30,6 +41,12 @@
     line-height: 1.2;
     animation: fadeInUp 0.8s ease-out 0.1s forwards;
     opacity: 0;
+    color: var(--text-primary);
+}
+
+/* Dark mode hero title */
+[data-theme="dark"] .hero-title {
+    color: #F5F5F5;
 }
 
 .hero-subtitle {
@@ -39,6 +56,11 @@
     font-weight: 300;
     animation: fadeInUp 0.8s ease-out 0.2s forwards;
     opacity: 0;
+}
+
+/* Dark mode hero subtitle */
+[data-theme="dark"] .hero-subtitle {
+    color: #C4C4C4;
 }
 
 .hero-cta {
@@ -76,6 +98,11 @@
     color: var(--text-muted);
     font-size: 0.875rem;
     margin-top: -8px;
+}
+
+/* Dark mode CTA subtitle */
+[data-theme="dark"] .cta-subtitle {
+    color: #B4B4B4;
 }
 
 /* Floating emoji animation */

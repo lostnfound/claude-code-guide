@@ -985,29 +985,117 @@ kbd.enter-key::after {
 /* Responsive */
 /* Dark mode styles */
 [data-theme="dark"] .step-section {
-    background: var(--surface);
+    background: #2A2A2A;
+    border-color: #444444;
 }
 
 [data-theme="dark"] .step-section.active {
-    background: var(--surface);
-    border-color: rgba(204, 120, 92, 0.3);
+    background: #2A2A2A;
+    border-color: rgba(224, 155, 122, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="dark"] .step-section.active .step-header {
-    background: rgba(204, 120, 92, 0.1);
+    background: rgba(224, 155, 122, 0.12);
 }
 
 [data-theme="dark"] .step-content {
-    background: var(--surface);
-    border-top-color: rgba(204, 120, 92, 0.2);
+    background: #2A2A2A;
+    border-top-color: rgba(224, 155, 122, 0.2);
 }
 
 [data-theme="dark"] .step-section.active .step-content {
-    background: var(--background);
+    background: rgba(224, 155, 122, 0.05);
 }
 
 [data-theme="dark"] .step-header {
     background: transparent;
+}
+
+[data-theme="dark"] .step-content h3 {
+    color: #F5F5F5;
+}
+
+[data-theme="dark"] .step-content p {
+    color: #C4C4C4;
+}
+
+[data-theme="dark"] .step-number {
+    background: #666666;
+    color: #E5E5E5;
+}
+
+[data-theme="dark"] .step-section.active .step-number {
+    background: #E09B7A;
+    color: #1a1a1a;
+}
+
+[data-theme="dark"] .step-tag {
+    background: #E09B7A;
+    color: #1a1a1a;
+}
+
+[data-theme="dark"] .completed-text {
+    color: #E09B7A;
+}
+
+[data-theme="dark"] .read-only-btn {
+    background: #E09B7A;
+    color: #1a1a1a;
+}
+
+[data-theme="dark"] .back-to-summary-btn {
+    background: #666666;
+    color: #E5E5E5;
+}
+
+[data-theme="dark"] .back-to-summary-btn:hover {
+    background: #777777;
+}
+
+[data-theme="dark"] .terminal-guide-box {
+    background: rgba(42, 42, 42, 0.8);
+    border-color: rgba(68, 68, 68, 0.8);
+}
+
+[data-theme="dark"] .terminal-guide-box h4 {
+    color: #F5F5F5;
+}
+
+[data-theme="dark"] .warning-notice {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.4);
+}
+
+[data-theme="dark"] .warning-notice h4 {
+    color: #F59E0B;
+}
+
+[data-theme="dark"] .warning-notice p {
+    color: #E5E5E5;
+}
+
+[data-theme="dark"] .install-note {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #E5E5E5;
+}
+
+[data-theme="dark"] kbd {
+    background: #404040;
+    color: #E5E5E5;
+    border-color: #666666;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] kbd.enter-key {
+    background: #404040;
+    color: #E5E5E5;
+    border-color: #666666;
+}
+
+[data-theme="dark"] kbd.enter-key::after {
+    color: #B4B4B4;
 }
 
 @media (max-width: 768px) {

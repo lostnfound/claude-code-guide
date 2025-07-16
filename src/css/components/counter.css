@@ -45,11 +45,20 @@
 }
 
 [data-theme="dark"] .success-counter {
-    background: var(--surface);
-    border-color: var(--border-color);
+    background: #2A2A2A;
+    border-color: #444444;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 [data-theme="dark"] .success-counter[data-special="true"] {
     background: linear-gradient(135deg, rgba(204, 120, 92, 0.15), rgba(204, 120, 92, 0.08));
     border-color: rgba(204, 120, 92, 0.3);
+}
+
+[data-theme="dark"] .counter-number {
+    color: #E09B7A;
+}
+
+[data-theme="dark"] .counter-text {
+    color: #C4C4C4;
 }

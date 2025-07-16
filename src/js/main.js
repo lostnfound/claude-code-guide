@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize version updater for guide and FAQ pages
   initVersionUpdater();
+  
+  // Initialize theme toggle button
+  initThemeToggle();
 });
 
 // Initialize landing page counter
@@ -49,5 +52,15 @@ async function fetchUserCount() {
   } catch (error) {
     console.error('사용자 수 가져오기 실패:', error);
     return 0; // 실패 시 0 반환
+  }
+}
+
+// Theme toggle for landing page
+function initThemeToggle() {
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      ThemeManager.toggle();
+    });
   }
 }

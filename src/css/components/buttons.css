@@ -36,6 +36,18 @@
     animation: none;
 }
 
+/* Dark mode primary button */
+[data-theme="dark"] .btn-hero-primary {
+    background: #E09B7A;
+    color: #1a1a1a;
+    box-shadow: 0 4px 16px rgba(224, 155, 122, 0.3);
+}
+
+[data-theme="dark"] .btn-hero-primary:hover {
+    background: #F2B894;
+    box-shadow: 0 12px 32px rgba(224, 155, 122, 0.4);
+}
+
 .btn-hero-secondary {
     background: transparent;
     color: #1a1a1a;
@@ -60,10 +72,12 @@
 }
 
 [data-theme="dark"] .btn-hero-secondary {
-    color: var(--text-primary);
-    border-color: var(--border-color);
+    color: #E5E5E5;
+    border-color: #444444;
 }
 
 [data-theme="dark"] .btn-hero-secondary:hover {
-    background: var(--surface);
+    background: #2A2A2A;
+    border-color: #E09B7A;
+    color: #E09B7A;
 }

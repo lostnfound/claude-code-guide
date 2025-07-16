@@ -19,6 +19,11 @@
     opacity: 0.8;
 }
 
+/* Dark mode links */
+[data-theme="dark"] .step-content a {
+    color: #E09B7A;
+}
+
 .main-content {
     margin-top: var(--space-4);
 }
@@ -84,13 +89,28 @@
 
 /* Dark mode */
 [data-theme="dark"] .simple-check {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(42, 42, 42, 0.8);
+    border-color: rgba(68, 68, 68, 0.8);
 }
 
 [data-theme="dark"] .checklist-box {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(42, 42, 42, 0.8);
+    border-color: rgba(68, 68, 68, 0.8);
+}
+
+[data-theme="dark"] .tooltip {
+    border-bottom-color: #E09B7A;
+    color: #E09B7A;
+}
+
+[data-theme="dark"] .tooltip-text {
+    background-color: #2A2A2A;
+    color: #E5E5E5;
+    border-color: #444444;
+}
+
+[data-theme="dark"] .tooltip-text::after {
+    border-color: #2A2A2A transparent transparent transparent;
 }
 
 /* Responsive */

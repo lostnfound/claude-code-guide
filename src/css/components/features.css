@@ -66,10 +66,19 @@
 }
 
 [data-theme="dark"] .feature-item {
-    background: var(--surface);
-    border-color: var(--border-color);
+    background: #2A2A2A;
+    border-color: #444444;
 }
 
 [data-theme="dark"] .feature-item:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: #E09B7A;
+}
+
+[data-theme="dark"] .feature-title {
+    color: #F5F5F5;
+}
+
+[data-theme="dark"] .feature-desc {
+    color: #C4C4C4;
 }

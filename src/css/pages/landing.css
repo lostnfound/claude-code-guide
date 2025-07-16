@@ -3,6 +3,52 @@ body {
     overflow-x: hidden;
 }
 
+/* Theme toggle button for landing page */
+.theme-toggle-landing {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.theme-toggle-landing:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle-landing i {
+    font-size: 1.25rem;
+    color: #1a1a1a;
+    transition: all 0.3s ease;
+}
+
+/* Dark mode theme toggle */
+[data-theme="dark"] .theme-toggle-landing {
+    background: rgba(42, 42, 42, 0.9);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .theme-toggle-landing:hover {
+    background: rgba(42, 42, 42, 1);
+}
+
+[data-theme="dark"] .theme-toggle-landing i {
+    color: #E5E5E5;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .landing-hero {
