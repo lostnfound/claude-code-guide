@@ -121,13 +121,29 @@
 
 /* Dark theme support for FAQ terminal components */
 [data-theme="dark"] .faq-terminal-simulation {
-    background: rgba(30, 30, 30, 0.8);
-    border-color: rgba(204, 120, 92, 0.7);
+    background: #1a1a1a;
+    border-color: rgba(224, 155, 122, 0.4);
 }
 
 [data-theme="dark"] .faq-command-box {
     background: rgba(40, 40, 40, 0.8);
     border-color: #374151;
+}
+
+[data-theme="dark"] .terminal-description {
+    color: #E5E5E5;
+}
+
+[data-theme="dark"] .terminal-info {
+    color: #E5E5E5;
+}
+
+[data-theme="dark"] .terminal-tip .output {
+    color: #E5E5E5;
+}
+
+[data-theme="dark"] .faq-command-desc {
+    color: #E5E5E5;
 }
 
 [data-theme="dark"] .faq-command-prompt {
