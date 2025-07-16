@@ -331,7 +331,7 @@
 /* Toast notifications */
 .toast {
     position: fixed;
-    top: var(--space-4);
+    top: calc(var(--nav-height) + var(--space-3));
     right: var(--space-4);
     background: var(--surface);
     color: var(--text-primary);
@@ -342,14 +342,14 @@
     font-size: 0.875rem;
     max-width: 320px;
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateX(calc(100% + var(--space-4)));
     transition: var(--transition-fast);
     z-index: 1001;
 }
 
 .toast.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
 }
 
 .toast.success {
@@ -396,7 +396,7 @@
     }
     
     .toast {
-        top: var(--space-2);
+        top: calc(var(--nav-height) + var(--space-2));
         right: var(--space-2);
         left: var(--space-2);
         max-width: none;
