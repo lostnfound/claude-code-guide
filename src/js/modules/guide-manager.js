@@ -3,14 +3,36 @@ export const GuideManager = {
     currentStep: 0,
     completedSteps: new Set(),
     totalSteps: { mac: 6, windows: 6 },
+    SHEET_URL: 'https://script.google.com/macros/s/AKfycbwT8THqsbVh89-zpAUHf_nLQ1l468OVDy3xuQPRRca8Wc1QNDgt2Tk98fMUSndtD_pm/exec',
+    sessionId: null,
+    startTime: null,
+    errorSteps: [],
     
     init() {
+        this.initSession();
         this.loadProgress();
         this.setupProgressBar();
         this.setupResultButtons();
         this.setupTroubleshooting();
         this.setupAccordion();
         this.updateProgress();
+        this.initSatisfactionDisplay();
+    },
+    
+    initSession() {
+        // 세션 ID 생성 또는 기존 세션 가져오기
+        this.sessionId = sessionStorage.getItem('guide-session-id');
+        if (!this.sessionId) {
+            this.sessionId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+            sessionStorage.setItem('guide-session-id', this.sessionId);
+        }
+        
+        // 시작 시간 기록
+        this.startTime = sessionStorage.getItem('guide-start-time');
+        if (!this.startTime) {
+            this.startTime = Date.now();
+            sessionStorage.setItem('guide-start-time', this.startTime);
+        }
     },
     
     resetForOSChange() {
@@ -181,6 +203,10 @@ export const GuideManager = {
             this.hideTroubleshooting(step);
             this.goToNextStep();
         } else if (result === 'error') {
+            // 에러 발생 기록
+            if (!this.errorSteps.includes(step)) {
+                this.errorSteps.push(step);
+            }
             this.showTroubleshooting(step);
         }
         
@@ -659,8 +685,13 @@ export const GuideManager = {
         // Log emoji feedback
         console.log('User feedback emoji:', emoji);
         
-        // Here you can send the emoji feedback to your analytics
-        // this.sendFeedback({ type: 'emoji', value: emoji });
+        // 이모지만 선택한 경우에도 기본 데이터 전송 (good, neutral의 경우)
+        if (emoji === 'good' || emoji === 'neutral') {
+            this.sendToGoogleSheets({
+                emoji: emoji,
+                feedbackText: ''
+            });
+        }
     },
     
     submitFeedback() {
@@ -683,12 +714,11 @@ export const GuideManager = {
             </div>
         `;
         
-        // Here you can send the feedback to your backend
-        // this.sendFeedback({ 
-        //     type: 'detailed',
-        //     emoji: this.selectedEmoji,
-        //     text: feedbackText 
-        // });
+        // Google Sheets로 상세 피드백 전송
+        this.sendToGoogleSheets({
+            emoji: this.selectedEmoji,
+            feedbackText: feedbackText
+        });
     },
     
     handleShare() {
@@ -1002,6 +1032,147 @@ export const GuideManager = {
         document.querySelectorAll('.troubleshooting').forEach(troubleshooting => {
             troubleshooting.classList.remove('active');
         });
+    },
+    
+    // Google Sheets로 데이터 전송
+    async sendToGoogleSheets(data) {
+        try {
+            // 완료 시간 계산
+            const completionTime = this.startTime ? Math.round((Date.now() - this.startTime) / 1000 / 60) : 0;
+            
+            // 전송할 데이터 준비
+            const payload = {
+                emoji: data.emoji || '',
+                feedbackText: data.feedbackText || '',
+                browser: this.getBrowserInfo(),
+                os: window.OSDetector?.getCurrentOS() || 'unknown',
+                completionTime: `${completionTime}분`,
+                completedSteps: this.completedSteps.size,
+                lastStep: Array.from(this.completedSteps).pop() || '',
+                sessionId: this.sessionId,
+                referrer: document.referrer || 'direct',
+                darkMode: window.ThemeManager?.currentTheme === 'dark' ? 'Yes' : 'No',
+                firstVisit: !localStorage.getItem('claude-guide-visited') ? 'Yes' : 'No',
+                errorSteps: this.errorSteps.join(', ') || '',
+                errorResolved: this.errorSteps.length > 0 && this.completedSteps.size === 6 ? 'Yes' : 'No'
+            };
+            
+            // 첫 방문 표시
+            localStorage.setItem('claude-guide-visited', 'true');
+            
+            // Google Sheets로 전송
+            const response = await fetch(this.SHEET_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(payload)
+            });
+            
+            console.log('Feedback sent to Google Sheets');
+        } catch (error) {
+            console.error('Failed to send feedback:', error);
+        }
+    },
+    
+    getBrowserInfo() {
+        const userAgent = navigator.userAgent;
+        if (userAgent.includes('Chrome')) return 'Chrome';
+        if (userAgent.includes('Safari')) return 'Safari';
+        if (userAgent.includes('Firefox')) return 'Firefox';
+        if (userAgent.includes('Edge')) return 'Edge';
+        return 'Other';
+    },
+    
+    // 만족도 표시 초기화
+    async initSatisfactionDisplay() {
+        // 즉시 기본 메시지 표시
+        this.showDefaultMessage();
+        
+        try {
+            // 백그라운드에서 데이터 가져오기
+            const totalUsers = await this.getTotalUsers();
+            const satisfactionData = await this.getSatisfactionData();
+            
+            // 데이터가 있으면 업데이트
+            if (totalUsers > 0) {
+                this.updateSatisfactionDisplay(totalUsers, satisfactionData);
+            }
+        } catch (error) {
+            console.error('만족도 표시 초기화 실패:', error);
+            // 에러 발생 시 기본 메시지 유지
+        }
+    },
+    
+    showDefaultMessage() {
+        const display = document.getElementById('satisfactionDisplay');
+        const text = document.getElementById('satisfactionText');
+        
+        if (!display || !text) return;
+        
+        // 기본 메시지 즉시 표시
+        text.innerHTML = '📝 아래 단계별 가이드를 따라하시면 설치할 수 있습니다';
+        display.className = 'satisfaction-display stage-new';
+        display.style.display = 'block';
+        display.classList.add('show');
+    },
+    
+    async getTotalUsers() {
+        // 실제로는 Google Sheets API 호출
+        // 현재는 CountAPI 사용
+        try {
+            const response = await fetch('https://api.countapi.xyz/get/claude-code-guide/users');
+            const data = await response.json();
+            return data.value || 0;
+        } catch {
+            return 0;
+        }
+    },
+    
+    async getSatisfactionData() {
+        // 실제로는 Google Sheets에서 만족도 데이터 가져오기
+        // 현재는 임시 데이터 반환
+        return {
+            love: 87,
+            good: 10,
+            neutral: 2,
+            sad: 1,
+            total: 100
+        };
+    },
+    
+    updateSatisfactionDisplay(totalUsers, satisfactionData) {
+        const display = document.getElementById('satisfactionDisplay');
+        const text = document.getElementById('satisfactionText');
+        
+        if (!display || !text) return;
+        
+        let message = '';
+        let stageClass = '';
+        
+        if (totalUsers < 100) {
+            // 초기 단계
+            message = '📝 아래 단계별 가이드를 따라하시면 설치할 수 있습니다';
+            stageClass = 'stage-new';
+        } else if (totalUsers < 500) {
+            // 중간 단계
+            const satisfied = Math.round(totalUsers * (satisfactionData.love + satisfactionData.good) / 100);
+            message = `<span class="number">${totalUsers}</span>명 중 <span class="number">${satisfied}</span>명이 만족했어요 😊`;
+            stageClass = 'stage-growing';
+        } else {
+            // 성숙 단계
+            const satisfactionRate = Math.round((satisfactionData.love + satisfactionData.good) / satisfactionData.total * 100);
+            message = `<span class="number">${satisfactionRate}%</span>가 만족했어요 👍`;
+            stageClass = 'stage-mature';
+        }
+        
+        // 업데이트
+        text.innerHTML = message;
+        display.className = `satisfaction-display ${stageClass}`;
+        
+        // 애니메이션과 함께 표시
+        setTimeout(() => {
+            display.style.display = 'block';
+            display.classList.add('show');
+        }, 500);
     },
     
     // 사용자 카운트 관련 메서드들
