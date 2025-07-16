@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize FAQ functionality
     initFAQ();
     
+    // Initialize theme toggle button
+    initThemeToggle();
+    
     // Check if user came from guide page and create return button
     handleReturnFromGuide();
 });
@@ -131,4 +134,13 @@ function createReturnButton(returnUrl) {
     `;
     
     return button;
+}
+
+function initThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            ThemeManager.toggle();
+        });
+    }
 }
