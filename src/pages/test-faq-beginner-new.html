@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code 도움말 - 초보자 FAQ</title>
+    <link rel="stylesheet" href="../css/base/variables.css">
+    <link rel="stylesheet" href="../css/base/reset.css">
+    <link rel="stylesheet" href="../css/components/made-by.css">
+    <link rel="stylesheet" href="../css/components/navigation.css">
+    <link rel="stylesheet" href="../css/components/guide-header.css">
+    <link rel="stylesheet" href="../css/components/guide-steps.css">
+    <link rel="stylesheet" href="../css/components/code-blocks.css">
+    <link rel="stylesheet" href="../css/components/faq.css">
+    <link rel="stylesheet" href="../css/components/buttons.css">
+    <link rel="stylesheet" href="../css/pages/guide.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Guide intro section */
+        .guide-intro {
+            text-align: center;
+            margin: var(--space-5) 0;
+            padding: 0 var(--space-3);
+        }
+        
+        .guide-intro h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        
+        .guide-intro p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* FAQ section 스타일 - guide-steps.css와 완전히 동일하게 */
+        .faq-section {
+            background: #f5f5f5;
+            border: 1px solid transparent;
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-3);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .faq-section.active {
+            background: linear-gradient(135deg, rgba(204, 120, 92, 0.06), rgba(204, 120, 92, 0.02));
+            border-color: #CC785C;
+            opacity: 1;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-section.active .faq-header {
+            background: linear-gradient(135deg, rgba(204, 120, 92, 0.25), rgba(204, 120, 92, 0.15));
+            border-bottom: 1px solid rgba(204, 120, 92, 0.2);
+        }
+        
+        .faq-section.active .faq-content-section {
+            background: linear-gradient(135deg, rgba(204, 120, 92, 0.12), rgba(204, 120, 92, 0.05));
+        }
+        
+        .faq-section.active .faq-number {
+            background: #CC785C;
+        }
+        
+        /* Dark mode support */
+        [data-theme="dark"] .faq-section {
+            background: var(--surface);
+        }
+        
+        [data-theme="dark"] .faq-section.active {
+            background: var(--surface);
+            border-color: rgba(204, 120, 92, 0.3);
+        }
+        
+        [data-theme="dark"] .faq-section.active .faq-header {
+            background: rgba(204, 120, 92, 0.1);
+        }
+        
+        [data-theme="dark"] .faq-section.active .faq-content-section {
+            background: var(--background);
+        }
+        
+        /* FAQ header 스타일 */
+        .faq-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-4) var(--space-5);
+            background: transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        
+        .faq-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #9ca3af;
+            color: white;
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        
+        .faq-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            margin-right: auto;
+            color: var(--text-primary);
+        }
+        
+        .time-estimate {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-left: var(--space-2);
+        }
+        
+        .faq-content-section {
+            padding: var(--space-5);
+            background: linear-gradient(135deg, rgba(204, 120, 92, 0.08), rgba(204, 120, 92, 0.03));
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        }
+        
+        .faq-category-icon {
+            margin-right: var(--space-2);
+        }
+        
+        /* FAQ 아이템 스타일 - guide .simple-check와 동일 */
+        .faq-item {
+            background: rgba(249, 250, 251, 0.5);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+            border-radius: var(--radius);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+            transition: var(--transition);
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .faq-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Dark mode for FAQ items */
+        [data-theme="dark"] .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .faq-item h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+        
+        .faq-item p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-2);
+        }
+        
+        
+        /* Terminal example - 가이드 페이지와 동일 */
+        .terminal-example {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: var(--radius-sm);
+            padding: var(--space-3);
+            margin: var(--space-2) 0;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', 'Courier New', monospace;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .terminal-header {
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: var(--space-1);
+            margin-bottom: var(--space-2);
+        }
+        
+        .terminal-title {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .terminal-content {
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        
+        .terminal-content .output {
+            color: #000000;
+            display: block;
+        }
+        
+        .terminal-content .prompt {
+            color: #000000;
+            display: inline;
+            font-weight: 600;
+        }
+        
+        .terminal-content .command {
+            color: #000000;
+        }
+        
+        .terminal-content .comment {
+            color: #6b7280;
+            display: block;
+        }
+        
+        .terminal-content .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: #000000;
+            animation: blink 1s infinite;
+            vertical-align: text-bottom;
+            margin-left: 2px;
+        }
+        
+        .terminal-content .prompt .cursor {
+            background: #000000;
+            color: #ffffff;
+            padding: 0 2px;
+            width: auto;
+            height: auto;
+            animation: none;
+        }
+        
+        /* Dark mode terminal */
+        [data-theme="dark"] .terminal-example {
+            background: #1a1a1a;
+            border-color: #333;
+        }
+        
+        [data-theme="dark"] .terminal-header {
+            border-color: #333;
+        }
+        
+        [data-theme="dark"] .terminal-title {
+            color: #ccc;
+        }
+        
+        [data-theme="dark"] .terminal-content .output {
+            color: #ccc;
+        }
+        
+        [data-theme="dark"] .terminal-content .prompt {
+            color: #569cd6;
+        }
+        
+        [data-theme="dark"] .terminal-content .command {
+            color: #ccc;
+        }
+        
+        [data-theme="dark"] .terminal-content .comment {
+            color: #6a9955;
+        }
+        
+        [data-theme="dark"] .terminal-content .cursor {
+            background: #ffffff;
+        }
+        
+        [data-theme="dark"] .terminal-content .prompt .cursor {
+            background: #ffffff;
+            color: #000000;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Loading spinner animation */
+        .loading-spinner {
+            display: inline-block;
+            font-family: monospace;
+            font-weight: normal;
+        }
+        
+        .loading-spinner::before {
+            content: "⠸";
+            animation: spinner 1s infinite;
+        }
+        
+        @keyframes spinner {
+            0% { content: "⠸"; }
+            12.5% { content: "⠼"; }
+            25% { content: "⠴"; }
+            37.5% { content: "⠦"; }
+            50% { content: "⠧"; }
+            62.5% { content: "⠇"; }
+            75% { content: "⠏"; }
+            87.5% { content: "⠋"; }
+            100% { content: "⠸"; }
+        }
+        
+        /* Alert box */
+        .alert-box {
+            background: #fef3c7;
+            border: 1px solid #fbbf24;
+            border-radius: var(--radius);
+            padding: var(--space-3);
+            margin: var(--space-3) 0;
+        }
+        
+        .alert-box.info {
+            background: #dbeafe;
+            border-color: #60a5fa;
+        }
+        
+        .alert-box.success {
+            background: #d1fae5;
+            border-color: #34d399;
+        }
+        
+        .alert-box h5 {
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+        }
+        
+        /* Solution steps - guide .simple-list-box와 동일 */
+        .solution-steps {
+            background: #f8f9fa;
+            border: 1px solid #e5e7eb;
+            border-radius: var(--radius);
+            padding: var(--space-3);
+            margin: var(--space-3) 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .solution-steps ol {
+            padding-left: var(--space-3);
+            margin: 0;
+            list-style: decimal !important;
+        }
+        
+        .solution-steps li {
+            margin-bottom: var(--space-2);
+            line-height: 1.6;
+        }
+        
+        .solution-steps ul {
+            padding-left: var(--space-3);
+            list-style: disc !important;
+            margin: 0;
+        }
+        
+        .solution-steps ul li {
+            margin-bottom: var(--space-2);
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        
+        /* Dark mode for solution steps */
+        [data-theme="dark"] .solution-steps {
+            background: rgba(30, 30, 30, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Common issues */
+        .common-issue {
+            position: relative;
+            padding-left: var(--space-4);
+        }
+        
+        .common-issue::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.25rem;
+        }
+        
+        /* Keyboard Keys - 가이드 페이지와 동일 */
+        kbd {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 0.875rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            line-height: 1.4;
+            color: #1a1a1a;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+        }
+
+        kbd.enter-key {
+            background: #ffffff;
+            color: #1a1a1a;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding-right: 20px;
+        }
+
+        kbd.enter-key::after {
+            content: "↵";
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Made by Jin 태그 -->
+    <div class="made-by-tag">
+        <span>Made by Jin</span>
+    </div>
+    
+    <!-- 미니멀 네비게이션 -->
+    <nav class="nav-minimal">
+        <div class="nav-logo">
+            <i class="fas fa-robot"></i>
+            <span>Claude Code</span>
+        </div>
+        <div class="nav-items">
+            <a href="../index.html">홈</a>
+            <a href="about.html">소개</a>
+            <a href="guide.html">시작하기</a>
+            <a href="test-faq-beginner-new.html" class="active">도움말</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- 헤더 -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>Claude Code 도움말</h1>
+            </div>
+            <div class="header-controls">
+                <button class="os-toggle" id="osToggle">
+                    <span class="os-text" id="currentOS">자동 감지 중...</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="font-size-controls">
+                    <button class="font-size-btn" id="decreaseFont" title="글자 작게">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <span class="font-size-label">글자 크기 변환</span>
+                    <button class="font-size-btn" id="increaseFont" title="글자 크게">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="다크 모드">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </header>
+        
+        <div class="guide-intro">
+            <h2 class="os-specific" data-os="mac">터미널이 처음이신가요? 걱정 마세요!</h2>
+            <h2 class="os-specific" data-os="windows">명령 프롬프트가 처음이신가요? 걱정 마세요!</h2>
+            <p>Claude Code를 설치하며 겪을 수 있는 모든 어려움을 함께 해결해드립니다</p>
+        </div>
+
+        <!-- FAQ Categories -->
+        <div class="main-content">
+            <!-- 🔴 지금 막혔어요! (즉시 해결 필요) -->
+            <section class="faq-section active expanded" data-topic="urgent">
+                <div class="faq-header">
+                    <div class="faq-number"><i class="fas fa-exclamation-triangle"></i></div>
+                    <h2>지금 막혔어요! <span class="time-estimate"><i class="far fa-clock"></i> 즉시 해결</span></h2>
+                </div>
+                <div class="faq-content-section">
+                    <!-- Mac FAQ Items -->
+                    <div class="os-specific" data-os="mac">
+                        <div class="faq-item">
+                            <h4>터미널이 어디 있나요? 찾을 수가 없어요!</h4>
+                            <p>Mac에서 터미널을 찾는 가장 쉬운 방법을 알려드릴게요:</p>
+                            <div class="solution-steps">
+                                <ol>
+                                    <li><kbd>Command (Cmd) ⌘</kbd> + <kbd>Space</kbd> 를 누르세요 (Spotlight 검색)</li>
+                                    <li>"터미널" 또는 "Terminal"이라고 입력하세요</li>
+                                    <li><kbd class="enter-key">Enter</kbd> 를 누르면 터미널이 열려요!</li>
+                                </ol>
+                            </div>
+                            
+                            <div class="terminal-example">
+                                <div class="terminal-header">
+                                    <span class="terminal-title">터미널을 열면 이렇게 보입니다</span>
+                                </div>
+                                <div class="terminal-content">
+<span class="output">Last login: Mon Jan 8 10:32:15 on ttys001</span>
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="cursor"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="alert-box info">
+                                <h5>💡 Tip</h5>
+                                <p>자주 사용하실 거라면 터미널을 Dock에 추가해두세요. 터미널 아이콘을 우클릭하고 "옵션 > Dock에 유지"를 선택하면 됩니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <h4>비밀번호를 입력해도 아무것도 안 보여요!</h4>
+                            <p>이건 정상이에요! 터미널은 보안상 비밀번호를 입력할 때 아무것도 표시하지 않습니다.</p>
+                            <div class="terminal-example">
+                                <div class="terminal-header">
+                                    <span class="terminal-title">비밀번호 입력 시 화면 - 정상적인 상황</span>
+                                </div>
+                                <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">sudo npm install -g claude</span>
+<span class="output">Password:</span> <span class="cursor"></span>
+<span class="comment"># ← 비밀번호를 입력해도 화면에 아무것도 표시되지 않습니다 (보안상 정상)</span>
+                                </div>
+                            </div>
+                            <div class="solution-steps">
+                                <ol>
+                                    <li>그냥 Mac 로그인 비밀번호를 입력하세요</li>
+                                    <li>화면에 아무것도 안 보여도 입력은 되고 있어요</li>
+                                    <li>다 입력했으면 <kbd class="enter-key">Enter</kbd> 를 누르세요</li>
+                                </ol>
+                            </div>
+                            <div class="common-issue">
+                                비밀번호가 틀렸다고 나오면 다시 천천히 입력해보세요. Caps Lock이 켜져있는지도 확인하세요!
+                            </div>
+                        </div>
+
+
+                        <div class="faq-item">
+                            <h4>Permission denied 오류가 계속 나와요</h4>
+                            <p>권한 문제예요. Mac에서는 시스템 폴더에 뭔가를 설치할 때 관리자 권한이 필요해요.</p>
+                            <div class="terminal-example">
+                                <div class="terminal-header">
+                                    <span class="terminal-title">잘못된 방법 - 권한 오류 발생</span>
+                                </div>
+                                <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">npm install -g claude</span>
+<span class="output">npm ERR! Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/claude'</span>
+<span class="output">npm ERR! The operation was rejected by your operating system.</span>
+<span class="output">npm ERR! It is likely you do not have the permissions to access this file as the current user</span>
+                                </div>
+                            </div>
+                            <div class="terminal-example">
+                                <div class="terminal-header">
+                                    <span class="terminal-title">올바른 방법 - sudo 사용</span>
+                                </div>
+                                <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">sudo npm install -g claude</span>
+<span class="output">Password:</span> <span class="cursor"></span>
+<span class="comment"># ← 여기서 Mac 비밀번호를 입력하면 설치가 진행됩니다</span>
+                                </div>
+                            </div>
+                            <p><code>sudo</code>를 앞에 붙이면 관리자 권한으로 실행됩니다.</p>
+                        </div>
+                    </div>
+
+                    <!-- Windows FAQ Items -->
+                    <div class="os-specific" data-os="windows">
+                        <div class="faq-item">
+                            <h4>명령 프롬프트가 어디 있나요?</h4>
+                            <p>Windows에서 명령 프롬프트를 여는 가장 쉬운 방법들:</p>
+                            <div class="solution-steps">
+                                <ol>
+                                    <li><strong>방법 1:</strong> <kbd>Windows (Win) ⊞</kbd> + <kbd>R</kbd> 을 누르고 "cmd" 입력 후 <kbd class="enter-key">Enter</kbd></li>
+                                    <li><strong>방법 2:</strong> 시작 버튼 클릭 → "cmd" 또는 "명령 프롬프트" 검색</li>
+                                    <li><strong>방법 3:</strong> <kbd>Windows (Win) ⊞</kbd> + <kbd>X</kbd> 누르고 "Windows Terminal" 선택</li>
+                                </ol>
+                            </div>
+                            <div class="alert-box info">
+                                <h5>💡 추천</h5>
+                                <p>Windows Terminal을 사용하시면 더 편해요! Microsoft Store에서 무료로 다운로드할 수 있습니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <h4>'npm'은(는) 내부 또는 외부 명령이 아닙니다</h4>
+                            <p>Node.js가 설치되지 않았거나 PATH 설정이 안 되어있네요.</p>
+                            <div class="solution-steps">
+                                <ol>
+                                    <li><a href="https://nodejs.org" target="_blank">nodejs.org</a> 에서 LTS 버전 다운로드</li>
+                                    <li>설치할 때 "Add to PATH" 옵션을 꼭 체크하세요!</li>
+                                    <li>설치 후 모든 명령 프롬프트 창을 닫고 새로 열어주세요</li>
+                                    <li><code>npm --version</code> 으로 설치 확인</li>
+                                </ol>
+                            </div>
+                            <div class="common-issue">
+                                여전히 안 된다면 컴퓨터를 재시작해보세요. Windows는 가끔 재시작이 필요해요.
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <h4>액세스가 거부되었습니다 오류가 나와요</h4>
+                            <p>Windows에서는 관리자 권한으로 명령 프롬프트를 실행해야 할 때가 있어요.</p>
+                            <div class="solution-steps">
+                                <ol>
+                                    <li>명령 프롬프트를 마우스 우클릭</li>
+                                    <li>"관리자 권한으로 실행" 선택</li>
+                                    <li>사용자 계정 컨트롤 창이 뜨면 "예" 클릭</li>
+                                    <li>다시 명령어를 입력해보세요</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="faq-item">
+                            <h4>PowerShell에서 스크립트 실행이 안 돼요</h4>
+                            <p>Windows PowerShell의 보안 정책 때문이에요.</p>
+                            <div class="terminal-example">
+                                <div class="terminal-header">
+                                    <span class="terminal-title">PowerShell 보안 정책 오류</span>
+                                </div>
+                                <div class="terminal-content">
+<span class="prompt">PS C:\Users\사용자명></span> <span class="command">npm install -g claude</span>
+<span class="output">이 시스템에서 스크립트를 실행할 수 없으므로 C:\Users\사용자명\AppData\Roaming\npm\claude.ps1 파일을 로드할 수 없습니다.</span>
+<span class="output">자세한 내용은 about_Execution_Policies(https://go.microsoft.com/fwlink/?LinkID=135170)를 참조하십시오.</span>
+                                </div>
+                            </div>
+                            <div class="solution-steps">
+                                <ol>
+                                    <li>PowerShell을 관리자 권한으로 실행</li>
+                                    <li>다음 명령어 입력: <code>Set-ExecutionPolicy RemoteSigned</code></li>
+                                    <li>Y를 입력해서 확인</li>
+                                    <li>또는 그냥 CMD(명령 프롬프트)를 사용하세요</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 🟡 이게 정상인가요? (불안함 해소) -->
+            <section class="faq-section active expanded" data-topic="normal">
+                <div class="faq-header">
+                    <div class="faq-number"><i class="fas fa-question-circle"></i></div>
+                    <h2>이게 정상인가요? <span class="time-estimate"><i class="far fa-clock"></i> 불안함 해소</span></h2>
+                </div>
+                <div class="faq-content-section">
+                    <!-- Common for both OS -->
+                    <div class="faq-item">
+                        <h4>설치가 너무 오래 걸려요 (5분 넘게 진행 중)</h4>
+                        <p>프로그램 설치는 여러 파일을 다운로드하고 설정하는 과정이라 시간이 걸려요. 특히 처음 설치할 때는 더 그래요.</p>
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">설치 진행 중 화면 - 시간이 오래 걸리는 상황</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="output">Downloading packages...</span>
+<span class="output">Installing dependencies...</span>
+<span class="output"><span class="loading-spinner"></span> Installing: express@4.18.2</span>
+<span class="output"><span class="loading-spinner"></span> Installing: lodash@4.17.21</span>
+<span class="output"><span class="loading-spinner"></span> Installing: moment@2.29.4</span>
+<span class="comment"># ← 이런 식으로 여러 프로그램을 차례대로 설치하고 있어요!</span>
+                            </div>
+                        </div>
+                        <div class="alert-box success">
+                            <h5>✅ 정상이에요!</h5>
+                            <p>인터넷 속도에 따라 5-10분 정도 걸릴 수 있어요. 커피 한 잔 하고 오세요!</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>설치 중에 WARN 메시지가 여러 개 나왔어요</h4>
+                        <p>npm은 설치 중에 다양한 경고를 보여주지만, 대부분은 무시해도 됩니다.</p>
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">설치 중 경고 메시지 - 정상적인 상황</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">npm install some-package</span>
+<span class="output">npm WARN deprecated package@1.0.0: This package is deprecated</span>
+<span class="comment"># → 구버전 패키지라는 경고 (정상)</span>
+<span class="output">npm WARN optional SKIPPING OPTIONAL DEPENDENCY</span>
+<span class="comment"># → 선택적 구성요소 건너뜀 (정상)</span>
+<span class="output">npm WARN some-module@2.1.0 requires a peer dependency</span>
+<span class="comment"># → 추가 패키지가 필요하다는 알림 (정상)</span>
+                            </div>
+                        </div>
+                        <div class="alert-box info">
+                            <h5>💡 알아두세요</h5>
+                            <p>WARN은 경고일 뿐이에요. ERROR가 아니라면 정상적으로 설치되고 있는 겁니다!</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>터미널에 이상한 기호나 색깔이 나와요</h4>
+                        <p>터미널은 다양한 색상과 기호로 정보를 구분해서 보여줍니다.</p>
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">터미널 색상과 기호 예시</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">npm install express</span>
+<span class="output">added 64 packages in 3s</span>
+<span class="comment"># → 기본 색상 = 성공/완료</span>
+
+<span class="output" style="color: #f59e0b;">npm WARN deprecated package@1.0.0: This package is deprecated</span>
+<span class="comment"># → 노란색 WARN = 경고 (무시 가능)</span>
+
+<span class="output" style="color: #ef4444;">npm ERR! code ENOENT
+npm ERR! syscall open
+npm ERR! path /Users/username/package.json</span>
+<span class="comment"># → 빨간색 ERR! = 오류 (확인 필요)</span>
+
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="cursor"></span>
+<span class="comment"># → % 또는 $ = 명령어 입력 대기 중</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- 🟢 시작 전 알아두기 (기초 지식) -->
+            <section class="faq-section active expanded" data-topic="basics">
+                <div class="faq-header">
+                    <div class="faq-number"><i class="fas fa-book"></i></div>
+                    <h2>시작 전 알아두기 <span class="time-estimate"><i class="far fa-clock"></i> 기초 지식</span></h2>
+                </div>
+                <div class="faq-content-section">
+                    <div class="faq-item">
+                        <h4>복사/붙여넣기는 어떻게 하나요?</h4>
+                        <p>터미널에서는 복사/붙여넣기 방법이 조금 달라요:</p>
+                        <div class="solution-steps">
+                            <div class="os-specific" data-os="mac">
+                                <ul>
+                                    <li>복사: 텍스트 선택 후 <kbd>Command (Cmd) ⌘</kbd> + <kbd>C</kbd></li>
+                                    <li>붙여넣기: <kbd>Command (Cmd) ⌘</kbd> + <kbd>V</kbd></li>
+                                </ul>
+                            </div>
+                            <div class="os-specific" data-os="windows">
+                                <ul>
+                                    <li>복사: 텍스트 선택 후 <kbd>Control (Ctrl)</kbd> + <kbd>C</kbd> 또는 마우스 우클릭</li>
+                                    <li>붙여넣기: <kbd>Control (Ctrl)</kbd> + <kbd>V</kbd> 또는 마우스 우클릭</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>터미널에서 실수로 이상한 걸 쳤어요</h4>
+                        <p>괜찮아요! 터미널에서 빠져나오는 방법들:</p>
+                        <div class="solution-steps">
+                            <ul>
+                                <li><kbd>Control (Ctrl)</kbd> + <kbd>C</kbd> : 현재 실행 중인 것을 중단</li>
+                                <li><kbd>Control (Ctrl)</kbd> + <kbd>D</kbd> : 프로그램 종료</li>
+                                <li><code>exit</code> 입력 : 터미널 종료</li>
+                                <li>최후의 수단: 터미널 창을 그냥 닫고 새로 열기</li>
+                            </ul>
+                        </div>
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">Claude Code 종료하기 - 터미널은 유지</span>
+                            </div>
+                            <div class="terminal-content">
+<div style="border: 1px solid rgba(204, 120, 92, 0.5); border-radius: 6px; padding: 16px; margin-bottom: 20px; background: rgba(255, 251, 248, 0.5);">
+    <div style="margin-bottom: 12px;">
+        <span class="output" style="color: #ec4899; font-size: 1.1em;">*</span> <span class="output" style="font-weight: 600;">Welcome to <strong>Claude Code</strong>!</span>
+    </div>
+    <div style="margin-bottom: 12px;">
+        <span class="output" style="color: #6b7280; font-style: italic;">/help for help, /status for your current setup</span>
+    </div>
+    <div>
+        <span class="output" style="color: #6b7280;">cwd: /Users/jongjinchoi</span>
+    </div>
+</div>
+
+<div style="margin-bottom: 20px;">
+    <span class="output" style="color: #6b7280;">※ Tip: Want Claude to remember something? Hit # to add preferences, tools, and instructions to Claude's memory</span>
+</div>
+
+<div style="margin-top: 20px; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px 12px; background: rgba(255, 255, 255, 0.5);">
+    <span class="prompt" style="color: #000;">&gt;</span> <span class="command">/exit</span><span style="background: #000; width: 8px; height: 16px; display: inline-block; margin-left: 1px;"></span>
+</div>
+
+<div style="margin-top: 16px;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td style="padding: 4px 0; color: #8b5cf6; width: 150px;">/exit (quit)</td>
+            <td style="padding: 4px 0; color: #6b7280;">Exit the REPL</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px 0; color: #6b7280;">/memory</td>
+            <td style="padding: 4px 0; color: #6b7280;">Edit Claude memory files</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px 0; color: #6b7280;">/vim</td>
+            <td style="padding: 4px 0; color: #6b7280;">Toggle between Vim and Normal editing modes</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px 0; color: #6b7280;">/clear</td>
+            <td style="padding: 4px 0; color: #6b7280;">Clear conversation history and free up context</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px 0; color: #6b7280; vertical-align: top;">/compact</td>
+            <td style="padding: 4px 0; color: #6b7280;">Clear conversation history but keep a summary in context. Optional: /compact<br>[instructions for summarization]</td>
+        </tr>
+    </table>
+</div>
+
+<div style="margin-top: 20px;">
+    <span class="comment"># → Enter를 누르면 Claude Code가 종료됩니다</span>
+</div>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">터미널 완전히 종료하기</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">exit</span>
+
+<span class="output">[Process completed]</span>
+<span class="comment"># → 터미널 창이 닫히거나, 설정에 따라 이 메시지만 남을 수 있습니다</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>cd, ls 같은 명령어는 뭔가요?</h4>
+                        <p>터미널에서 자주 쓰는 기본 명령어들이에요:</p>
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">pwd - 현재 위치 확인하기</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">pwd</span>
+<span class="output">/Users/yourname</span>
+<span class="comment"># → 지금 /Users/yourname 폴더에 있다는 뜻이에요</span>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">ls - 파일과 폴더 목록 보기</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">ls</span>
+<span class="output">Desktop    Documents    Downloads    Pictures</span>
+<span class="comment"># → 현재 폴더에 있는 파일과 폴더들이 보여요</span>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">cd - 다른 폴더로 이동하기</span>
+                            </div>
+                            <div class="terminal-content">
+<div><span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">cd Desktop</span></div>
+<div><span class="prompt">사용자명@MacBook-Pro Desktop %</span> <span class="cursor"></span></div>
+<span class="comment"># → Desktop 폴더로 이동했어요! (프롬프트가 바뀐 걸 보세요)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">cd .. - 상위 폴더로 돌아가기</span>
+                            </div>
+                            <div class="terminal-content">
+<div><span class="prompt">사용자명@MacBook-Pro Desktop %</span> <span class="command">cd ..</span></div>
+<div><span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="cursor"></span></div>
+<span class="comment"># → Desktop에서 홈 폴더로 돌아왔어요</span>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">mkdir - 새 폴더 만들기</span>
+                            </div>
+                            <div class="terminal-content">
+<div><span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">mkdir my-project</span></div>
+<div><span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">ls</span></div>
+<span class="output">Desktop    Documents    Downloads    Pictures    my-project</span>
+<span class="comment"># → my-project 폴더가 새로 만들어졌어요!</span>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">clear - 화면 정리하기</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">clear</span>
+<span class="comment"># → 터미널 화면이 깨끗해져요! (이전 내용은 스크롤로 볼 수 있어요)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">cat - 파일 내용 보기</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">cat package.json</span>
+<span class="output">{
+  "name": "my-project",
+  "version": "1.0.0",
+  "description": "My first project"
+}</span>
+<span class="comment"># → 파일의 전체 내용이 보여요</span>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">which - 프로그램 설치 위치 확인</span>
+                            </div>
+                            <div class="terminal-content">
+<div><span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">which node</span></div>
+<span class="output">/usr/local/bin/node</span>
+<div><span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">which npm</span></div>
+<span class="output">/usr/local/bin/npm</span>
+<span class="comment"># → Node.js와 npm이 제대로 설치되어 있네요!</span>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">cp - 파일 복사하기</span>
+                            </div>
+                            <div class="terminal-content">
+<div><span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">cp README.md README-backup.md</span></div>
+<div><span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">ls *.md</span></div>
+<span class="output">README-backup.md    README.md</span>
+<span class="comment"># → README.md 파일의 복사본이 만들어졌어요</span>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">mv - 파일 이동하거나 이름 바꾸기</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">mv old-name.txt new-name.txt</span>
+<span class="comment"># → 파일 이름이 바뀌었어요</span>
+
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">mv file.txt Desktop/</span>
+<span class="comment"># → file.txt가 Desktop 폴더로 이동했어요</span>
+                            </div>
+                        </div>
+                        
+                        <div class="terminal-example">
+                            <div class="terminal-header">
+                                <span class="terminal-title">touch - 빈 파일 만들기</span>
+                            </div>
+                            <div class="terminal-content">
+<div><span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">touch index.js</span></div>
+<div><span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="command">ls *.js</span></div>
+<span class="output">index.js</span>
+<span class="comment"># → 빈 index.js 파일이 만들어졌어요</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>API Key가 뭐고 어디서 받나요?</h4>
+                        <p>API Key는 Claude가 당신을 인식하는 비밀번호 같은 거예요.</p>
+                        <div class="solution-steps">
+                            <ol>
+                                <li><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> 접속</li>
+                                <li>회원가입 또는 로그인</li>
+                                <li>"API Keys" 메뉴 클릭</li>
+                                <li>"Create Key" 버튼 클릭</li>
+                                <li>생성된 키를 안전한 곳에 복사해두세요</li>
+                            </ol>
+                        </div>
+                        <div class="alert-box">
+                            <h5>⚠️ 중요</h5>
+                            <p>API Key는 한 번만 보여줘요! 꼭 안전한 곳에 저장해두세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/guide.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+/* Navigation component */
+.nav-minimal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    padding-left: calc(110px + var(--space-4)); /* 뱃지 크기만큼 왼쪽 여백 추가 */
+    background: var(--background);
+    /* border-bottom: 1px solid var(--border-color); */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: var(--transition);
+    height: var(--nav-height);
+    box-sizing: border-box;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 600;
+    font-size: 22px; /* 고정 크기로 변경 */
+    color: var(--text-primary);
+}
+
+.nav-logo i {
+    font-size: 28px; /* 고정 크기로 변경 */
+    color: var(--primary-color);
+}
+
+.nav-items {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.nav-items a {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 16px; /* 고정 크기로 변경 */
+    padding: var(--space-1) var(--space-2);
+    transition: var(--transition-fast);
+    text-decoration: none;
+    position: relative;
+}
+
+.nav-items a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.nav-items a:hover {
+    color: var(--text-primary);
+}
+
+.nav-items a.active {
+    color: var(--primary-color);
+}
+
+.nav-items a.active::after {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .nav-minimal {
+        padding: var(--space-2) var(--space-3);
+        padding-left: calc(80px + var(--space-3)); /* 모바일 뱃지 크기만큼 왼쪽 여백 추가 */
+    }
+    
+    .nav-logo {
+        font-size: 18px; /* 고정 크기로 변경 */
+    }
+    
+    .nav-logo i {
+        font-size: 22px; /* 고정 크기로 변경 */
+    }
+    
+    .nav-items {
+        gap: var(--space-2);
+    }
+    
+    .nav-items a {
+        font-size: 14px; /* 고정 크기로 변경 */
+        padding: var(--space-1);
+    }
+}

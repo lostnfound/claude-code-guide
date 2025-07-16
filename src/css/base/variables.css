@@ -1,0 +1,70 @@
+:root {
+  /* Colors - Light Theme */
+  --primary-color: #CC785C;
+  --primary-hover: #B56A4F;
+  --secondary-color: #f3f4f6;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --border-color: #e5e7eb;
+  --success-color: #D49578;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --background: #ffffff;
+  --bg-secondary: #f9fafb;
+  --surface: #f9fafb;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-lg: rgba(0, 0, 0, 0.15);
+  
+  /* Spacing (8px grid) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --space-6: 48px;
+  --space-7: 56px;
+  --space-8: 64px;
+  
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', '맑은 고딕', Roboto, sans-serif;
+  --font-size-base: 16px;
+  --line-height-base: 1.6;
+  
+  /* Border radius */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  
+  /* Transitions */
+  --transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-fast: all 0.2s ease;
+  
+  /* Layout */
+  --container-width: 800px;
+  --nav-height: 72px;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --primary-color: #CC785C;
+  --primary-hover: #B56A4F;
+  --secondary-color: #1a1a1a;
+  --text-primary: #f5f3f0;
+  --text-secondary: #a8a29e;
+  --text-muted: #78716c;
+  --border-color: #2a2a2a;
+  --success-color: #E5A88B;
+  --warning-color: #fbbf24;
+  --error-color: #f87171;
+  --background: #0a0a0a;
+  --bg-secondary: #141414;
+  --surface: #141414;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-lg: rgba(0, 0, 0, 0.5);
+}
+
+/* Font size scaling */
+[data-font-size="small"] { --font-size-base: 14px; }
+[data-font-size="large"] { --font-size-base: 18px; }
+[data-font-size="xlarge"] { --font-size-base: 20px; }

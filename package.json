@@ -1,0 +1,16 @@
+{
+  "name": "claude-code-guide-rebuild",
+  "version": "1.0.0",
+  "description": "Claude Code Guide - Complete rebuild with clean architecture",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "type": "module"
+}

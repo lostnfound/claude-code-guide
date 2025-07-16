@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code 설치 가이드 - 전체 기능 버전</title>
+    <link rel="stylesheet" href="../css/base/variables.css">
+    <link rel="stylesheet" href="../css/base/reset.css">
+    <link rel="stylesheet" href="../css/components/made-by.css">
+    <link rel="stylesheet" href="../css/components/navigation.css">
+    <link rel="stylesheet" href="../css/components/guide-header.css">
+    <link rel="stylesheet" href="../css/components/guide-steps.css">
+    <link rel="stylesheet" href="../css/components/progress.css">
+    <link rel="stylesheet" href="../css/components/code-blocks.css">
+    <link rel="stylesheet" href="../css/components/buttons.css">
+    <link rel="stylesheet" href="../css/components/modals.css">
+    <link rel="stylesheet" href="../css/pages/guide.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Made by Jin 태그 -->
+    <div class="made-by-tag">
+        <span>Made by Jin</span>
+    </div>
+    
+    <!-- 미니멀 네비게이션 -->
+    <nav class="nav-minimal">
+        <div class="nav-logo">
+            <i class="fas fa-robot"></i>
+            <span>Claude Code</span>
+        </div>
+        <div class="nav-items">
+            <a href="../index.html">홈</a>
+            <a href="about.html">소개</a>
+            <a href="guide.html" class="active">시작하기</a>
+            <a href="faq.html">도움말</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- 헤더 -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>Claude Code 설치 가이드</h1>
+            </div>
+            <div class="header-controls">
+                <button class="os-toggle" id="osToggle">
+                    <span class="os-text" id="currentOS">자동 감지 중...</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="font-size-controls">
+                    <button class="font-size-btn" id="decreaseFont" title="글자 작게">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <span class="font-size-label">글자 크기 변환</span>
+                    <button class="font-size-btn" id="increaseFont" title="글자 크게">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="다크 모드">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main-content">
+            <!-- Mac 시작하기 -->
+            <section class="step-section os-specific" data-os="mac" id="step-start">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <span class="step-tag">여기에서 시작하세요</span>
+                    <h2>시작하기 전에</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 1분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>시작하기 전 확인사항</h3>
+                        <p>Claude Code 설치를 시작하기 전에 아래 항목들을 확인해주세요:</p>
+                        
+                        <div class="simple-list-box">
+                            <ul>
+                                <li class="os-specific" data-os="windows"><strong>Windows 10 버전 2004 이상</strong> 또는 <strong>Windows 11</strong></li>
+                                <li class="os-specific" data-os="windows"><strong>관리자 권한</strong> - 설치 시 필요</li>
+                                <li><strong>Claude 계정</strong> - Free 유저는 제한적 사용, 유료 플랜별로 사용량 한도가 다름</li>
+                                <li class="os-specific" data-os="mac"><strong>30분 정도의 시간</strong> - 설치 및 설정 완료까지</li>
+                                <li class="os-specific" data-os="windows"><strong>20분 정도의 시간</strong> - 설치 및 설정 완료까지</li>
+                                <li><strong>인터넷 연결</strong> - 안정적인 네트워크 환경</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="terminal-guide os-specific" data-os="mac">
+                        <h3>터미널 사용 가이드</h3>
+                        <p>터미널은 명령어를 입력하여 컴퓨터를 제어하는 프로그램입니다.</p>
+                        
+                        <div class="terminal-guide-box">
+                            <h4>터미널 열기</h4>
+                            
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li><kbd>Command (Cmd) ⌘</kbd> + <kbd>Space</kbd>를 누르고 "terminal" 입력</li>
+                                    <li>Applications → Utilities → Terminal</li>
+                                    <li>Launchpad에서 "terminal" 검색</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="terminal-example">
+                                <div class="terminal-header">
+                                    <span class="terminal-title">터미널을 열면 이렇게 보입니다</span>
+                                </div>
+                                <div class="terminal-content">
+<span class="output">Last login: Mon Jan 8 10:32:15 on ttys001</span>
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="cursor"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-section-separator"></div>
+                            
+                            <h4>터미널 종료하기</h4>
+                            
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li><kbd>Command (Cmd) ⌘</kbd> + <kbd>Q</kbd>로 완전 종료</li>
+                                    <li><kbd>Command (Cmd) ⌘</kbd> + <kbd>W</kbd>로 창만 닫기</li>
+                                    <li>또는 <code>exit</code> 입력 후 <kbd class="enter-key">Enter</kbd></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>내용을 확인했다면 완료 버튼을 클릭하세요:</strong></p>
+                        <button class="result-btn success" data-step="start" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">이해했습니다 - 다음 단계로!</div>
+                                <div class="result-desc">터미널 사용법을 숙지했습니다</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="os-specific" data-os="windows">
+                        <h3>Windows 준비사항</h3>
+                        <p>Windows에서 Claude Code를 사용하려면 먼저 시스템 요구사항을 확인해야 합니다.</p>
+                        
+                        <div class="terminal-guide-box">
+                            <h4>Windows 버전 확인하기</h4>
+                            
+                            <div class="simple-list-box">
+                                <p><kbd>Win</kbd> + <kbd>R</kbd>을 누르고 <code>winver</code> 입력 후 <kbd class="enter-key">Enter</kbd></p>
+                                <p>버전이 2004 이상인지 확인하세요. (예: 버전 22H2)</p>
+                            </div>
+                            
+                            <div class="install-note">
+                                <p>💡 Windows에서도 이제 Git for Windows만 설치하면 Claude Code를 사용할 수 있습니다!</p>
+                            </div>
+                            
+                            <div class="result-buttons">
+                                <p><strong>내용을 확인했다면 완료 버튼을 클릭하세요:</strong></p>
+                                <button class="result-btn success" data-step="start" data-result="success">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="result-content">
+                                        <div class="result-title">이해했습니다 - 다음 단계로!</div>
+                                        <div class="result-desc">Windows 요구사항을 확인했습니다</div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mac 2단계: Homebrew 설치 -->
+            <section class="step-section os-specific" data-os="mac" id="step-homebrew">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h2>Homebrew 설치</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 5-10분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>Homebrew 설치</h3>
+                        <p><span class="tooltip">Homebrew<span class="tooltip-text">Mac용 패키지 관리자. 앱스토어처럼 프로그램을 쉽게 설치할 수 있게 해줍니다.</span></span>는 Mac에서 프로그램을 설치하는 가장 쉬운 방법입니다.</p>
+                        <p>이 명령어를 터미널에 붙여넣고 <kbd class="enter-key">Enter</kbd>를 누르세요:</p>
+                        <div class="code-block">
+                            <code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p class="install-note">💡 비밀번호를 물으면 Mac 로그인 비밀번호를 입력하세요. 화면에 표시되지 않아도 정상입니다.</p>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>설치 완료 확인</h3>
+                        <p>설치가 완료되면 터미널에서 이 명령어를 실행해보세요:</p>
+                        <div class="code-block">
+                            <code>brew --version</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p>성공하면 이런 메시지가 나타납니다:</p>
+                        <div class="terminal-example success">
+                            <div class="terminal-header">
+                                <span class="terminal-title">터미널 - 성공적인 경우</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="output">Last login: Sun Jul 13 10:24:12 on ttys001</span>
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> brew --version
+<span class="output homebrew-version">Homebrew 4.5.10</span>
+<span class="output">Homebrew/homebrew-core (git revision 3d4f5; last commit 2024-01-20)</span>
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="cursor"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>결과를 선택하세요:</strong></p>
+                        <button class="result-btn success" data-step="homebrew" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">버전 번호가 나타남</div>
+                                <div class="result-desc homebrew-version">예시: Homebrew 4.5.10</div>
+                            </div>
+                        </button>
+                        <button class="result-btn error" data-step="homebrew" data-result="error">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">"command not found" 오류</div>
+                                <div class="result-desc">zsh: command not found: brew</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="troubleshooting" id="troubleshooting-homebrew">
+                        <h3><i class="fas fa-wrench"></i> 문제 해결</h3>
+                        <div class="troubleshooting-content">
+                            <div class="mac-type-selector">
+                                <h4>Mac 종류를 선택하세요:</h4>
+                                <div class="mac-buttons">
+                                    <button class="mac-type-btn active" data-type="apple-silicon">Apple Silicon (M1/M2/M3/M4)</button>
+                                    <button class="mac-type-btn" data-type="intel">Intel Mac</button>
+                                </div>
+                            </div>
+                            
+                            <div class="mac-solution active" id="apple-silicon-solution">
+                                <h4>Apple Silicon Mac 해결 방법:</h4>
+                                <div class="code-block">
+                                    <code>echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile</code>
+                                    <button class="copy-btn">
+                                        <i class="fas fa-copy"></i>
+                                        <span>복사</span>
+                                    </button>
+                                </div>
+                                <div class="code-block">
+                                    <code>eval "$(/opt/homebrew/bin/brew shellenv)"</code>
+                                    <button class="copy-btn">
+                                        <i class="fas fa-copy"></i>
+                                        <span>복사</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mac-solution" id="intel-solution">
+                                <h4>Intel Mac 해결 방법:</h4>
+                                <div class="code-block">
+                                    <code>echo 'eval "$(/usr/local/bin/brew shellenv)"' >> ~/.zprofile</code>
+                                    <button class="copy-btn">
+                                        <i class="fas fa-copy"></i>
+                                        <span>복사</span>
+                                    </button>
+                                </div>
+                                <div class="code-block">
+                                    <code>eval "$(/usr/local/bin/brew shellenv)"</code>
+                                    <button class="copy-btn">
+                                        <i class="fas fa-copy"></i>
+                                        <span>복사</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="troubleshooting-resolution">
+                                <h4>문제가 해결되었다면:</h4>
+                                <div class="resolution-check" onclick="handleResolutionClick(this, 'homebrew')">
+                                    <div class="resolution-check-icon">
+                                        <i class="fas fa-check" style="display: none;"></i>
+                                    </div>
+                                    <div class="resolution-check-content">
+                                        <div class="resolution-check-title">문제 해결 완료!</div>
+                                        <div class="resolution-check-desc">Homebrew가 정상적으로 설치되었습니다</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mac 3단계: Node.js 설치 -->
+            <section class="step-section os-specific" data-os="mac" id="step-node">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h2>Node.js 설치</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 3분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>Node.js 설치</h3>
+                        <p><span class="tooltip">Node.js<span class="tooltip-text">JavaScript를 브라우저 밖에서도 실행할 수 있게 해주는 프로그램</span></span>는 Claude Code가 작동하는 데 필요한 프로그램입니다.</p>
+                        <p>터미널에서 이 명령어를 실행하세요:</p>
+                        <div class="code-block">
+                            <code>brew install node</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p class="install-note">💡 설치 중에 "Downloading..." 메시지가 나타날 수 있습니다. 잠시 기다려주세요.</p>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>설치 완료 확인</h3>
+                        <p>설치가 완료되면 이 명령어로 확인해보세요:</p>
+                        <div class="code-block">
+                            <code>node --version</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p>성공하면 이런 메시지가 나타납니다:</p>
+                        <div class="terminal-example success">
+                            <div class="terminal-header">
+                                <span class="terminal-title">터미널 - 성공적인 경우</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> node --version
+<span class="output node-version">v22.11.0</span>
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="cursor"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>결과를 선택하세요:</strong></p>
+                        <button class="result-btn success" data-step="node" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">버전 번호가 나타남</div>
+                                <div class="result-desc node-version">예시: v22.11.0</div>
+                            </div>
+                        </button>
+                        <button class="result-btn error" data-step="node" data-result="error">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">"command not found" 오류</div>
+                                <div class="result-desc">zsh: command not found: node</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="troubleshooting" id="troubleshooting-node">
+                        <h3><i class="fas fa-wrench"></i> 문제 해결</h3>
+                        <div class="troubleshooting-content">
+                            <h4>Node.js가 인식되지 않는 경우:</h4>
+                            <p>1. 먼저 Node.js 설치 확인:</p>
+                            <div class="code-block">
+                                <code>brew list | grep node</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>2. 설치되지 않았다면:</p>
+                            <div class="code-block">
+                                <code>brew install node</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>3. 이미 설치되어 있다면 재설치:</p>
+                            <div class="code-block">
+                                <code>brew reinstall node</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>4. PATH 설정 문제일 수 있습니다:</p>
+                            <p class="install-note">💡 Apple Silicon Mac (M1/M2/M3/M4):</p>
+                            <div class="code-block">
+                                <code>echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            <p class="install-note">💡 Intel Mac:</p>
+                            <div class="code-block">
+                                <code>echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.zshrc</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            <div class="code-block">
+                                <code>source ~/.zshrc</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>5. 그래도 안 되면 터미널을 완전히 종료하고 다시 열어보세요.</p>
+                            
+                            <div class="troubleshooting-resolution">
+                                <h4>문제가 해결되었다면:</h4>
+                                <div class="resolution-check" onclick="handleResolutionClick(this, 'node')">
+                                    <div class="resolution-check-icon">
+                                        <i class="fas fa-check" style="display: none;"></i>
+                                    </div>
+                                    <div class="resolution-check-content">
+                                        <div class="resolution-check-title">문제 해결 완료!</div>
+                                        <div class="resolution-check-desc">Node.js가 정상적으로 설치되었습니다</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mac 4단계: Claude Code 설치 -->
+            <section class="step-section os-specific" data-os="mac" id="step-claude">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <h2>Claude Code 설치</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 2분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>Claude Code 설치</h3>
+                        <p>이제 Claude Code를 설치합니다:</p>
+                        <div class="code-block">
+                            <code>npm install -g @anthropic-ai/claude-code</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p class="install-note">💡 설치 과정에서 여러 패키지를 다운로드합니다. 인터넷 속도에 따라 1-3분이 걸릴 수 있습니다.</p>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>설치 완료 확인</h3>
+                        <p>설치가 완료되면 이 명령어로 확인해보세요:</p>
+                        <div class="code-block">
+                            <code>claude-code --version</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p>성공하면 이런 메시지가 나타납니다:</p>
+                        <div class="terminal-example success">
+                            <div class="terminal-header">
+                                <span class="terminal-title">터미널 - 성공적인 경우</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> claude --version
+<span class="output claude-version">claude-code/1.0.51</span>
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="cursor"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>결과를 선택하세요:</strong></p>
+                        <button class="result-btn success" data-step="claude" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">버전 번호가 나타남</div>
+                                <div class="result-desc claude-version">예시: claude-code/1.0.51</div>
+                            </div>
+                        </button>
+                        <button class="result-btn error" data-step="claude" data-result="error">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">"command not found" 오류</div>
+                                <div class="result-desc">zsh: command not found: claude</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="troubleshooting" id="troubleshooting-claude">
+                        <h3><i class="fas fa-wrench"></i> 문제 해결</h3>
+                        <div class="troubleshooting-content">
+                            <h4>Claude Code가 인식되지 않는 경우:</h4>
+                            
+                            <p>1. 먼저 설치 확인:</p>
+                            <div class="code-block">
+                                <code>npm list -g @anthropic-ai/claude-code</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>2. npm 글로벌 경로 확인:</p>
+                            <div class="code-block">
+                                <code>npm config get prefix</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>3. PATH에 npm 글로벌 경로 추가:</p>
+                            <div class="code-block">
+                                <code>echo 'export PATH="$(npm config get prefix)/bin:$PATH"' >> ~/.zshrc</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            <div class="code-block">
+                                <code>source ~/.zshrc</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>4. 그래도 안 되면 재설치:</p>
+                            <div class="code-block">
+                                <code>npm uninstall -g @anthropic-ai/claude-code && npm install -g @anthropic-ai/claude-code</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>5. 터미널을 완전히 종료하고 다시 열어보세요.</p>
+                            
+                            <div class="troubleshooting-resolution">
+                                <h4>문제가 해결되었다면:</h4>
+                                <div class="resolution-check" onclick="handleResolutionClick(this, 'claude')">
+                                    <div class="resolution-check-icon">
+                                        <i class="fas fa-check" style="display: none;"></i>
+                                    </div>
+                                    <div class="resolution-check-content">
+                                        <div class="resolution-check-title">문제 해결 완료!</div>
+                                        <div class="resolution-check-desc">Claude Code가 정상적으로 설치되었습니다</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mac 5단계: 계정 연결 -->
+            <section class="step-section os-specific" data-os="mac" id="step-auth">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <h2>계정 연결</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 3분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>Claude 계정 연결</h3>
+                        <p>Claude Code에 Claude 계정을 연결해야 합니다:</p>
+                        <div class="code-block">
+                            <code>claude-code auth login</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p class="install-note">💡 브라우저가 열리면서 로그인 페이지가 나타납니다.</p>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>브라우저에서 로그인</h3>
+                        <p>브라우저가 열리면 Claude 계정으로 로그인하세요.</p>
+                        <p>로그인이 완료되면 터미널로 돌아와서 이 명령어로 확인해보세요:</p>
+                        <div class="code-block">
+                            <code>claude-code auth status</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p>성공하면 이런 메시지가 나타납니다:</p>
+                        <div class="terminal-example success">
+                            <div class="terminal-header">
+                                <span class="terminal-title">터미널 - 성공적인 경우</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> claude auth
+<span class="output">Authenticated as: your-email@example.com</span>
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> <span class="cursor"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>결과를 선택하세요:</strong></p>
+                        <button class="result-btn success" data-step="auth" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">로그인 성공</div>
+                                <div class="result-desc">이메일 주소가 표시됨</div>
+                            </div>
+                        </button>
+                        <button class="result-btn error" data-step="auth" data-result="error">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">로그인 실패 또는 오류</div>
+                                <div class="result-desc">아래 해결 방법을 확인하세요</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="troubleshooting" id="troubleshooting-auth">
+                        <h3><i class="fas fa-wrench"></i> 문제 해결</h3>
+                        <div class="troubleshooting-content">
+                            <h4>브라우저가 열리지 않는 경우:</h4>
+                            <p>터미널에 표시된 URL을 직접 복사해서 브라우저에 붙여넣으세요.</p>
+                            <p class="install-note">💡 URL은 보통 <code>https://claude.ai/auth/...</code> 형태입니다.</p>
+                            
+                            <h4>로그인이 완료되지 않는 경우:</h4>
+                            <p>1. 로그아웃 후 다시 시도:</p>
+                            <div class="code-block">
+                                <code>claude-code auth logout</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            <div class="code-block">
+                                <code>claude-code auth login</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>2. 그래도 안 되면 브라우저에서 쿠키를 삭제하고 다시 시도하세요.</p>
+                            
+                            <h4>계정 관련 문제:</h4>
+                            <p>Claude 웹사이트(<a href="https://claude.ai" target="_blank">claude.ai</a>)에서 계정이 정상인지 확인하세요.</p>
+                            
+                            <div class="troubleshooting-resolution">
+                                <h4>문제가 해결되었다면:</h4>
+                                <div class="resolution-check" onclick="handleResolutionClick(this, 'auth')">
+                                    <div class="resolution-check-icon">
+                                        <i class="fas fa-check" style="display: none;"></i>
+                                    </div>
+                                    <div class="resolution-check-content">
+                                        <div class="resolution-check-title">문제 해결 완료!</div>
+                                        <div class="resolution-check-desc">계정이 정상적으로 연결되었습니다</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mac 6단계: 첫 프로젝트 시작 -->
+            <section class="step-section os-specific" data-os="mac" id="step-project">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <h2>첫 프로젝트 시작</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 2분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>프로젝트 폴더 만들기</h3>
+                        <p>Claude Code를 사용할 프로젝트 폴더를 만들어보세요:</p>
+                        <div class="code-block">
+                            <code>mkdir my-first-project</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <div class="code-block">
+                            <code>cd my-first-project</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>Claude Code 시작하기</h3>
+                        <p>이제 Claude Code를 시작해보세요:</p>
+                        <div class="code-block">
+                            <code>claude-code</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p>처음 실행하면 보안 확인 질문이 나타납니다. <kbd>1</kbd>을 입력하고 <kbd class="enter-key">Enter</kbd>를 눌러 계속 진행하세요:</p>
+                        <div class="terminal-example success">
+                            <div class="terminal-header">
+                                <div class="terminal-title">터미널 - 성공적인 경우</div>
+                            </div>
+                            <div class="terminal-content">
+<span class="output">Last login: Sun Jul 13 11:07:25 on ttys001</span>
+<span class="prompt">사용자명@MacBook-Pro ~ %</span> claude-code
+
+<div class="permission-box">
+<span class="output hint">Do you trust the files in this folder?</span>
+
+<span class="output">/Users/username</span>
+
+<span class="output">Claude Code may read files in this folder. Reading untrusted files may lead Claude Code to behave in unexpected ways.</span>
+
+<span class="output">With your permission Claude Code may execute files in this folder. Executing untrusted code is unsafe.</span>
+
+<span class="output link">https://docs.anthropic.com/s/claude-code-security</span>
+
+<span class="prompt">&gt;</span> <span class="option-selected">1. Yes, proceed</span>
+  <span class="option-unselected">2. No, exit</span>
+</div>
+
+<span class="output hint">Enter to confirm - Esc to exit</span>
+
+<div class="welcome-box">
+<span class="output"><span class="star">*</span> Welcome to <strong>Claude Code</strong>!</span>
+
+  <span class="output">/help for help, /status for your current setup</span>
+  
+  <span class="output">cwd: /Users/username</span>
+</div>
+
+<span class="output">What's new:</span>
+<span class="output">● Added support for native Windows (requires Git for Windows)</span>
+<span class="output">● Added support for Bedrock API keys through environment variable AWS_BEARER_TOKEN_BEDROCK</span>
+<span class="output">● Settings: /doctor can now help you identify and fix invalid setting files</span>
+<span class="output">● '--append-system-prompt' can now be used in interactive mode, not just --print/-p.</span>
+<span class="output">● Increased auto-compact warning threshold from 60% to 80%</span>
+
+<div class="input-box">
+<span class="prompt">&gt; <span class="cursor">T</span></span><span class="input-text">ry "create a util logging.py that..."</span>
+</div>
+
+<span class="output hint shortcuts-hint">? for shortcuts</span>
+                            </div>
+                        </div>
+                        <p class="install-note">💡 보안 질문이 나타나면 <kbd>1</kbd>을 입력하고 <kbd class="enter-key">Enter</kbd>를 누르세요. 이후 Claude Code와 대화를 시작할 수 있습니다!</p>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>결과를 선택하세요:</strong></p>
+                        <button class="result-btn success" data-step="project" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">Claude Code가 시작됨</div>
+                                <div class="result-desc">대화를 시작할 수 있습니다!</div>
+                            </div>
+                        </button>
+                        <button class="result-btn error" data-step="project" data-result="error">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">시작되지 않음 또는 오류</div>
+                                <div class="result-desc">아래 해결 방법을 확인하세요</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="troubleshooting" id="troubleshooting-project">
+                        <h3><i class="fas fa-wrench"></i> 문제 해결</h3>
+                        <div class="troubleshooting-content">
+                            <h4>📁 "Permission denied" 오류가 나타날 때:</h4>
+                            <p>권한 문제입니다. 홈 폴더에서 시작하세요:</p>
+                            <div class="code-block">
+                                <code>cd ~</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            <div class="code-block">
+                                <code>mkdir my-project && cd my-project</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            <div class="code-block">
+                                <code>claude-code</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            <p class="install-note">💡 홈 폴더는 항상 권한이 있으니 거기서 시작하세요!</p>
+                            
+                            <h4>🌐 "Cannot connect" 오류가 나타날 때:</h4>
+                            <p>네트워크 연결 문제입니다. 아래 항목들을 확인하세요:</p>
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li><strong>Wi-Fi 확인</strong> - 인터넷 연결되었나요?</li>
+                                    <li><strong>브라우저 테스트</strong> - 구글 접속되나요?</li>
+                                    <li><strong>터미널 재시작</strong> - 터미널 닫고 다시 열어보세요</li>
+                                </ul>
+                            </div>
+                            
+                            <h4>🔄 그래도 안 될 때:</h4>
+                            <p>가장 간단한 해결책을 시도해보세요:</p>
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li>터미널 완전히 종료</li>
+                                    <li>컴퓨터 재시작</li>
+                                    <li>터미널 다시 열고 아래 명령어 실행</li>
+                                </ul>
+                            </div>
+                            <div class="code-block">
+                                <code>cd ~ && claude-code</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <div class="troubleshooting-resolution">
+                                <h4>문제가 해결되었다면:</h4>
+                                <div class="resolution-check" onclick="handleResolutionClick(this, 'project')">
+                                    <div class="resolution-check-icon">
+                                        <i class="fas fa-check" style="display: none;"></i>
+                                    </div>
+                                    <div class="resolution-check-content">
+                                        <div class="resolution-check-title">문제 해결 완료!</div>
+                                        <div class="resolution-check-desc">Claude Code가 정상적으로 실행되었습니다</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Windows 1단계: 시작하기 전에 -->
+            <section class="step-section os-specific" data-os="windows" id="step-start-windows">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <span class="step-tag">여기에서 시작하세요</span>
+                    <h2>시작하기 전에</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 2분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>시작하기 전 확인사항</h3>
+                        <p>Claude Code 설치를 시작하기 전에 아래 항목들을 확인해주세요:</p>
+                        
+                        <div class="simple-list-box">
+                            <ul>
+                                <li><strong>Windows 10</strong> 또는 <strong>Windows 11</strong></li>
+                                <li><strong>관리자 권한</strong> - 프로그램 설치 시 필요</li>
+                                <li><strong>Claude 계정</strong> - Free 유저는 제한적 사용, 유료 플랜별로 사용량 한도가 다름</li>
+                                <li><strong>20분 정도의 시간</strong> - 전체 설치 과정</li>
+                                <li><strong>인터넷 연결</strong> - 안정적인 네트워크 환경</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="terminal-guide">
+                        <h3>명령 프롬프트 사용 가이드</h3>
+                        <p>Windows에서 명령 프롬프트(cmd)를 사용하여 프로그램을 설치합니다.</p>
+                        
+                        <div class="terminal-guide-box">
+                            <h4>명령 프롬프트 열기</h4>
+                            
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li><kbd>Win</kbd> + <kbd>R</kbd>을 누르고 <code>cmd</code> 입력 후 <kbd class="enter-key">Enter</kbd></li>
+                                    <li>또는 시작 메뉴에서 "명령 프롬프트" 검색</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="alert-box info">
+                                <h5>💡 중요</h5>
+                                <p><strong>명령 프롬프트(cmd)</strong>를 추천합니다. PowerShell은 보안 설정 때문에 초보자에게 어려울 수 있습니다.</p>
+                            </div>
+                            
+                            <div class="terminal-example">
+                                <div class="terminal-header">
+                                    <span class="terminal-title">명령 프롬프트를 열면 이렇게 보입니다</span>
+                                </div>
+                                <div class="terminal-content">
+<span class="output">Microsoft Windows [Version 10.0.19045.3693]</span>
+<span class="output">(c) Microsoft Corporation. All rights reserved.</span>
+<span class="output"></span>
+<span class="prompt">C:\Users\사용자명&gt;</span> <span class="cursor"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="terminal-section-separator"></div>
+                            
+                            <h4>명령 프롬프트 종료하기</h4>
+                            
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li><kbd>Alt</kbd> + <kbd>F4</kbd>로 창 닫기</li>
+                                    <li>창의 X 버튼 클릭</li>
+                                    <li>또는 <code>exit</code> 입력 후 <kbd class="enter-key">Enter</kbd></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="result-buttons">
+                            <p><strong>내용을 확인했다면 완료 버튼을 클릭하세요:</strong></p>
+                            <button class="result-btn success" data-step="start-windows" data-result="success">
+                                <i class="fas fa-check-circle"></i>
+                                <div class="result-content">
+                                    <div class="result-title">이해했습니다 - 다음 단계로!</div>
+                                    <div class="result-desc">Windows 요구사항을 확인했습니다</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Windows 2단계: Git for Windows 설치 -->
+            <section class="step-section os-specific" data-os="windows" id="step-git-windows">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h2>Git for Windows 설치</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 5분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>Git for Windows 확인</h3>
+                        <p>먼저 Git이 이미 설치되어 있는지 확인합니다:</p>
+                        <div class="code-block">
+                            <code>git --version</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p>버전이 표시되면 다음 단계로 가세요. 오류가 나면 아래 설치 과정을 진행하세요.</p>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>Git for Windows 다운로드 및 설치</h3>
+                        <p>아래 링크를 클릭하세요:</p>
+                        <p>👉 <a href="https://git-scm.com/download/win" target="_blank">공식 Git 다운로드 페이지</a></p>
+                        <p>"Click here to download" 버튼을 클릭하면 자동으로 다운로드가 시작됩니다.</p>
+                        <p class="install-note">💡 다운로드 완료 후 설치 파일을 실행하고, 모든 화면에서 "Next" 버튼만 클릭하세요. 아무것도 변경하지 마세요!</p>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>설치 확인</h3>
+                        <p>설치가 완료되면 <strong>명령 프롬프트를 다시 열고</strong> 확인합니다:</p>
+                        <div class="code-block">
+                            <code>git --version</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <div class="terminal-example success">
+                            <div class="terminal-header">
+                                <span class="terminal-title">명령 프롬프트 - 성공적인 경우</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">C:\Users\사용자명&gt;</span> git --version
+<span class="output git-windows-version">git version 2.50.1.windows.1</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>결과를 선택하세요:</strong></p>
+                        <button class="result-btn success" data-step="git-windows" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">Git 버전이 표시됨</div>
+                                <div class="result-desc git-windows-version">예: git version 2.50.1</div>
+                            </div>
+                        </button>
+                        <button class="result-btn error" data-step="git-windows" data-result="error">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">"'git'은(는) 내부 또는 외부 명령..." 오류</div>
+                                <div class="result-desc">Git이 설치되지 않았습니다</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="troubleshooting" id="troubleshooting-git-windows">
+                        <h3><i class="fas fa-wrench"></i> 문제 해결</h3>
+                        <div class="troubleshooting-content">
+                            <h4>명령 프롬프트를 다시 시작했는데도 git을 찾을 수 없는 경우:</h4>
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li><strong>1단계:</strong> 모든 명령 프롬프트 창을 닫으세요</li>
+                                    <li><strong>2단계:</strong> 컴퓨터를 재시작하세요</li>
+                                    <li><strong>3단계:</strong> 명령 프롬프트를 다시 열고 <code>git --version</code> 입력</li>
+                                </ul>
+                            </div>
+                            <p class="install-note">💡 대부분의 경우 컴퓨터 재시작으로 해결됩니다!</p>
+                            
+                            <h4>재시작해도 해결되지 않는 경우:</h4>
+                            <p>Git을 제거하고 다시 설치하세요:</p>
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li>시작 메뉴 → 설정 → 앱 → Git 찾아서 제거</li>
+                                    <li>2단계로 돌아가서 다시 설치</li>
+                                    <li>설치 시 모든 기본 옵션 유지 (변경하지 마세요!)</li>
+                                </ul>
+                            </div>
+                            
+                            <h4>설치 중 오류가 발생하는 경우:</h4>
+                            <p>관리자 권한으로 설치 파일을 실행하세요 (마우스 오른쪽 클릭 → "관리자 권한으로 실행")</p>
+                            
+                            <div class="troubleshooting-resolution">
+                                <h4>문제가 해결되었다면:</h4>
+                                <div class="resolution-check" onclick="handleResolutionClick(this, 'git-windows')">
+                                    <div class="resolution-check-icon">
+                                        <i class="fas fa-check" style="display: none;"></i>
+                                    </div>
+                                    <div class="resolution-check-content">
+                                        <div class="resolution-check-title">문제 해결 완료!</div>
+                                        <div class="resolution-check-desc">Git이 정상적으로 설치되었습니다</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Windows 3단계: Node.js 설치 -->
+            <section class="step-section os-specific" data-os="windows" id="step-node-windows">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h2>Node.js 설치</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 5분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>Node.js 확인</h3>
+                        <p>먼저 Node.js가 이미 설치되어 있는지 확인합니다:</p>
+                        <div class="code-block">
+                            <code>node --version</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p>버전이 18 이상이면 다음 단계로 가세요. 오류가 나거나 버전이 낮으면 아래 설치 과정을 진행하세요.</p>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>Node.js 다운로드 및 설치</h3>
+                        <p>브라우저에서 <a href="https://nodejs.org/" target="_blank">Node.js 공식 사이트</a>를 엽니다.</p>
+                        <p>"LTS" 버전을 다운로드하고 설치 파일을 실행합니다.</p>
+                        <p class="install-note">💡 설치 중 모든 옵션은 기본값으로 두고 "Next"를 클릭하세요.</p>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>설치 확인</h3>
+                        <p>설치가 완료되면 <strong>명령 프롬프트를 다시 열고</strong> 확인합니다:</p>
+                        <div class="code-block">
+                            <code>node --version</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <div class="code-block">
+                            <code>npm --version</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <div class="terminal-example success">
+                            <div class="terminal-header">
+                                <span class="terminal-title">명령 프롬프트 - 성공적인 경우</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">C:\Users\사용자명&gt;</span> node --version
+<span class="output node-version">v22.11.0</span>
+<span class="prompt">C:\Users\사용자명&gt;</span> npm --version
+<span class="output npm-version">10.9.0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>결과를 선택하세요:</strong></p>
+                        <button class="result-btn success" data-step="node-windows" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">버전 번호가 나타남</div>
+                                <div class="result-desc">Node.js와 npm 모두 설치됨</div>
+                            </div>
+                        </button>
+                        <button class="result-btn error" data-step="node-windows" data-result="error">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">"'node'은(는) 내부 또는 외부 명령..." 오류</div>
+                                <div class="result-desc">Node.js가 설치되지 않았습니다</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="troubleshooting" id="troubleshooting-node-windows">
+                        <h3><i class="fas fa-wrench"></i> 문제 해결</h3>
+                        <div class="troubleshooting-content">
+                            <h4>명령 프롬프트를 다시 시작했는데도 node를 찾을 수 없는 경우:</h4>
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li><strong>1단계:</strong> 모든 명령 프롬프트 창을 닫으세요</li>
+                                    <li><strong>2단계:</strong> 컴퓨터를 재시작하세요</li>
+                                    <li><strong>3단계:</strong> 명령 프롬프트를 다시 열고 <code>node --version</code> 입력</li>
+                                </ul>
+                            </div>
+                            <p class="install-note">💡 대부분의 경우 컴퓨터 재시작으로 해결됩니다!</p>
+                            
+                            <h4>재시작해도 해결되지 않는 경우:</h4>
+                            <p>Node.js를 제거하고 다시 설치하세요:</p>
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li>시작 메뉴 → 설정 → 앱 → Node.js 찾아서 제거</li>
+                                    <li>3단계로 돌아가서 다시 설치</li>
+                                    <li>설치 시 모든 기본 옵션 유지 (변경하지 마세요!)</li>
+                                </ul>
+                            </div>
+                            
+                            <h4>낮은 버전이 설치된 경우:</h4>
+                            <p>Node.js 18 이상이 필요합니다. <a href="https://nodejs.org" target="_blank">공식 사이트</a>에서 LTS 버전(v22)을 다운로드하세요.</p>
+                            
+                            <div class="troubleshooting-resolution">
+                                <h4>문제가 해결되었다면:</h4>
+                                <div class="resolution-check" onclick="handleResolutionClick(this, 'node-windows')">
+                                    <div class="resolution-check-icon">
+                                        <i class="fas fa-check" style="display: none;"></i>
+                                    </div>
+                                    <div class="resolution-check-content">
+                                        <div class="resolution-check-title">문제 해결 완료!</div>
+                                        <div class="resolution-check-desc">Node.js가 정상적으로 설치되었습니다</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Windows 4단계: Claude Code 설치 -->
+            <section class="step-section os-specific" data-os="windows" id="step-claude-windows">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <h2>Claude Code 설치</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 3분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>Claude Code 설치</h3>
+                        <p>명령 프롬프트에서 Claude Code를 설치합니다:</p>
+                        <div class="code-block">
+                            <code>npm install -g @anthropic-ai/claude-code</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p class="install-note">💡 설치 과정에서 여러 패키지를 다운로드합니다. 인터넷 속도에 따라 1-3분이 걸릴 수 있습니다.</p>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>설치 완료 확인</h3>
+                        <p>설치가 완료되면 이 명령어로 확인해보세요:</p>
+                        <div class="code-block">
+                            <code>claude-code --version</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p>성공하면 이런 메시지가 나타납니다:</p>
+                        <div class="terminal-example success">
+                            <div class="terminal-header">
+                                <span class="terminal-title">명령 프롬프트 - 성공적인 경우</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">C:\Users\사용자명&gt;</span> claude-code --version
+<span class="output claude-version">claude-code/1.0.51</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>결과를 선택하세요:</strong></p>
+                        <button class="result-btn success" data-step="claude-windows" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">버전 번호가 나타남</div>
+                                <div class="result-desc claude-version">예시: claude-code/1.0.51</div>
+                            </div>
+                        </button>
+                        <button class="result-btn error" data-step="claude-windows" data-result="error">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">"'claude-code'은(는) ... 아닙니다" 오류</div>
+                                <div class="result-desc">Claude Code가 설치되지 않았습니다</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="troubleshooting" id="troubleshooting-claude-windows">
+                        <h3><i class="fas fa-wrench"></i> 문제 해결</h3>
+                        <div class="troubleshooting-content">
+                            <h4>npm을 찾을 수 없다는 오류가 나는 경우:</h4>
+                            <p>Node.js가 설치되지 않았습니다. 3단계로 돌아가서 Node.js를 먼저 설치하세요.</p>
+                            
+                            <h4>설치 중 권한 오류가 발생하는 경우:</h4>
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li>명령 프롬프트를 닫으세요</li>
+                                    <li>시작 메뉴에서 "cmd" 검색</li>
+                                    <li>마우스 오른쪽 클릭 → "관리자 권한으로 실행"</li>
+                                    <li>설치 명령어를 다시 입력</li>
+                                </ul>
+                            </div>
+                            
+                            <h4>"claude-code" 명령어를 찾을 수 없는 경우:</h4>
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li><strong>1단계:</strong> 모든 명령 프롬프트 창을 닫으세요</li>
+                                    <li><strong>2단계:</strong> 새 명령 프롬프트를 열고 다시 시도</li>
+                                    <li><strong>3단계:</strong> 그래도 안 되면 컴퓨터 재시작</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="troubleshooting-resolution">
+                                <h4>문제가 해결되었다면:</h4>
+                                <div class="resolution-check" onclick="handleResolutionClick(this, 'claude-windows')">
+                                    <div class="resolution-check-icon">
+                                        <i class="fas fa-check" style="display: none;"></i>
+                                    </div>
+                                    <div class="resolution-check-content">
+                                        <div class="resolution-check-title">문제 해결 완료!</div>
+                                        <div class="resolution-check-desc">Claude Code가 정상적으로 설치되었습니다</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Windows 5단계: 계정 연결 -->
+            <section class="step-section os-specific" data-os="windows" id="step-auth-windows">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <h2>계정 연결</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 3분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>Claude 계정 연결</h3>
+                        <p>명령 프롬프트에서 Claude 계정을 연결합니다:</p>
+                        <div class="code-block">
+                            <code>claude-code auth login</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p class="install-note">💡 브라우저가 열리면서 로그인 페이지가 나타납니다.</p>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>브라우저에서 로그인</h3>
+                        <p>브라우저가 열리면 Claude 계정으로 로그인하세요.</p>
+                        <p>로그인이 완료되면 명령 프롬프트로 돌아와서 이 명령어로 확인해보세요:</p>
+                        <div class="code-block">
+                            <code>claude-code auth status</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p>성공하면 이런 메시지가 나타납니다:</p>
+                        <div class="terminal-example success">
+                            <div class="terminal-header">
+                                <span class="terminal-title">명령 프롬프트 - 성공적인 경우</span>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">C:\Users\사용자명&gt;</span> claude-code auth status
+<span class="output">Authenticated as: your-email@example.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>결과를 선택하세요:</strong></p>
+                        <button class="result-btn success" data-step="auth-windows" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">로그인 성공</div>
+                                <div class="result-desc">이메일 주소가 표시됨</div>
+                            </div>
+                        </button>
+                        <button class="result-btn error" data-step="auth-windows" data-result="error">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">로그인 실패 또는 오류</div>
+                                <div class="result-desc">아래 해결 방법을 확인하세요</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="troubleshooting" id="troubleshooting-auth-windows">
+                        <h3><i class="fas fa-wrench"></i> 문제 해결</h3>
+                        <div class="troubleshooting-content">
+                            <h4>브라우저가 열리지 않는 경우:</h4>
+                            <p>명령 프롬프트에 표시된 URL을 직접 복사해서 브라우저에 붙여넣으세요.</p>
+                            <p class="install-note">💡 URL은 보통 <code>https://claude.ai/auth/...</code> 형태입니다.</p>
+                            
+                            <h4>로그인이 완료되지 않는 경우:</h4>
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li>브라우저에서 로그인 완료 후 명령 프롬프트로 돌아오세요</li>
+                                    <li>명령 프롬프트에서 자동으로 인증이 완료됩니다</li>
+                                    <li>완료 메시지가 표시될 때까지 기다리세요</li>
+                                </ul>
+                            </div>
+                            
+                            <h4>계정 관련 문제:</h4>
+                            <p>Claude 웹사이트(<a href="https://claude.ai" target="_blank">claude.ai</a>)에서 계정이 정상인지 확인하세요.</p>
+                            
+                            <div class="troubleshooting-resolution">
+                                <h4>문제가 해결되었다면:</h4>
+                                <div class="resolution-check" onclick="handleResolutionClick(this, 'auth-windows')">
+                                    <div class="resolution-check-icon">
+                                        <i class="fas fa-check" style="display: none;"></i>
+                                    </div>
+                                    <div class="resolution-check-content">
+                                        <div class="resolution-check-title">문제 해결 완료!</div>
+                                        <div class="resolution-check-desc">계정 연결이 완료되었습니다</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Windows 6단계: 첫 프로젝트 시작 -->
+            <section class="step-section os-specific" data-os="windows" id="step-project-windows">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <h2>첫 프로젝트 시작</h2>
+                    <span class="time-estimate"><i class="fas fa-clock"></i> 2분</span>
+                    <div class="step-check"></div>
+                </div>
+                <div class="step-content">
+                    <div class="simple-check">
+                        <h3>프로젝트 폴더 만들기</h3>
+                        <p>Claude Code를 사용할 프로젝트 폴더를 만들어보세요:</p>
+                        <div class="code-block">
+                            <code>mkdir my-first-project</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <div class="code-block">
+                            <code>cd my-first-project</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="simple-check">
+                        <h3>Claude Code 시작하기</h3>
+                        <p>이제 Claude Code를 시작해보세요:</p>
+                        <div class="code-block">
+                            <code>claude-code</code>
+                            <button class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                                <span>복사</span>
+                            </button>
+                        </div>
+                        <p>처음 실행하면 보안 확인 질문이 나타납니다. <kbd>1</kbd>을 입력하고 <kbd class="enter-key">Enter</kbd>를 눌러 계속 진행하세요:</p>
+                        <div class="terminal-example success">
+                            <div class="terminal-header">
+                                <div class="terminal-title">명령 프롬프트 - 성공적인 경우</div>
+                            </div>
+                            <div class="terminal-content">
+<span class="prompt">C:\Users\사용자명\my-first-project&gt;</span> claude-code
+<div class="permission-box">
+<span class="output hint">Do you trust the files in this folder?</span>
+
+<span class="output">C:\Users\사용자명\my-first-project</span>
+
+<span class="output">Claude Code may read files in this folder. Reading untrusted files may lead Claude Code to behave in unexpected ways.</span>
+
+<span class="output">With your permission Claude Code may execute files in this folder. Executing untrusted code is unsafe.</span>
+
+<span class="output link">https://docs.anthropic.com/s/claude-code-security</span>
+
+<span class="prompt">&gt;</span> <span class="option-selected">1. Yes, proceed</span>
+  <span class="option-unselected">2. No, exit</span>
+</div>
+
+<span class="output hint">Enter to confirm - Esc to exit</span>
+
+<div class="welcome-box">
+<span class="output"><span class="star">*</span> Welcome to <strong>Claude Code</strong>!</span>
+
+  <span class="output">/help for help, /status for your current setup</span>
+  
+  <span class="output">cwd: C:\Users\사용자명\my-first-project</span>
+</div>
+
+<span class="output">What's new:</span>
+<span class="output">● Added support for native Windows (requires Git for Windows)</span>
+<span class="output">● Added support for Bedrock API keys through environment variable AWS_BEARER_TOKEN_BEDROCK</span>
+<span class="output">● Settings: /doctor can now help you identify and fix invalid setting files</span>
+<span class="output">● '--append-system-prompt' can now be used in interactive mode, not just --print/-p.</span>
+<span class="output">● Increased auto-compact warning threshold from 60% to 80%</span>
+
+<div class="input-box">
+<span class="prompt">&gt; <span class="cursor">T</span></span><span class="input-text">ry "create a util logging.py that..."</span>
+</div>
+
+<span class="output hint shortcuts-hint">? for shortcuts</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-buttons">
+                        <p><strong>결과를 선택하세요:</strong></p>
+                        <button class="result-btn success" data-step="project-windows" data-result="success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">Claude Code가 시작됨</div>
+                                <div class="result-desc">Welcome 메시지가 나타남</div>
+                            </div>
+                        </button>
+                        <button class="result-btn error" data-step="project-windows" data-result="error">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="result-content">
+                                <div class="result-title">오류 발생</div>
+                                <div class="result-desc">아래 해결 방법을 확인하세요</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="troubleshooting" id="troubleshooting-project-windows">
+                        <h3><i class="fas fa-wrench"></i> 문제 해결</h3>
+                        <div class="troubleshooting-content">
+                            <h4>🌐 "Cannot connect" 오류가 나타날 때:</h4>
+                            <div class="simple-list-box">
+                                <ul>
+                                    <li><strong>Wi-Fi 확인</strong> - 인터넷 연결되었나요?</li>
+                                    <li><strong>브라우저 테스트</strong> - 구글 접속되나요?</li>
+                                    <li><strong>명령 프롬프트 재시작</strong> - 명령 프롬프트 닫고 다시 열어보세요</li>
+                                </ul>
+                            </div>
+                            
+                            <h4>'claude-code'를 인식할 수 없다는 오류가 나타날 때:</h4>
+                            <p>1. npm 설치 확인:</p>
+                            <div class="code-block">
+                                <code>npm list -g claude-code</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>2. 설치되지 않았다면 다시 설치:</p>
+                            <div class="code-block">
+                                <code>npm install -g claude-code</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                            </div>
+                            
+                            <p>3. 명령 프롬프트를 재시작한 후 다시 시도하세요.</p>
+                            
+                            <h4>API 키 오류가 나타날 때:</h4>
+                            <p>Step 5로 돌아가서 API 키 설정을 다시 확인하세요.</p>
+                            
+                            <div class="troubleshooting-resolution">
+                                <h4>문제가 해결되었다면:</h4>
+                                <div class="resolution-check" onclick="handleResolutionClick(this, 'project-windows')">
+                                    <div class="resolution-check-icon">
+                                        <i class="fas fa-check" style="display: none;"></i>
+                                    </div>
+                                    <div class="resolution-check-content">
+                                        <div class="resolution-check-title">문제 해결 완료!</div>
+                                        <div class="resolution-check-desc">Claude Code가 정상적으로 시작되었습니다</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <!-- 진행 상태 바 -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-info">
+                <span id="progressText">0% 완료 (0/6)</span>
+                <span class="progress-time">현재: 시작하기 전에</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/guide.js"></script>
+</body>
+</html>

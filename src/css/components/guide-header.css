@@ -1,0 +1,197 @@
+/* Guide header components */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-6) 0 var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    text-align: center;
+}
+
+.logo i {
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+.logo h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.header-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    justify-content: center;
+}
+
+/* OS Toggle */
+.os-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0 20px;
+    background: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+    color: var(--primary-color);
+    height: 44px;
+}
+
+.os-toggle:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.os-toggle:hover i {
+    color: white;
+}
+
+.os-toggle i {
+    font-size: 1rem;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.os-toggle.active i {
+    transform: rotate(180deg);
+}
+
+/* Font Size Controls */
+.font-size-controls {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 44px;
+}
+
+.font-size-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.font-size-btn:hover {
+    background: #f5f5f5;
+}
+
+.font-size-btn:first-child {
+    border-right: 1px solid #e5e5e5;
+}
+
+.font-size-btn:last-child {
+    border-left: 1px solid #e5e5e5;
+}
+
+.font-size-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    padding: 0 var(--space-3);
+    display: flex;
+    align-items: center;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.theme-toggle:hover {
+    background: #f5f5f5;
+    border-color: #d0d0d0;
+}
+
+.theme-toggle i {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+}
+
+/* Dark mode styles */
+[data-theme="dark"] .os-toggle {
+    background: var(--surface);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .os-toggle i {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .os-toggle:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+[data-theme="dark"] .os-toggle:hover i {
+    color: white;
+}
+
+[data-theme="dark"] .theme-toggle {
+    background: var(--surface);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .font-size-controls {
+    background: var(--surface);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .font-size-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    .header-controls {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+    
+    .font-size-controls {
+        order: 1;
+    }
+    
+    .font-size-label {
+        display: none;
+    }
+}

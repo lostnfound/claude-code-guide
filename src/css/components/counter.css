@@ -1,0 +1,55 @@
+/* Success counter component */
+.success-counter {
+    background: #f8f9fa;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--radius);
+    padding: var(--space-3) var(--space-5);
+    margin-bottom: var(--space-4);
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    min-width: 200px;
+    animation: fadeInUp 0.8s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+.counter-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+    line-height: 1;
+}
+
+.counter-text {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.2;
+}
+
+/* Special styling for early users */
+.success-counter[data-special="true"] {
+    background: linear-gradient(135deg, rgba(204, 120, 92, 0.08), rgba(204, 120, 92, 0.03));
+    border: 1px solid rgba(204, 120, 92, 0.2);
+}
+
+.success-counter[data-special="true"] .counter-number {
+    font-size: 1.5rem;
+}
+
+.success-counter[data-special="true"] .counter-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+[data-theme="dark"] .success-counter {
+    background: var(--surface);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .success-counter[data-special="true"] {
+    background: linear-gradient(135deg, rgba(204, 120, 92, 0.15), rgba(204, 120, 92, 0.08));
+    border-color: rgba(204, 120, 92, 0.3);
+}

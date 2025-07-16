@@ -1,0 +1,26 @@
+// Guide page JavaScript - complete implementation
+import { ThemeManager } from './modules/theme.js';
+import { GuideManager } from './modules/guide-manager.js';
+import { OSDetector } from './modules/os-detector.js';
+import { FontController } from './modules/font-controller.js';
+import { CodeCopier } from './modules/code-copier.js';
+
+// Initialize theme system
+ThemeManager.init();
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize all guide systems
+    OSDetector.init();
+    FontController.init();
+    CodeCopier.init();
+    GuideManager.init();
+    
+    // Setup theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            ThemeManager.toggle();
+        });
+    }
+});

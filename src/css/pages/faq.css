@@ -1,0 +1,29 @@
+/* FAQ Page Styles */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--space-3);
+}
+
+/* Header styles는 guide-header.css에서 처리됨 */
+
+.main-content {
+    min-height: calc(100vh - 200px);
+}
+
+/* FAQ Section specific */
+.faq-section {
+    margin-bottom: var(--space-8);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 var(--space-2);
+    }
+}
+
+/* Dark Mode Adaptations */
+[data-theme="dark"] .header {
+    border-bottom-color: var(--border-color);
+}
