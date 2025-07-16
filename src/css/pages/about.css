@@ -37,10 +37,10 @@
     color: var(--text-primary);
 }
 
-/* Intro section - 원본과 동일한 연한 분홍/베이지 배경 박스 */
+/* Intro section - 가이드 페이지와 동일한 브랜드 gradient 배경 */
 .intro-section {
-    background: #faf8f6;
-    border: 1px solid #f0ebe6;
+    background: linear-gradient(135deg, rgba(204, 120, 92, 0.08), rgba(204, 120, 92, 0.03));
+    border: 1px solid rgba(204, 120, 92, 0.2);
     border-radius: var(--radius-lg);
     padding: var(--space-5);
     margin-bottom: var(--space-6);
@@ -95,8 +95,8 @@
 }
 
 [data-theme="dark"] .intro-section {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--background);
+    border: 1px solid rgba(204, 120, 92, 0.3);
 }
 
 .beginner-tip {
