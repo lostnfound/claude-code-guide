@@ -11,6 +11,12 @@
     align-items: center;
     justify-content: center;
     padding: var(--space-4);
+    /* iOS Safe Area 대응 */
+    padding-top: max(var(--space-6), env(safe-area-inset-top));
+    padding-bottom: max(var(--space-6), env(safe-area-inset-bottom));
+    padding-left: max(var(--space-4), env(safe-area-inset-left));
+    padding-right: max(var(--space-4), env(safe-area-inset-right));
+    box-sizing: border-box;
 }
 
 .mobile-block-overlay.active {
@@ -112,20 +118,36 @@ body.mobile-blocked footer {
 
 /* Responsive adjustments */
 @media (max-width: 480px) {
+    .mobile-block-overlay {
+        /* 모바일에서 더 넉넉한 여백 */
+        padding: var(--space-6) var(--space-5);
+        padding-top: max(var(--space-8), env(safe-area-inset-top, 60px));
+        padding-bottom: max(var(--space-8), env(safe-area-inset-bottom, 60px));
+    }
+    
     .mobile-block-content {
-        padding: var(--space-4);
-        margin: var(--space-3);
+        padding: var(--space-5);
+        margin: 0;
+        border-radius: var(--radius-xl);
+        max-width: 350px;
     }
     
     .mobile-block-icon {
         font-size: 3rem;
+        margin-bottom: var(--space-3);
     }
     
     .mobile-block-title {
         font-size: 1.25rem;
+        margin-bottom: var(--space-2);
     }
     
     .mobile-block-message {
         font-size: 0.9rem;
+        margin-bottom: var(--space-3);
+    }
+    
+    .mobile-block-recommendations {
+        margin-bottom: var(--space-3);
     }
 }
