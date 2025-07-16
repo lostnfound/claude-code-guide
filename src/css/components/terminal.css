@@ -1,0 +1,139 @@
+/* Terminal Component Styles for FAQ page */
+/* These styles complement the existing guide-steps.css terminal styles */
+
+/* FAQ-specific terminal simulation box */
+.faq-terminal-simulation {
+    border: 1px solid rgba(204, 120, 92, 0.5);
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background: rgba(255, 251, 248, 0.5);
+}
+
+/* Terminal welcome message line */
+.terminal-line {
+    margin-bottom: 12px;
+}
+
+.terminal-line:last-child {
+    margin-bottom: 0;
+}
+
+/* Terminal prompt styling */
+.terminal-prompt {
+    color: #ec4899;
+    font-size: 1.1em;
+}
+
+.terminal-welcome {
+    font-weight: 600;
+}
+
+/* Terminal description/italic text */
+.terminal-description {
+    color: #6b7280;
+    font-style: italic;
+}
+
+/* Terminal info text */
+.terminal-info {
+    color: #6b7280;
+}
+
+/* Terminal tip section */
+.terminal-tip {
+    margin-bottom: 20px;
+}
+
+.terminal-tip .output {
+    color: #6b7280;
+}
+
+/* FAQ command input simulation */
+.faq-command-box {
+    margin-top: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.faq-command-prompt {
+    color: #000;
+}
+
+/* FAQ animated cursor (reuses guide.html cursor if available) */
+.faq-cursor {
+    background: #000;
+    width: 8px;
+    height: 16px;
+    display: inline-block;
+    margin-left: 1px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* FAQ command reference table */
+.faq-command-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+.faq-command-table td {
+    padding: 4px 0;
+    vertical-align: top;
+}
+
+.faq-command-key {
+    color: #8b5cf6;
+    width: 150px;
+}
+
+.faq-command-desc {
+    color: #6b7280;
+}
+
+.faq-valign-top {
+    vertical-align: top;
+}
+
+/* Spacing utilities for terminal components */
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-16 {
+    margin-top: 16px;
+}
+
+.mb-12 {
+    margin-bottom: 12px;
+}
+
+/* Dark theme support for FAQ terminal components */
+[data-theme="dark"] .faq-terminal-simulation {
+    background: rgba(30, 30, 30, 0.8);
+    border-color: rgba(204, 120, 92, 0.7);
+}
+
+[data-theme="dark"] .faq-command-box {
+    background: rgba(40, 40, 40, 0.8);
+    border-color: #374151;
+}
+
+[data-theme="dark"] .faq-command-prompt {
+    color: #fff;
+}
+
+[data-theme="dark"] .faq-cursor {
+    background: #fff;
+}

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../css/components/code-blocks.css">
     <link rel="stylesheet" href="../css/components/faq.css">
     <link rel="stylesheet" href="../css/components/buttons.css">
+    <link rel="stylesheet" href="../css/components/terminal.css">
     <link rel="stylesheet" href="../css/pages/guide.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -757,52 +758,52 @@ npm ERR! syscall open</span>
                                 <span class="terminal-title">Claude Code 종료하기 - 터미널은 유지</span>
                             </div>
                             <div class="terminal-content">
-<div style="border: 1px solid rgba(204, 120, 92, 0.5); border-radius: 6px; padding: 16px; margin-bottom: 20px; background: rgba(255, 251, 248, 0.5);">
-    <div style="margin-bottom: 12px;">
-        <span class="output" style="color: #ec4899; font-size: 1.1em;">*</span> <span class="output" style="font-weight: 600;">Welcome to <strong>Claude Code</strong>!</span>
+<div class="faq-terminal-simulation">
+    <div class="terminal-line">
+        <span class="output terminal-prompt">*</span> <span class="output terminal-welcome">Welcome to <strong>Claude Code</strong>!</span>
     </div>
-    <div style="margin-bottom: 12px;">
-        <span class="output" style="color: #6b7280; font-style: italic;">/help for help, /status for your current setup</span>
+    <div class="terminal-line">
+        <span class="output terminal-description">/help for help, /status for your current setup</span>
     </div>
-    <div>
-        <span class="output" style="color: #6b7280;">cwd: /Users/jongjinchoi</span>
+    <div class="terminal-line">
+        <span class="output terminal-info">cwd: /Users/jongjinchoi</span>
     </div>
 </div>
 
-<div style="margin-bottom: 20px;">
-    <span class="output" style="color: #6b7280;">※ Tip: Want Claude to remember something? Hit # to add preferences, tools, and instructions to Claude's memory</span>
+<div class="terminal-tip mb-20">
+    <span class="output">※ Tip: Want Claude to remember something? Hit # to add preferences, tools, and instructions to Claude's memory</span>
 </div>
 
-<div style="margin-top: 20px; border: 1px solid #e5e7eb; border-radius: 4px; padding: 8px 12px; background: rgba(255, 255, 255, 0.5);">
-    <span class="prompt" style="color: #000;">&gt;</span> <span class="command">/exit</span><span style="background: #000; width: 8px; height: 16px; display: inline-block; margin-left: 1px;"></span>
+<div class="faq-command-box mt-20">
+    <span class="prompt faq-command-prompt">&gt;</span> <span class="command">/exit</span><span class="faq-cursor"></span>
 </div>
 
-<div style="margin-top: 16px;">
-    <table style="width: 100%; border-collapse: collapse;">
+<div class="mt-16">
+    <table class="faq-command-table">
         <tr>
-            <td style="padding: 4px 0; color: #8b5cf6; width: 150px;">/exit (quit)</td>
-            <td style="padding: 4px 0; color: #6b7280;">Exit the REPL</td>
+            <td class="faq-command-key">/exit (quit)</td>
+            <td class="faq-command-desc">Exit the REPL</td>
         </tr>
         <tr>
-            <td style="padding: 4px 0; color: #6b7280;">/memory</td>
-            <td style="padding: 4px 0; color: #6b7280;">Edit Claude memory files</td>
+            <td class="faq-command-desc">/memory</td>
+            <td class="faq-command-desc">Edit Claude memory files</td>
         </tr>
         <tr>
-            <td style="padding: 4px 0; color: #6b7280;">/vim</td>
-            <td style="padding: 4px 0; color: #6b7280;">Toggle between Vim and Normal editing modes</td>
+            <td class="faq-command-desc">/vim</td>
+            <td class="faq-command-desc">Toggle between Vim and Normal editing modes</td>
         </tr>
         <tr>
-            <td style="padding: 4px 0; color: #6b7280;">/clear</td>
-            <td style="padding: 4px 0; color: #6b7280;">Clear conversation history and free up context</td>
+            <td class="faq-command-desc">/clear</td>
+            <td class="faq-command-desc">Clear conversation history and free up context</td>
         </tr>
         <tr>
-            <td style="padding: 4px 0; color: #6b7280; vertical-align: top;">/compact</td>
-            <td style="padding: 4px 0; color: #6b7280;">Clear conversation history but keep a summary in context. Optional: /compact<br>[instructions for summarization]</td>
+            <td class="faq-command-desc faq-valign-top">/compact</td>
+            <td class="faq-command-desc">Clear conversation history but keep a summary in context. Optional: /compact<br>[instructions for summarization]</td>
         </tr>
     </table>
 </div>
 
-<div style="margin-top: 20px;">
+<div class="mt-20">
     <span class="comment"># → Enter를 누르면 Claude Code가 종료됩니다</span>
 </div>
                             </div>
