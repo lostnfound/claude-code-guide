@@ -170,6 +170,20 @@ export const GuideManager = {
         this.saveProgress();
         this.updateProgress();
         
+        // 1단계 완료 시 사용자 카운트 증가
+        const stepNames = {
+            'start': '시작하기 전에',
+            'homebrew': 'Homebrew 설치',
+            'node': 'Node.js 설치',
+            'start-windows': '시작하기 전에',
+            'git-windows': 'Git 설치'
+        };
+        
+        // 첫 번째 단계(시작하기 전에) 완료 시 카운트
+        if ((step === 'start' || step === 'start-windows') && !this.hasCountedUser()) {
+            this.incrementUserCount();
+        }
+        
         // Show success toast
         if (window.showToast) {
             const stepNames = {
@@ -789,6 +803,37 @@ export const GuideManager = {
         document.querySelectorAll('.troubleshooting').forEach(troubleshooting => {
             troubleshooting.classList.remove('active');
         });
+    },
+    
+    // 사용자 카운트 관련 메서드들
+    hasCountedUser() {
+        return localStorage.getItem('claude-guide-counted') === 'true';
+    },
+    
+    markUserCounted() {
+        localStorage.setItem('claude-guide-counted', 'true');
+        localStorage.setItem('claude-guide-counted-date', new Date().toISOString());
+    },
+    
+    async incrementUserCount() {
+        try {
+            // CountAPI를 사용하여 카운트 증가
+            const response = await fetch('https://api.countapi.xyz/hit/claude-code-guide/users');
+            const data = await response.json();
+            console.log(`새로운 사용자! 총 사용자 수: ${data.value}`);
+            
+            // 로컬에 카운트 완료 표시
+            this.markUserCounted();
+            
+            // 토스트 메시지 표시
+            if (window.showToast) {
+                window.showToast('🎉 Claude Code 가족이 되신 것을 환영합니다!', 'info');
+            }
+        } catch (error) {
+            console.error('사용자 카운트 실패:', error);
+            // 실패해도 로컬에는 표시하여 중복 카운트 방지
+            this.markUserCounted();
+        }
     }
 };
 

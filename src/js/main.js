@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Initialize landing page counter
-function initializeLandingCounter() {
+async function initializeLandingCounter() {
   const counterEl = document.getElementById('successCounter');
   if (!counterEl) return;
   
-  // 실제 사용자 수 (실제로는 서버에서 가져와야 함)
-  const actualUserCount = 23; // 예시 값 - 50 미만으로 테스트
+  // CountAPI에서 실제 사용자 수 가져오기
+  const actualUserCount = await fetchUserCount();
   
   if (actualUserCount < 50) {
     // 50명 미만일 때 격려 메시지
@@ -37,5 +37,17 @@ function initializeLandingCounter() {
     setTimeout(() => {
       CounterAnimation.animate('counter', actualUserCount, 2000);
     }, 800);
+  }
+}
+
+// CountAPI에서 사용자 수 가져오기
+async function fetchUserCount() {
+  try {
+    const response = await fetch('https://api.countapi.xyz/get/claude-code-guide/users');
+    const data = await response.json();
+    return data.value || 0;
+  } catch (error) {
+    console.error('사용자 수 가져오기 실패:', error);
+    return 0; // 실패 시 0 반환
   }
 }
