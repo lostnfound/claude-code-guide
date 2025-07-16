@@ -1,0 +1,30 @@
+# robots.txt for Claude Code Guide
+# Last updated: 2025-07-16
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /temp/
+Disallow: /private/
+Disallow: /admin/
+Disallow: /js/modules/
+Disallow: /*.js$
+Disallow: /dev-server.log
+Disallow: /.git/
+Disallow: /.env
+Disallow: /node_modules/
+
+# Block bad bots that cause high server load
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://claude-code-guide-sooty.vercel.app/sitemap.xml
