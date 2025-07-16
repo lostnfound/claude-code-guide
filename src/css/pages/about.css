@@ -302,6 +302,13 @@
     margin-bottom: var(--space-5);
 }
 
+/* FAQ Q. styling */
+.faq-q {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-right: var(--space-1);
+}
+
 /* CTA section */
 .cta-section {
     text-align: center;
