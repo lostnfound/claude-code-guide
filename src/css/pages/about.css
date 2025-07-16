@@ -278,6 +278,24 @@
     border-left-color: var(--primary-color);
 }
 
+/* About page specific FAQ items - compact style */
+.about-faq-item {
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.about-faq-item:hover {
+    border-color: var(--border-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .about-faq-item {
+    background: var(--surface);
+}
+
 /* FAQ section */
 .faq-section h2 {
     text-align: center;
