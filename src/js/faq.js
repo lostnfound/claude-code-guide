@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize FAQ functionality
     initFAQ();
+    
+    // Check if user came from guide page and create return button
+    handleReturnFromGuide();
 });
 
 function initFAQ() {
@@ -91,4 +94,41 @@ if (window.location.hash && window.location.hash.startsWith('#faq-')) {
             }, 100);
         }
     });
+}
+
+// Handle return from guide page
+function handleReturnFromGuide() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromGuide = urlParams.get('from') === 'guide';
+    const returnUrl = urlParams.get('return');
+    
+    if (fromGuide && returnUrl) {
+        // Create return button
+        const returnButton = createReturnButton(returnUrl);
+        document.body.appendChild(returnButton);
+    }
+}
+
+function createReturnButton(returnUrl) {
+    const decodedUrl = decodeURIComponent(returnUrl);
+    const url = new URL(decodedUrl);
+    const params = new URLSearchParams(url.search);
+    
+    // Get current step from URL params
+    const currentStep = params.get('current');
+    const stepText = currentStep ? `${currentStep}단계 진행 중` : '가이드 진행 중';
+    
+    // Create button element
+    const button = document.createElement('a');
+    button.href = decodedUrl;
+    button.className = 'return-to-guide';
+    button.innerHTML = `
+        <i class="fas fa-arrow-left"></i>
+        <div class="return-to-guide-text">
+            <span class="return-to-guide-main">가이드로 돌아가기</span>
+            <span class="return-to-guide-sub">${stepText}</span>
+        </div>
+    `;
+    
+    return button;
 }

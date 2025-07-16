@@ -23,4 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
             ThemeManager.toggle();
         });
     }
+    
+    // Update FAQ link with current progress
+    const faqLink = document.querySelector('.nav-items a[href="faq.html"]');
+    if (faqLink) {
+        faqLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentUrl = window.location.href;
+            const returnUrl = encodeURIComponent(currentUrl);
+            window.location.href = `faq.html?from=guide&return=${returnUrl}`;
+        });
+    }
 });

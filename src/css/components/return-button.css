@@ -1,0 +1,85 @@
+/* Return to Guide Floating Button */
+.return-to-guide {
+    position: fixed;
+    bottom: var(--space-4);
+    right: var(--space-4);
+    background: var(--primary-color);
+    color: white;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.3s ease-out forwards;
+    transition: all 0.3s ease;
+}
+
+.return-to-guide:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-decoration: none;
+}
+
+.return-to-guide i {
+    font-size: 1.2rem;
+}
+
+.return-to-guide-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.return-to-guide-main {
+    font-weight: 600;
+}
+
+.return-to-guide-sub {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hide on mobile devices */
+@media (max-width: 768px) {
+    .return-to-guide {
+        bottom: var(--space-3);
+        right: var(--space-3);
+        padding: var(--space-2);
+    }
+    
+    .return-to-guide-text {
+        display: none;
+    }
+    
+    .return-to-guide i {
+        font-size: 1.5rem;
+    }
+}
+
+/* Dark mode */
+[data-theme="dark"] .return-to-guide {
+    background: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .return-to-guide:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
