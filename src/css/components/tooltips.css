@@ -25,21 +25,21 @@
 
 .tooltip-text {
     visibility: hidden;
-    width: 200px;
+    width: 280px;
     background-color: var(--background);
     color: var(--text-primary);
-    text-align: center;
+    text-align: left;
     border-radius: var(--radius-sm);
-    padding: var(--space-2);
+    padding: var(--space-2) var(--space-3);
     position: absolute;
     z-index: 1000;
     bottom: 125%;
     left: 50%;
-    margin-left: -100px;
+    margin-left: -140px;
     opacity: 0;
     transition: opacity 0.3s;
     font-size: 0.875rem;
-    line-height: 1.4;
+    line-height: 1.5;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border: 1px solid var(--border-color);
 }
@@ -66,8 +66,9 @@
 
 @media (max-width: 768px) {
     .tooltip-text {
-        width: 150px;
-        margin-left: -75px;
-        font-size: 0.75rem;
+        width: 220px;
+        margin-left: -110px;
+        font-size: 0.8rem;
+        padding: var(--space-2);
     }
 }
