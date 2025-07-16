@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../css/components/faq.css">
     <link rel="stylesheet" href="../css/components/buttons.css">
     <link rel="stylesheet" href="../css/components/terminal.css">
+    <link rel="stylesheet" href="../css/components/mobile-block.css">
     <link rel="stylesheet" href="../css/pages/guide.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -68,7 +69,7 @@
             background: linear-gradient(135deg, rgba(204, 120, 92, 0.12), rgba(204, 120, 92, 0.05));
         }
         
-        .faq-section.active .faq-number {
+        .faq-section.active .faq-icon {
             background: #CC785C;
         }
         
@@ -94,6 +95,7 @@
         .faq-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: var(--space-3);
             padding: var(--space-4) var(--space-5);
             background: transparent;
@@ -103,7 +105,13 @@
             border-radius: var(--radius-lg) var(--radius-lg) 0 0;
         }
         
-        .faq-number {
+        .faq-header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .faq-icon {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -125,14 +133,38 @@
             color: var(--text-primary);
         }
         
-        .time-estimate {
+        .faq-tag {
             display: flex;
             align-items: center;
             gap: var(--space-1);
             font-size: 0.875rem;
-            font-weight: 400;
-            color: var(--text-secondary);
-            margin-left: var(--space-2);
+            font-weight: 500;
+        }
+        
+        /* 카테고리별 색상 시스템 (배경색 제거, 텍스트 색상만) */
+        .faq-tag.urgent {
+            color: #dc2626;
+        }
+        
+        .faq-tag.comfort {
+            color: #059669;
+        }
+        
+        .faq-tag.knowledge {
+            color: #2563eb;
+        }
+        
+        /* 다크모드 지원 */
+        [data-theme="dark"] .faq-tag.urgent {
+            color: #f87171;
+        }
+        
+        [data-theme="dark"] .faq-tag.comfort {
+            color: #34d399;
+        }
+        
+        [data-theme="dark"] .faq-tag.knowledge {
+            color: #60a5fa;
         }
         
         .faq-content-section {
@@ -489,8 +521,11 @@
             <!-- 🔴 지금 막혔어요! (즉시 해결 필요) -->
             <section class="faq-section active expanded" data-topic="urgent">
                 <div class="faq-header">
-                    <div class="faq-number"><i class="fas fa-exclamation-triangle"></i></div>
-                    <h2>지금 막혔어요! <span class="time-estimate"><i class="far fa-clock"></i> 즉시 해결</span></h2>
+                    <div class="faq-header-left">
+                        <div class="faq-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <h2>지금 막혔어요!</h2>
+                    </div>
+                    <span class="faq-tag urgent"><i class="fas fa-bolt"></i> 즉시 해결</span>
                 </div>
                 <div class="faq-content-section">
                     <!-- Mac FAQ Items -->
@@ -615,8 +650,11 @@
             <!-- 🟡 이게 정상인가요? (불안함 해소) -->
             <section class="faq-section active expanded" data-topic="normal">
                 <div class="faq-header">
-                    <div class="faq-number"><i class="fas fa-question-circle"></i></div>
-                    <h2>이게 정상인가요? <span class="time-estimate"><i class="far fa-clock"></i> 불안함 해소</span></h2>
+                    <div class="faq-header-left">
+                        <div class="faq-icon"><i class="fas fa-question-circle"></i></div>
+                        <h2>이게 정상인가요?</h2>
+                    </div>
+                    <span class="faq-tag comfort"><i class="fas fa-heart"></i> 불안감 해소</span>
                 </div>
                 <div class="faq-content-section">
                     <!-- Common for both OS -->
@@ -719,8 +757,11 @@ npm ERR! syscall open</span>
             <!-- 🟢 시작 전 알아두기 (기초 지식) -->
             <section class="faq-section active expanded" data-topic="basics">
                 <div class="faq-header">
-                    <div class="faq-number"><i class="fas fa-book"></i></div>
-                    <h2>시작 전 알아두기 <span class="time-estimate"><i class="far fa-clock"></i> 기초 지식</span></h2>
+                    <div class="faq-header-left">
+                        <div class="faq-icon"><i class="fas fa-book"></i></div>
+                        <h2>시작 전 알아두기</h2>
+                    </div>
+                    <span class="faq-tag knowledge"><i class="fas fa-graduation-cap"></i> 기초 지식</span>
                 </div>
                 <div class="faq-content-section">
                     <div class="faq-item">
@@ -1116,6 +1157,7 @@ npm ERR! syscall open</span>
     </div>
 
     <!-- Scripts -->
+    <script type="module" src="../js/mobile-detect.js"></script>
     <script type="module" src="../js/guide.js"></script>
 </body>
 </html>
