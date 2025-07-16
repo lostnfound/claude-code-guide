@@ -44,6 +44,18 @@
     border: 1px solid var(--border-color);
 }
 
+/* 화면 상단에 가까운 툴팁은 아래쪽에 표시 */
+.faq-answer-content .tooltip-text {
+    bottom: auto;
+    top: 125%;
+}
+
+.faq-answer-content .tooltip-text::after {
+    top: auto;
+    bottom: 100%;
+    border-color: transparent transparent var(--background) transparent;
+}
+
 .tooltip-text::after {
     content: "";
     position: absolute;
@@ -62,6 +74,10 @@
 
 [data-theme="dark"] .tooltip-text::after {
     border-color: var(--background) transparent transparent transparent;
+}
+
+[data-theme="dark"] .faq-answer-content .tooltip-text::after {
+    border-color: transparent transparent var(--background) transparent;
 }
 
 @media (max-width: 768px) {
