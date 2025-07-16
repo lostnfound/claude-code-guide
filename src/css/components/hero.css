@@ -51,9 +51,9 @@
 
 .hero-subtitle {
     font-size: clamp(1.25rem, 3vw, 1.75rem);
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin-bottom: var(--space-3);
-    font-weight: 300;
+    font-weight: 400;
     animation: fadeInUp 0.8s ease-out 0.2s forwards;
     opacity: 0;
 }
