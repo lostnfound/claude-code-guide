@@ -16,7 +16,12 @@
     font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 700;
     margin-bottom: var(--space-2);
-    color: var(--text-primary);
+    color: var(--primary-color);
+}
+
+.about-title i {
+    color: var(--primary-color);
+    margin-right: var(--space-2);
 }
 
 .about-subtitle {
@@ -376,8 +381,9 @@
 }
 
 [data-theme="dark"] .cta-section {
-    background: #2A2A2A;
-    border: 1px solid #444444;
+    background: linear-gradient(135deg, rgba(224, 155, 122, 0.15), rgba(224, 155, 122, 0.08));
+    border: 2px solid rgba(224, 155, 122, 0.4);
+    box-shadow: 0 4px 20px rgba(224, 155, 122, 0.2);
 }
 
 [data-theme="dark"] .cta-section h2 {
@@ -438,10 +444,12 @@
 /* CTA section */
 .cta-section {
     text-align: center;
-    background: var(--bg-secondary);
+    background: linear-gradient(135deg, rgba(204, 120, 92, 0.12), rgba(204, 120, 92, 0.06));
+    border: 2px solid rgba(204, 120, 92, 0.3);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
     margin-top: var(--space-8);
+    box-shadow: 0 4px 20px rgba(204, 120, 92, 0.15);
 }
 
 .cta-section h2 {
