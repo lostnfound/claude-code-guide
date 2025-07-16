@@ -119,35 +119,44 @@ body.mobile-blocked footer {
 /* Responsive adjustments */
 @media (max-width: 480px) {
     .mobile-block-overlay {
-        /* 모바일에서 더 넉넉한 여백 */
-        padding: var(--space-6) var(--space-5);
-        padding-top: max(var(--space-8), env(safe-area-inset-top, 60px));
-        padding-bottom: max(var(--space-8), env(safe-area-inset-bottom, 60px));
+        /* 모바일에서 확실한 여백 보장 */
+        padding: 80px var(--space-5) 100px var(--space-5);
+        /* iOS는 더 큰 여백 필요 */
+        padding-top: max(80px, env(safe-area-inset-top, 0px) + 40px);
+        padding-bottom: max(100px, env(safe-area-inset-bottom, 0px) + 60px);
     }
     
     .mobile-block-content {
         padding: var(--space-5);
         margin: 0;
         border-radius: var(--radius-xl);
-        max-width: 350px;
+        max-width: 320px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     }
     
     .mobile-block-icon {
-        font-size: 3rem;
+        font-size: 2.5rem;
         margin-bottom: var(--space-3);
     }
     
     .mobile-block-title {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         margin-bottom: var(--space-2);
+        line-height: 1.4;
     }
     
     .mobile-block-message {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         margin-bottom: var(--space-3);
+        line-height: 1.5;
     }
     
     .mobile-block-recommendations {
         margin-bottom: var(--space-3);
+    }
+    
+    .mobile-block-footer {
+        font-size: 0.8rem;
+        margin-top: var(--space-2);
     }
 }
