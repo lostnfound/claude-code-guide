@@ -203,7 +203,7 @@ export const GuideManager = {
             const stepName = stepNames[step] || '단계';
             // 첫 단계 완료 시 특별한 메시지
             if ((step === 'start' || step === 'start-windows') && !this.hasCountedUser()) {
-                window.showToast(`🎉 ${stepName} 완료! Claude Code 가족이 되신 것을 환영합니다!`, 'success');
+                window.showToast(`🎉 ${stepName} 완료!`, 'success');
             } else {
                 window.showToast(`${stepName} 완료!`, 'success');
             }
