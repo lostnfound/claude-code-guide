@@ -119,18 +119,18 @@ body.mobile-blocked footer {
 /* Responsive adjustments */
 @media (max-width: 480px) {
     .mobile-block-overlay {
-        /* 모바일에서 확실한 여백 보장 */
-        padding: 80px var(--space-5) 100px var(--space-5);
-        /* iOS는 더 큰 여백 필요 */
-        padding-top: max(80px, env(safe-area-inset-top, 0px) + 40px);
-        padding-bottom: max(100px, env(safe-area-inset-bottom, 0px) + 60px);
+        /* iPhone 11 Pro 실제 기기 최적화 - 더 큰 여백 */
+        padding: 120px var(--space-4) 140px var(--space-4);
+        /* iOS Safe Area 보강 */
+        padding-top: max(120px, env(safe-area-inset-top, 0px) + 80px);
+        padding-bottom: max(140px, env(safe-area-inset-bottom, 0px) + 100px);
     }
     
     .mobile-block-content {
-        padding: var(--space-5);
+        padding: var(--space-4);
         margin: 0;
         border-radius: var(--radius-xl);
-        max-width: 320px;
+        max-width: 300px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     }
     
