@@ -1128,15 +1128,38 @@ export const GuideManager = {
     },
     
     async getSatisfactionData() {
-        // 실제로는 Google Sheets에서 만족도 데이터 가져오기
-        // 현재는 임시 데이터 반환
-        return {
-            love: 87,
-            good: 10,
-            neutral: 2,
-            sad: 1,
-            total: 100
-        };
+        try {
+            // Google Sheets에서 만족도 데이터 가져오기
+            const response = await fetch(`${this.SHEET_URL}?action=getSatisfactionData`);
+            
+            // 텍스트로 응답 받기 (CORS 모드로 인해 JSON 파싱 불가)
+            const text = await response.text();
+            
+            // 응답이 JSON 형식인지 확인
+            try {
+                const data = JSON.parse(text);
+                return data;
+            } catch {
+                // JSON 파싱 실패 시 기본값 반환
+                return {
+                    love: 0,
+                    good: 0,
+                    neutral: 0,
+                    sad: 0,
+                    total: 0
+                };
+            }
+        } catch (error) {
+            console.error('만족도 데이터 가져오기 실패:', error);
+            // 오류 시 기본값 반환
+            return {
+                love: 0,
+                good: 0,
+                neutral: 0,
+                sad: 0,
+                total: 0
+            };
+        }
     },
     
     updateSatisfactionDisplay(totalUsers, satisfactionData) {
@@ -1148,19 +1171,31 @@ export const GuideManager = {
         let message = '';
         let stageClass = '';
         
-        if (totalUsers < 100) {
-            // 초기 단계
+        if (totalUsers < 10 || satisfactionData.total === 0) {
+            // 초기 단계 - 데이터가 충분하지 않을 때
             message = '📝 아래 단계별 가이드를 따라하시면 설치할 수 있습니다';
             stageClass = 'stage-new';
-        } else if (totalUsers < 500) {
-            // 중간 단계
-            const satisfied = Math.round(totalUsers * (satisfactionData.love + satisfactionData.good) / 100);
-            message = `<span class="number">${totalUsers}</span>명 중 <span class="number">${satisfied}</span>명이 만족했어요 😊`;
-            stageClass = 'stage-growing';
+        } else if (totalUsers < 100) {
+            // 성장 단계 - 실제 만족도 데이터 표시
+            const satisfactionRate = satisfactionData.total > 0 
+                ? Math.round((satisfactionData.love + satisfactionData.good) / satisfactionData.total * 100)
+                : 0;
+            
+            if (satisfactionRate > 0) {
+                message = `<span class="number">${satisfactionRate}%</span>의 사용자가 만족했어요 😊`;
+                stageClass = 'stage-growing';
+            } else {
+                message = '📝 아래 단계별 가이드를 따라하시면 설치할 수 있습니다';
+                stageClass = 'stage-new';
+            }
         } else {
-            // 성숙 단계
-            const satisfactionRate = Math.round((satisfactionData.love + satisfactionData.good) / satisfactionData.total * 100);
-            message = `<span class="number">${satisfactionRate}%</span>가 만족했어요 👍`;
+            // 성숙 단계 - 전체 사용자 수와 만족도 함께 표시
+            const satisfactionRate = satisfactionData.total > 0 
+                ? Math.round((satisfactionData.love + satisfactionData.good) / satisfactionData.total * 100)
+                : 0;
+            const satisfied = Math.round(totalUsers * satisfactionRate / 100);
+            
+            message = `<span class="number">${totalUsers}</span>명 중 <span class="number">${satisfied}</span>명이 만족했어요 👍`;
             stageClass = 'stage-mature';
         }
         
