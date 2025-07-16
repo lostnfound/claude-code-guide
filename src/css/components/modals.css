@@ -27,8 +27,6 @@
     text-align: center;
     max-width: 520px;
     width: 90%;
-    max-height: 85vh;
-    overflow-y: auto;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     transform: scale(0.9);
     transition: transform 0.3s ease;
@@ -41,11 +39,9 @@
 
 /* Modal close button */
 .modal-close-btn {
-    position: sticky;
-    top: calc(var(--space-4) * -1 + var(--space-2));
-    right: calc(var(--space-4) * -1 + var(--space-2));
-    float: right;
-    margin-bottom: calc(var(--space-3) * -1);
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
     width: 32px;
     height: 32px;
     background: var(--background);
@@ -90,6 +86,16 @@
     font-size: 1rem !important;
     color: var(--text-muted) !important;
     margin-bottom: var(--space-4) !important;
+}
+
+.modal-subtitle code {
+    background: rgba(204, 120, 92, 0.15);
+    color: var(--primary-color);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-weight: 600;
+    font-size: 0.95rem;
 }
 
 /* Claude Interface Styles */
@@ -191,6 +197,252 @@
     color: #666666;
     font-size: 0.75rem;
     font-style: italic;
+}
+
+/* Split Layout Modal */
+.modal-content-split {
+    max-width: 720px;
+    width: 90%;
+    padding: 0;
+    transition: max-width 0.3s ease;
+}
+
+.modal-content-split.expanded {
+    max-width: 860px;
+}
+
+.modal-split-layout {
+    display: flex;
+    min-height: 380px;
+}
+
+.modal-left-section {
+    flex: 1;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-right: 1px solid var(--border-color);
+}
+
+.modal-right-section {
+    flex: 1;
+    padding: var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Feedback Emoji Section */
+.feedback-emoji-section {
+    margin-top: var(--space-4);
+    width: 100%;
+}
+
+.feedback-question {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+}
+
+.emoji-options {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+}
+
+.emoji-btn {
+    background: var(--surface);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: var(--space-2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.emoji-btn:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.emoji-btn.selected {
+    background: rgba(204, 120, 92, 0.1);
+    border-color: var(--primary-color);
+}
+
+.emoji-btn .emoji {
+    font-size: 2rem;
+}
+
+.emoji-btn .emoji-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Feedback Detail Section */
+.feedback-detail {
+    width: 100%;
+    max-width: 320px;
+}
+
+.feedback-detail h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+    color: var(--text-primary);
+}
+
+.feedback-detail p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-3);
+}
+
+.feedback-detail textarea {
+    width: 100%;
+    padding: var(--space-2);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text-primary);
+    resize: vertical;
+    font-family: inherit;
+    font-size: 0.875rem;
+}
+
+.feedback-detail textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.feedback-submit-btn {
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: var(--space-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+}
+
+.feedback-submit-btn:hover {
+    background: #CC785C;
+    transform: translateY(-1px);
+}
+
+.feedback-success {
+    text-align: center;
+    color: var(--success-color);
+}
+
+.feedback-success i {
+    font-size: 3rem;
+    margin-bottom: var(--space-2);
+}
+
+.feedback-success h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-1);
+}
+
+.feedback-success p {
+    color: var(--text-secondary);
+}
+
+/* Share Section */
+.modal-share-section {
+    border-top: 1px solid var(--border-color);
+    padding: var(--space-4);
+    text-align: center;
+}
+
+.share-question {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+}
+
+.share-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+}
+
+.share-url {
+    background: var(--surface);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius);
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.share-btn {
+    padding: var(--space-2) var(--space-3);
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.share-btn:hover {
+    background: #CC785C;
+    transform: translateY(-1px);
+}
+
+.share-btn.copied {
+    background: var(--success-color);
+}
+
+/* Docs link button */
+.docs-link-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+}
+
+.docs-link-btn:hover {
+    background: var(--surface);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.docs-link-btn i {
+    font-size: 0.75rem;
 }
 
 /* Completion Actions */

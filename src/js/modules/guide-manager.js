@@ -18,9 +18,52 @@ export const GuideManager = {
         this.currentStep = 0;
         this.completedSteps.clear();
         
+        // Clear localStorage to ensure clean state
+        localStorage.removeItem('claude-guide-progress');
+        
         // Remove all expanded, active, completed classes
         document.querySelectorAll('.step-section').forEach(section => {
-            section.classList.remove('expanded', 'active', 'completed');
+            section.classList.remove('expanded', 'active', 'completed', 'show-full');
+            
+            // Remove completed state UI elements
+            const completedText = section.querySelector('.completed-text');
+            if (completedText) {
+                completedText.remove();
+            }
+            
+            // Restore time estimate
+            const readOnlyBtn = section.querySelector('.read-only-btn');
+            if (readOnlyBtn) {
+                const timeEstimate = readOnlyBtn.parentElement;
+                const stepId = section.id.replace('step-', '');
+                const timeText = this.getTimeEstimate(stepId);
+                timeEstimate.innerHTML = `<i class="fas fa-clock"></i> ${timeText}`;
+            }
+            
+            // Remove summary view
+            const summary = section.querySelector('.step-summary');
+            if (summary) {
+                summary.remove();
+            }
+            
+            // Remove back-to-summary button
+            const backBtn = section.querySelector('.back-to-summary-btn');
+            if (backBtn) {
+                backBtn.remove();
+            }
+            
+            // Remove show-full class to ensure content is hidden
+            section.classList.remove('show-full');
+            
+            // Re-enable all buttons
+            section.querySelectorAll('.result-btn').forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('disabled', 'selected');
+                btn.style.cursor = 'pointer';
+                btn.style.opacity = '1';
+                // Remove selected indicators
+                btn.querySelectorAll('.selected-indicator, .selected-label').forEach(el => el.remove());
+            });
         });
         
         // Remove all progress tags
@@ -28,6 +71,27 @@ export const GuideManager = {
         
         // Clear selected buttons
         this.selectedButtons = {};
+        
+        // Clear selectedEmoji if exists
+        this.selectedEmoji = null;
+    },
+    
+    getTimeEstimate(stepId) {
+        const estimates = {
+            'start': '2분',
+            'homebrew': '3분',
+            'node': '2분',
+            'claude': '2분',
+            'auth': '2분',
+            'project': '3분',
+            'start-windows': '2분',
+            'git-windows': '5분',
+            'node-windows': '3분',
+            'claude-windows': '2분',
+            'auth-windows': '2분',
+            'project-windows': '3분'
+        };
+        return estimates[stepId] || '2분';
     },
     
     setupProgressBar() {
@@ -461,33 +525,72 @@ export const GuideManager = {
         const modal = document.createElement('div');
         modal.className = 'completion-modal';
         modal.innerHTML = `
-            <div class="modal-content">
+            <div class="modal-content modal-content-split">
                 <button class="modal-close-btn" onclick="GuideManager.closeCompletionModal()">
                     <i class="fas fa-times"></i>
                 </button>
-                <div class="modal-icon">🎉</div>
-                <h2>축하합니다!</h2>
-                <p>Claude Code 설치가 모두 완료되었습니다.</p>
-                <p class="modal-subtitle">이제 터미널에서 <code>claude-code</code> 명령어로 언제든지 시작할 수 있습니다.</p>
                 
-                <div class="completion-actions">
-                    <button class="action-btn" onclick="window.location.href='../index.html'">
-                        <i class="fas fa-home"></i>
-                        홈으로 가기
-                    </button>
-                    <button class="action-btn" onclick="window.open('https://docs.anthropic.com/en/docs/claude-code', '_blank')">
-                        <i class="fas fa-book"></i>
-                        공식문서 보기
-                    </button>
+                <div class="modal-split-layout">
+                    <div class="modal-left-section">
+                        <div class="modal-icon">🎉</div>
+                        <h2>축하합니다!</h2>
+                        <p>Claude Code 가족이 되신 것을 환영합니다!</p>
+                        <p class="modal-subtitle">터미널에 <code>claude-code</code> 입력하고 작게라도 만들어보세요!</p>
+                        
+                        <button class="docs-link-btn" onclick="window.open('https://docs.anthropic.com/en/docs/claude-code', '_blank')">
+                            <i class="fas fa-book"></i>
+                            공식문서 보기
+                        </button>
+                        
+                        <div class="feedback-emoji-section">
+                            <p class="feedback-question">오늘 경험은 어떠셨나요?</p>
+                            <div class="emoji-options">
+                                <button class="emoji-btn" data-emoji="love" onclick="GuideManager.handleEmojiClick('love')">
+                                    <span class="emoji">😍</span>
+                                    <span class="emoji-label">최고예요</span>
+                                </button>
+                                <button class="emoji-btn" data-emoji="good" onclick="GuideManager.handleEmojiClick('good')">
+                                    <span class="emoji">😊</span>
+                                    <span class="emoji-label">좋아요</span>
+                                </button>
+                                <button class="emoji-btn" data-emoji="neutral" onclick="GuideManager.handleEmojiClick('neutral')">
+                                    <span class="emoji">😐</span>
+                                    <span class="emoji-label">보통이에요</span>
+                                </button>
+                                <button class="emoji-btn" data-emoji="sad" onclick="GuideManager.handleEmojiClick('sad')">
+                                    <span class="emoji">😕</span>
+                                    <span class="emoji-label">아쉬워요</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-right-section" id="feedbackDetailSection" style="display: none;">
+                        <div class="feedback-detail">
+                            <h3 id="feedbackTitle">한 마디 남겨주실래요?</h3>
+                            <p id="feedbackSubtitle">여러분의 소중한 의견이 큰 힘이 됩니다</p>
+                            <textarea 
+                                id="feedbackText" 
+                                placeholder="어떤 점이 좋았나요? 또는 어떤 점이 아쉬웠나요?"
+                                rows="6"
+                            ></textarea>
+                            <button class="feedback-submit-btn" onclick="GuideManager.submitFeedback()">
+                                <i class="fas fa-paper-plane"></i>
+                                전송하기
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="completion-newsletter">
-                    <h3>💌 메이커의 뉴스레터 구독하기</h3>
-                    <p>Claude Code 업데이트와 개발 인사이트를 받아보세요</p>
-                    <form class="newsletter-form" onsubmit="GuideManager.handleNewsletterSubmit(event)">
-                        <input type="email" placeholder="이메일 입력" required>
-                        <button type="submit">구독하기</button>
-                    </form>
+                <div class="modal-share-section">
+                    <p class="share-question">이 사이트를 친구에게 추천하시겠어요?</p>
+                    <div class="share-content">
+                        <div class="share-url">https://claude-code-guide-sooty.vercel.app/</div>
+                        <button class="share-btn" onclick="GuideManager.handleShare()">
+                            <i class="fas fa-share"></i>
+                            공유하기
+                        </button>
+                    </div>
                 </div>
                 
                 <button class="btn-text-secondary" onclick="GuideManager.closeCompletionModal()">
@@ -512,16 +615,108 @@ export const GuideManager = {
     },
     
     
-    handleNewsletterSubmit(event) {
-        event.preventDefault();
-        const form = event.target;
-        const email = form.querySelector('input[type="email"]').value;
+    handleEmojiClick(emoji) {
+        // Remove selected class from all emoji buttons
+        document.querySelectorAll('.emoji-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
         
-        // 여기에 실제 뉴스레터 구독 로직 추가
-        console.log('Newsletter subscription:', email);
+        // Add selected class to clicked button
+        const clickedBtn = document.querySelector(`.emoji-btn[data-emoji="${emoji}"]`);
+        if (clickedBtn) {
+            clickedBtn.classList.add('selected');
+        }
         
-        // 성공 메시지 표시
-        form.innerHTML = '<div class="newsletter-success"><i class="fas fa-check-circle"></i> 구독 완료! 감사합니다.</div>';
+        // Store selected emoji
+        this.selectedEmoji = emoji;
+        
+        // Show feedback detail section for extreme reactions
+        const feedbackSection = document.getElementById('feedbackDetailSection');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackSubtitle = document.getElementById('feedbackSubtitle');
+        const feedbackTextarea = document.getElementById('feedbackText');
+        
+        const modalContent = document.querySelector('.modal-content-split');
+        
+        if (emoji === 'love' || emoji === 'sad') {
+            feedbackSection.style.display = 'block';
+            modalContent?.classList.add('expanded');
+            
+            if (emoji === 'love') {
+                feedbackTitle.textContent = '정말 기쁘네요! 한 마디 남겨주실래요?';
+                feedbackSubtitle.textContent = '어떤 점이 가장 좋으셨나요?';
+                feedbackTextarea.placeholder = '어떤 점이 좋았나요?';
+            } else {
+                feedbackTitle.textContent = '아쉬우셨군요. 의견을 들려주실래요?';
+                feedbackSubtitle.textContent = '어떤 점을 개선하면 좋을까요?';
+                feedbackTextarea.placeholder = '어떤 점이 아쉬웠나요?';
+            }
+        } else {
+            feedbackSection.style.display = 'none';
+            modalContent?.classList.remove('expanded');
+        }
+        
+        // Log emoji feedback
+        console.log('User feedback emoji:', emoji);
+        
+        // Here you can send the emoji feedback to your analytics
+        // this.sendFeedback({ type: 'emoji', value: emoji });
+    },
+    
+    submitFeedback() {
+        const feedbackText = document.getElementById('feedbackText').value.trim();
+        if (!feedbackText) return;
+        
+        // Log feedback
+        console.log('User feedback:', {
+            emoji: this.selectedEmoji,
+            text: feedbackText
+        });
+        
+        // Show success message
+        const feedbackSection = document.getElementById('feedbackDetailSection');
+        feedbackSection.innerHTML = `
+            <div class="feedback-success">
+                <i class="fas fa-check-circle"></i>
+                <h3>감사합니다!</h3>
+                <p>소중한 의견 잘 받았습니다</p>
+            </div>
+        `;
+        
+        // Here you can send the feedback to your backend
+        // this.sendFeedback({ 
+        //     type: 'detailed',
+        //     emoji: this.selectedEmoji,
+        //     text: feedbackText 
+        // });
+    },
+    
+    handleShare() {
+        const url = 'https://claude-code-guide-sooty.vercel.app/';
+        
+        // Copy to clipboard
+        navigator.clipboard.writeText(url).then(() => {
+            // Show success toast
+            if (window.showToast) {
+                window.showToast('링크가 복사되었습니다!', 'success');
+            }
+            
+            // Update button temporarily
+            const shareBtn = document.querySelector('.share-btn');
+            const originalHTML = shareBtn.innerHTML;
+            shareBtn.innerHTML = '<i class="fas fa-check"></i> 복사됨!';
+            shareBtn.classList.add('copied');
+            
+            setTimeout(() => {
+                shareBtn.innerHTML = originalHTML;
+                shareBtn.classList.remove('copied');
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+            if (window.showToast) {
+                window.showToast('복사에 실패했습니다', 'error');
+            }
+        });
     },
     
     closeCompletionModal() {
@@ -530,7 +725,6 @@ export const GuideManager = {
             modal.classList.remove('show');
             setTimeout(() => {
                 modal.remove();
-                window.location.href = '../index.html';
             }, 300);
         }
     },

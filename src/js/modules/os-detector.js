@@ -56,6 +56,16 @@ export const OSDetector = {
             const firstSection = document.querySelector('.step-section[data-os="' + this.currentOS + '"]');
             if (firstSection) {
                 firstSection.classList.add('active', 'expanded');
+                
+                // Add "여기에서 시작하세요" tag to first step
+                const header = firstSection.querySelector('.step-header');
+                const stepNumber = header?.querySelector('.step-number');
+                if (header && stepNumber && !header.querySelector('.step-tag')) {
+                    const startTag = document.createElement('span');
+                    startTag.className = 'step-tag';
+                    startTag.textContent = '여기에서 시작하세요';
+                    stepNumber.insertAdjacentElement('afterend', startTag);
+                }
             }
         }
     },
