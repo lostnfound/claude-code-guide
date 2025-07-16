@@ -201,7 +201,12 @@ export const GuideManager = {
                 'project-windows': '첫 프로젝트'
             };
             const stepName = stepNames[step] || '단계';
-            window.showToast(`${stepName} 완료!`, 'success');
+            // 첫 단계 완료 시 특별한 메시지
+            if ((step === 'start' || step === 'start-windows') && !this.hasCountedUser()) {
+                window.showToast(`🎉 ${stepName} 완료! Claude Code 가족이 되신 것을 환영합니다!`, 'success');
+            } else {
+                window.showToast(`${stepName} 완료!`, 'success');
+            }
         }
         
         // Mark step as completed
@@ -824,11 +829,6 @@ export const GuideManager = {
             
             // 로컬에 카운트 완료 표시
             this.markUserCounted();
-            
-            // 토스트 메시지 표시
-            if (window.showToast) {
-                window.showToast('🎉 Claude Code 가족이 되신 것을 환영합니다!', 'info');
-            }
         } catch (error) {
             console.error('사용자 카운트 실패:', error);
             // 실패해도 로컬에는 표시하여 중복 카운트 방지
