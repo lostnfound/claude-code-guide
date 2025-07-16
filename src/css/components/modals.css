@@ -331,7 +331,7 @@
 /* Toast notifications */
 .toast {
     position: fixed;
-    bottom: var(--space-4);
+    top: var(--space-4);
     right: var(--space-4);
     background: var(--surface);
     color: var(--text-primary);
@@ -342,7 +342,7 @@
     font-size: 0.875rem;
     max-width: 320px;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(-20px);
     transition: var(--transition-fast);
     z-index: 1001;
 }
@@ -396,6 +396,7 @@
     }
     
     .toast {
+        top: var(--space-2);
         right: var(--space-2);
         left: var(--space-2);
         max-width: none;

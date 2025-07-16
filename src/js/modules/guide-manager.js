@@ -170,6 +170,26 @@ export const GuideManager = {
         this.saveProgress();
         this.updateProgress();
         
+        // Show success toast
+        if (window.showToast) {
+            const stepNames = {
+                'start': '시작하기 전에',
+                'homebrew': 'Homebrew 설치',
+                'node': 'Node.js 설치',
+                'claude': 'Claude Code 설치',
+                'auth': '인증 설정',
+                'project': '첫 프로젝트',
+                'start-windows': '시작하기 전에',
+                'git-windows': 'Git for Windows 설치',
+                'node-windows': 'Node.js 설치',
+                'claude-windows': 'Claude Code 설치',
+                'auth-windows': '인증 설정',
+                'project-windows': '첫 프로젝트'
+            };
+            const stepName = stepNames[step] || '단계';
+            window.showToast(`${stepName} 완료!`, 'success');
+        }
+        
         // Mark step as completed
         const stepSection = document.getElementById(`step-${step}`);
         if (stepSection) {

@@ -4,6 +4,7 @@ import { GuideManager } from './modules/guide-manager.js';
 import { OSDetector } from './modules/os-detector.js';
 import { FontController } from './modules/font-controller.js';
 import { CodeCopier } from './modules/code-copier.js';
+import { showToast } from './modules/toast.js';
 
 // Initialize theme system
 ThemeManager.init();
