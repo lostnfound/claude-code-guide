@@ -11,6 +11,11 @@
     align-items: center;
     justify-content: center;
     padding: var(--space-4);
+    /* SEO: 검색엔진에서 이 콘텐츠를 인덱싱하지 않도록 숨김 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     /* iOS Safe Area 대응 */
     padding-top: max(var(--space-6), env(safe-area-inset-top));
     padding-bottom: max(var(--space-6), env(safe-area-inset-bottom));

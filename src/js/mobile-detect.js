@@ -83,7 +83,7 @@ class MobileDetector {
         overlay.id = 'mobile-block-overlay';
 
         overlay.innerHTML = `
-            <div class="mobile-block-content">
+            <div class="mobile-block-content" data-nosnippet>
                 <div class="mobile-block-icon">
                     <i class="fas fa-desktop"></i>
                 </div>
@@ -124,8 +124,7 @@ class MobileDetector {
             // Prevent scrolling
             document.body.style.overflow = 'hidden';
             
-            // Set page title to indicate mobile blocking
-            document.title = '데스크탑에서 이용해주세요 - Claude Code Guide';
+            // SEO를 위해 title은 변경하지 않음 (Google 검색 결과에 영향)
         }
     }
 
