@@ -120,6 +120,7 @@ export const Analytics = {
         // feedback_submitted 이벤트는 이미 완전한 payload를 가지고 있음
         if (eventName === 'feedback_submitted' && parameters.eventType) {
             // 이미 완전한 payload인 경우 그대로 전송
+            console.log('Sending feedback_submitted with full payload:', parameters);
             fetch(this.APPS_SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',

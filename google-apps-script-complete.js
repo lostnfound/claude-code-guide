@@ -1142,7 +1142,7 @@ function testFeedbackEvent() {
     browser: 'Chrome',
     customData: {
       emoji: 'love',
-      feedbackText: '테스트 피드백',
+      feedbackText: '테스트 피드백입니다',
       completionTime: '10분',
       completedSteps: 6
     }
@@ -1159,4 +1159,28 @@ function testFeedbackEvent() {
   console.log('doPost 결과:', result.getContent());
 
   SpreadsheetApp.getActiveSpreadsheet().toast('테스트 완료!', '성공', 3);
+}
+
+// 간단한 로그 확인 함수
+function checkLastFeedback() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Feedback_Events');
+  if (!sheet) {
+    console.log('Feedback_Events 시트가 없습니다');
+    return;
+  }
+  
+  const lastRow = sheet.getLastRow();
+  if (lastRow <= 1) {
+    console.log('데이터가 없습니다');
+    return;
+  }
+  
+  const data = sheet.getRange(lastRow, 1, 1, sheet.getLastColumn()).getValues()[0];
+  console.log('마지막 행 데이터:');
+  console.log('Timestamp:', data[0]);
+  console.log('User_ID:', data[1]);
+  console.log('Session_ID:', data[2]);
+  console.log('Emoji:', data[3]);
+  console.log('Feedback_Text:', data[4]);
+  console.log('Completion_Time:', data[5]);
 }
