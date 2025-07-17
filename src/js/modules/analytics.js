@@ -117,19 +117,50 @@ export const Analytics = {
             return;
         }
         
-        // feedback_submitted 이벤트는 이미 완전한 payload를 가지고 있음
-        if (eventName === 'feedback_submitted' && parameters.eventType) {
-            // 이미 완전한 payload인 경우 그대로 전송
-            console.log('Sending feedback_submitted with full payload:', parameters);
-            fetch(this.APPS_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(parameters)
-            }).catch(err => console.error('Failed to send to Google Sheets:', err));
-            return;
+        // feedback_submitted 이벤트 특별 처리
+        if (eventName === 'feedback_submitted') {
+            // guide-manager에서 보낸 간단한 피드백 데이터를 완전한 payload로 변환
+            if (!parameters.eventType) {
+                // 간단한 형식의 피드백 데이터인 경우
+                const userId = this.getUserId();
+                const fullPayload = {
+                    eventType: 'feedback_submitted',
+                    userId: userId,
+                    sessionId: this.sessionId,
+                    pageUrl: window.location.href,
+                    pageTitle: document.title,
+                    os: this.getOS(),
+                    browser: this.getBrowser(),
+                    timestamp: new Date().toISOString(),
+                    customData: {
+                        emoji: parameters.emoji || '',
+                        feedbackText: parameters.feedbackText || ''
+                    }
+                };
+                
+                console.log('Sending feedback_submitted with converted payload:', fullPayload);
+                fetch(this.APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(fullPayload)
+                }).catch(err => console.error('Failed to send to Google Sheets:', err));
+                return;
+            } else {
+                // 이미 완전한 payload인 경우 그대로 전송
+                console.log('Sending feedback_submitted with full payload:', parameters);
+                fetch(this.APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(parameters)
+                }).catch(err => console.error('Failed to send to Google Sheets:', err));
+                return;
+            }
         }
         
         // 일반 이벤트의 경우 기존 방식대로 처리
