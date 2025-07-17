@@ -117,7 +117,21 @@ export const Analytics = {
             return;
         }
         
-        // 사용자 ID 가져오기 또는 생성
+        // feedback_submitted 이벤트는 이미 완전한 payload를 가지고 있음
+        if (eventName === 'feedback_submitted' && parameters.eventType) {
+            // 이미 완전한 payload인 경우 그대로 전송
+            fetch(this.APPS_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(parameters)
+            }).catch(err => console.error('Failed to send to Google Sheets:', err));
+            return;
+        }
+        
+        // 일반 이벤트의 경우 기존 방식대로 처리
         const userId = this.getUserId();
         
         const data = {

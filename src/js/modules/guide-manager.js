@@ -1209,9 +1209,9 @@ export const GuideManager = {
             // 첫 방문 표시
             localStorage.setItem('claude-guide-visited', 'true');
             
-            // Analytics 모듈을 통해 전송 (기존 방식 유지)
+            // Analytics 모듈을 통해 전송 (전체 payload 전송)
             if (window.Analytics && window.Analytics.sendToGoogleSheets) {
-                window.Analytics.sendToGoogleSheets('feedback_submitted', payload.customData);
+                window.Analytics.sendToGoogleSheets('feedback_submitted', payload);
             } else {
                 // Analytics 모듈이 없으면 직접 전송
                 const response = await fetch(this.SHEET_URL, {
