@@ -779,7 +779,7 @@ export const GuideManager = {
     },
     
     createShareMenu() {
-        const shareSection = document.querySelector('.modal-share-section');
+        const shareContent = document.querySelector('.share-content');
         const shareMenu = document.createElement('div');
         shareMenu.className = 'share-menu';
         shareMenu.innerHTML = `
@@ -799,17 +799,9 @@ export const GuideManager = {
                 <i class="fab fa-linkedin-in"></i>
                 <span>링크드인</span>
             </div>
-            <div class="share-menu-item" data-action="kakao">
-                <i class="fas fa-comment"></i>
-                <span>카카오톡</span>
-            </div>
-            <div class="share-menu-item" data-action="telegram">
-                <i class="fab fa-telegram-plane"></i>
-                <span>텔레그램</span>
-            </div>
         `;
         
-        shareSection.appendChild(shareMenu);
+        shareContent.appendChild(shareMenu);
         
         // Add event listeners
         shareMenu.querySelectorAll('.share-menu-item').forEach(item => {
@@ -823,11 +815,21 @@ export const GuideManager = {
         setTimeout(() => {
             shareMenu.classList.add('show');
             document.querySelector('.share-btn').classList.add('active');
+            
+            // Adjust position if menu goes off-screen
+            const menuRect = shareMenu.getBoundingClientRect();
+            const windowWidth = window.innerWidth;
+            
+            if (menuRect.right > windowWidth - 20) {
+                shareMenu.style.right = '0';
+                shareMenu.style.left = 'auto';
+                shareMenu.style.transform = 'translateX(-20px)';
+            }
         }, 10);
         
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (!shareSection.contains(e.target)) {
+            if (!shareContent.contains(e.target)) {
                 shareMenu.classList.remove('show');
                 document.querySelector('.share-btn').classList.remove('active');
             }
@@ -851,12 +853,6 @@ export const GuideManager = {
                 break;
             case 'linkedin':
                 this.shareToLinkedIn(url, title, text);
-                break;
-            case 'kakao':
-                this.shareToKakao(url, title, text);
-                break;
-            case 'telegram':
-                this.shareToTelegram(url, text);
                 break;
         }
         
@@ -892,17 +888,6 @@ export const GuideManager = {
     shareToLinkedIn(url, title, text) {
         const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(text)}`;
         window.open(linkedinUrl, '_blank', 'width=550,height=420');
-    },
-    
-    shareToKakao(url, title, text) {
-        // 카카오톡 공유는 Kakao SDK가 필요하므로 대신 카카오스토리로 공유
-        const kakaoUrl = `https://story.kakao.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title + ' - ' + text)}`;
-        window.open(kakaoUrl, '_blank', 'width=550,height=420');
-    },
-    
-    shareToTelegram(url, text) {
-        const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
-        window.open(telegramUrl, '_blank', 'width=550,height=420');
     },
     
     closeCompletionModal() {

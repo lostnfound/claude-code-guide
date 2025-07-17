@@ -426,20 +426,38 @@
 /* Share Menu */
 .share-menu {
     position: absolute;
-    top: 100%;
+    bottom: 100%;
     right: 0;
     background: var(--background);
-    border: 1px solid var(--border-color);
+    border: 2px solid #CC785C;
     border-radius: var(--radius-lg);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     padding: var(--space-2);
-    margin-top: var(--space-1);
+    margin-bottom: var(--space-1);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px);
+    transform: translateY(10px);
     transition: all 0.2s ease;
-    z-index: 1001;
-    min-width: 160px;
+    z-index: 1002;
+    min-width: 180px;
+    max-width: 200px;
+}
+
+/* Adjust position if menu goes off-screen */
+@media (max-width: 768px) {
+    .share-menu {
+        right: -20px;
+        left: auto;
+        min-width: 150px;
+    }
+}
+
+/* For very small screens, center the menu */
+@media (max-width: 480px) {
+    .share-menu {
+        right: -50px;
+        min-width: 140px;
+    }
 }
 
 .share-menu.show {
@@ -488,15 +506,11 @@
     color: #0A66C2;
 }
 
-.share-menu-item[data-action="kakao"] i {
-    color: #FEE500;
-}
-
-.share-menu-item[data-action="telegram"] i {
-    color: #0088CC;
-}
-
 .modal-share-section {
+    position: relative;
+}
+
+.share-content {
     position: relative;
 }
 
