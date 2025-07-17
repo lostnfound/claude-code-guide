@@ -106,6 +106,17 @@ export const Analytics = {
     
     // Google Sheets로 데이터 전송
     sendToGoogleSheets(eventName, parameters) {
+        // 실제 프로덕션 사이트가 아니면 전송하지 않음
+        const hostname = window.location.hostname;
+        const isProduction = hostname === 'claude-code-guide-sooty.vercel.app';
+        const isLocalDev = hostname === 'localhost' || hostname === '127.0.0.1';
+        
+        // 프로덕션이 아니면 로그만 출력하고 전송하지 않음
+        if (!isProduction) {
+            console.log(`[Analytics ${isLocalDev ? 'Local' : 'Preview'}] Event:`, eventName, parameters);
+            return;
+        }
+        
         // 사용자 ID 가져오기 또는 생성
         const userId = this.getUserId();
         

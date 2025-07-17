@@ -57,6 +57,13 @@ async function initializeLandingCounter() {
 // 사용자 카운터 증가
 async function incrementUserCount() {
   try {
+    // 프로덕션 사이트가 아니면 카운터 증가하지 않음
+    const hostname = window.location.hostname;
+    if (hostname !== 'claude-code-guide-sooty.vercel.app') {
+      console.log('[Counter] Not production - skipping user count');
+      return;
+    }
+    
     // 이미 방문했는지 확인 (세션 스토리지 사용)
     if (sessionStorage.getItem('userCounted')) {
       return; // 이미 카운트됨

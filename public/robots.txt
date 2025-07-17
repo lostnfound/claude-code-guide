@@ -1,5 +1,5 @@
 # robots.txt for Claude Code Guide
-# Last updated: 2025-07-16
+# Last updated: 2025-07-17
 
 # Allow all crawlers
 User-agent: *
@@ -9,8 +9,11 @@ Disallow: /*.json$
 Disallow: /temp/
 Disallow: /private/
 Disallow: /admin/
-Disallow: /js/modules/
-Disallow: /*.js$
+# JavaScript and CSS are needed for proper rendering
+Allow: /*.js$
+Allow: /js/
+Allow: /*.css$
+Allow: /css/
 Disallow: /dev-server.log
 Disallow: /.git/
 Disallow: /.env
