@@ -1183,30 +1183,43 @@ export const GuideManager = {
             
             // 전송할 데이터 준비
             const payload = {
-                emoji: data.emoji || '',
-                feedbackText: data.feedbackText || '',
-                browser: this.getBrowserInfo(),
-                os: window.OSDetector?.getCurrentOS() || 'unknown',
-                completionTime: `${completionTime}분`,
-                completedSteps: this.completedSteps.size,
-                lastStep: Array.from(this.completedSteps).pop() || '',
+                eventType: 'feedback_submitted',
+                userId: Analytics.getUserId ? Analytics.getUserId() : '',
                 sessionId: this.sessionId,
+                pageUrl: window.location.href,
+                pageTitle: document.title,
+                os: window.OSDetector?.getCurrentOS() || 'unknown',
+                browser: this.getBrowserInfo(),
+                userAgent: navigator.userAgent,
                 referrer: document.referrer || 'direct',
-                darkMode: window.ThemeManager?.currentTheme === 'dark' ? 'Yes' : 'No',
-                firstVisit: !localStorage.getItem('claude-guide-visited') ? 'Yes' : 'No',
-                errorSteps: this.errorSteps.join(', ') || '',
-                errorResolved: this.errorSteps.length > 0 && this.completedSteps.size === 6 ? 'Yes' : 'No'
+                customData: {
+                    emoji: data.emoji || '',
+                    feedbackText: data.feedbackText || '',
+                    completionTime: `${completionTime}분`,
+                    completedSteps: this.completedSteps.size,
+                    lastStep: Array.from(this.completedSteps).pop() || '',
+                    darkMode: window.ThemeManager?.currentTheme === 'dark' ? 'Yes' : 'No',
+                    firstVisit: !localStorage.getItem('claude-guide-visited') ? 'Yes' : 'No',
+                    errorSteps: this.errorSteps.join(', ') || '',
+                    errorResolved: this.errorSteps.length > 0 && this.completedSteps.size === 6 ? 'Yes' : 'No',
+                    screenResolution: `${window.screen.width}x${window.screen.height}`
+                }
             };
             
             // 첫 방문 표시
             localStorage.setItem('claude-guide-visited', 'true');
             
-            // Google Sheets로 전송
-            const response = await fetch(this.SHEET_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(payload)
-            });
+            // Analytics 모듈을 통해 전송 (기존 방식 유지)
+            if (window.Analytics && window.Analytics.sendToGoogleSheets) {
+                window.Analytics.sendToGoogleSheets('feedback_submitted', payload.customData);
+            } else {
+                // Analytics 모듈이 없으면 직접 전송
+                const response = await fetch(this.SHEET_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(payload)
+                });
+            }
             
             console.log('Feedback sent to Google Sheets');
         } catch (error) {
