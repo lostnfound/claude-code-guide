@@ -139,13 +139,26 @@ export const Analytics = {
                 };
                 
                 console.log('Sending feedback_submitted with converted payload:', fullPayload);
-                fetch(this.APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(fullPayload)
+                
+                // POST body가 전송되지 않으므로 GET 요청으로 변경
+                const params = new URLSearchParams();
+                params.append('eventType', fullPayload.eventType);
+                params.append('userId', fullPayload.userId);
+                params.append('sessionId', fullPayload.sessionId);
+                params.append('pageUrl', fullPayload.pageUrl);
+                params.append('pageTitle', fullPayload.pageTitle);
+                params.append('os', fullPayload.os);
+                params.append('browser', fullPayload.browser);
+                params.append('timestamp', fullPayload.timestamp);
+                
+                // customData는 JSON 문자열로 전송
+                params.append('customData', JSON.stringify(fullPayload.customData));
+                
+                const url = `${this.APPS_SCRIPT_URL}?${params.toString()}`;
+                
+                fetch(url, {
+                    method: 'GET',
+                    mode: 'no-cors'
                 }).catch(err => console.error('Failed to send to Google Sheets:', err));
                 return;
             } else {

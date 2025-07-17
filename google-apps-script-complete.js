@@ -30,7 +30,40 @@ function getConfig() {
 
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
+    // 디버깅 로그 추가
+    console.log('doPost 호출됨');
+    console.log('e:', JSON.stringify(e));
+    console.log('e.postData:', e.postData);
+    console.log('e.parameter:', e.parameter);
+    
+    // postData가 없거나 contents가 없는 경우 처리
+    let data;
+    if (e.postData && e.postData.contents) {
+      data = JSON.parse(e.postData.contents);
+    } else if (e.parameter) {
+      // URL 파라미터로 온 경우 - customData 처리 필요
+      data = e.parameter;
+      
+      // customData가 문자열로 온 경우 파싱
+      if (data.customData && typeof data.customData === 'string') {
+        try {
+          data.customData = JSON.parse(data.customData);
+        } catch (err) {
+          console.log('customData 파싱 실패:', err);
+        }
+      }
+      
+      // 디버깅 로그
+      console.log('Parameter로 받은 data:', JSON.stringify(data));
+    } else {
+      console.error('요청 데이터가 없습니다');
+      return ContentService
+        .createTextOutput(JSON.stringify({
+          status: 'error',
+          message: 'No data received'
+        }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
 
     // 프로덕션 URL 체크
     if (data.pageUrl && !data.pageUrl.includes('claude-code-guide-sooty.vercel.app')) {
@@ -226,6 +259,12 @@ function createErrorEventsSheet(ss) {
 // GET 엔드포인트에 카운터 정보 추가
 function doGet(e) {
   try {
+    // feedback_submitted 이벤트를 GET으로 받는 경우
+    if (e.parameter.eventType === 'feedback_submitted') {
+      console.log('GET으로 feedback_submitted 받음');
+      return doPost(e); // doPost로 전달
+    }
+    
     // ⭐ 카운터 증가 액션 추가 (이 부분이 새로 추가됨)
     if (e.parameter.action === 'incrementCounter') {
       const metricType = e.parameter.metric || 'users';
@@ -1183,4 +1222,36 @@ function checkLastFeedback() {
   console.log('Emoji:', data[3]);
   console.log('Feedback_Text:', data[4]);
   console.log('Completion_Time:', data[5]);
+}
+
+// 최근 실행 로그 확인
+function checkRecentLogs() {
+  // Raw_Events 시트에서 최근 feedback_submitted 이벤트 확인
+  const rawSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Raw_Events');
+  if (!rawSheet) {
+    console.log('Raw_Events 시트가 없습니다');
+    return;
+  }
+  
+  const data = rawSheet.getDataRange().getValues();
+  const feedbackEvents = data.filter((row, index) => {
+    return index > 0 && row[1] === 'feedback_submitted';
+  });
+  
+  if (feedbackEvents.length > 0) {
+    const lastEvent = feedbackEvents[feedbackEvents.length - 1];
+    console.log('마지막 feedback_submitted 이벤트:');
+    console.log('Timestamp:', lastEvent[0]);
+    console.log('Event Type:', lastEvent[1]);
+    console.log('Custom Data:', lastEvent[11]);
+    
+    try {
+      const customData = JSON.parse(lastEvent[11] || '{}');
+      console.log('Parsed Custom Data:', customData);
+    } catch (e) {
+      console.log('Custom Data 파싱 실패:', e);
+    }
+  } else {
+    console.log('feedback_submitted 이벤트가 없습니다');
+  }
 }
