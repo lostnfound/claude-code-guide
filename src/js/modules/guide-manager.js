@@ -1,4 +1,6 @@
 // Guide Progress Management
+import { Analytics } from './analytics.js';
+
 export const GuideManager = {
     currentStep: 0,
     completedSteps: new Set(),
@@ -25,6 +27,12 @@ export const GuideManager = {
         if (!this.sessionId) {
             this.sessionId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
             sessionStorage.setItem('guide-session-id', this.sessionId);
+            
+            // 새 세션 시작 - Analytics 이벤트
+            Analytics.trackEvent('guide_started', {
+                os: window.OSDetector?.getCurrentOS() || 'unknown',
+                referrer: document.referrer || 'direct'
+            });
         }
         
         // 시작 시간 기록
@@ -206,6 +214,13 @@ export const GuideManager = {
             // 에러 발생 기록
             if (!this.errorSteps.includes(step)) {
                 this.errorSteps.push(step);
+                
+                // Analytics 에러 추적
+                Analytics.trackEvent('error_occurred', {
+                    step_name: step,
+                    step_number: this.currentStep + 1,
+                    os: window.OSDetector?.getCurrentOS() || 'unknown'
+                });
             }
             this.showTroubleshooting(step);
         }
@@ -259,6 +274,13 @@ export const GuideManager = {
         this.completedSteps.add(step);
         this.saveProgress();
         this.updateProgress();
+        
+        // Analytics 이벤트 추적
+        Analytics.trackEvent('step_completed', {
+            step_name: step,
+            step_number: this.completedSteps.size,
+            total_steps: this.totalSteps[window.OSDetector?.getCurrentOS() || 'mac']
+        });
         
         // 1단계 완료 시 사용자 카운트 증가
         const stepNames = {
@@ -391,6 +413,15 @@ export const GuideManager = {
             this.scrollToCurrentStep();
         } else {
             // All steps completed
+            const completionTime = this.startTime ? Math.round((Date.now() - this.startTime) / 1000 / 60) : 0;
+            
+            // Analytics 가이드 완료 이벤트
+            Analytics.trackEvent('guide_completed', {
+                completion_time_minutes: completionTime,
+                error_count: this.errorSteps.length,
+                os: window.OSDetector?.getCurrentOS() || 'unknown'
+            });
+            
             this.showCompletionModal();
         }
     },
@@ -685,6 +716,12 @@ export const GuideManager = {
         // Log emoji feedback
         console.log('User feedback emoji:', emoji);
         
+        // Analytics 이모지 피드백 추적
+        Analytics.trackEvent('feedback_emoji_selected', {
+            emoji: emoji,
+            completion_time: this.startTime ? Math.round((Date.now() - this.startTime) / 1000 / 60) : 0
+        });
+        
         // 이모지만 선택한 경우에도 기본 데이터 전송 (good, neutral의 경우)
         if (emoji === 'good' || emoji === 'neutral') {
             this.sendToGoogleSheets({
@@ -713,6 +750,13 @@ export const GuideManager = {
                 <p>소중한 의견 잘 받았습니다</p>
             </div>
         `;
+        
+        // Analytics 상세 피드백 추적
+        Analytics.trackEvent('feedback_submitted', {
+            emoji: this.selectedEmoji,
+            has_text: feedbackText.length > 0,
+            text_length: feedbackText.length
+        });
         
         // Google Sheets로 상세 피드백 전송
         this.sendToGoogleSheets({

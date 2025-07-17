@@ -5,12 +5,16 @@ import { OSDetector } from './modules/os-detector.js';
 import { FontController } from './modules/font-controller.js';
 import { CodeCopier } from './modules/code-copier.js';
 import { showToast } from './modules/toast.js';
+import { Analytics } from './modules/analytics.js';
 
 // Initialize theme system
 ThemeManager.init();
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize analytics
+    Analytics.init();
+    
     // Initialize all guide systems
     OSDetector.init();
     FontController.init();

@@ -2,12 +2,16 @@
 import { ThemeManager } from './modules/theme.js';
 import { CounterAnimation } from './modules/counter.js';
 import { initVersionUpdater } from './version-updater.js';
+import { Analytics } from './modules/analytics.js';
 
 // Initialize theme system immediately
 ThemeManager.init();
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize analytics
+  Analytics.init();
+  
   // Initialize landing page counter
   initializeLandingCounter();
   

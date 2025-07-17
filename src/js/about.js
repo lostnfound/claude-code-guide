@@ -1,11 +1,15 @@
 // About page JavaScript
 import { ThemeManager } from './modules/theme.js';
+import { Analytics } from './modules/analytics.js';
 
 // Initialize theme system
 ThemeManager.init();
 
 // Initialize FAQ accordion
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize analytics
+    Analytics.init();
+    
     initializeFAQ();
 });
 
