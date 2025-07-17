@@ -3,6 +3,7 @@ import { ThemeManager } from './modules/theme.js';
 import { CounterAnimation } from './modules/counter.js';
 import { initVersionUpdater } from './version-updater.js';
 import { Analytics } from './modules/analytics.js';
+import { GuideTracker } from './modules/guideTracker.js';
 
 // Initialize theme system immediately
 ThemeManager.init();
@@ -12,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize analytics
   Analytics.init();
   
+  // Check first visit
+  GuideTracker.checkFirstVisit();
+  
   // Initialize landing page counter
   initializeLandingCounter();
   
@@ -20,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize theme toggle button
   initThemeToggle();
+  
+  // Initialize guide tracking if on guide page
+  initGuideTracking();
 });
 
 // Initialize landing page counter
@@ -47,16 +54,15 @@ async function initializeLandingCounter() {
   }
 }
 
-// CountAPI에서 사용자 수 가져오기
+// Apps Script에서 사용자 수 가져오기
 async function fetchUserCount() {
   try {
-    const response = await fetch('https://api.countapi.xyz/get/claude-code-guide/users');
+    const response = await fetch(Analytics.APPS_SCRIPT_URL + '?action=getCounter&metric=users');
     const data = await response.json();
-    // 테스트를 위해 임시로 30으로 설정 (50 미만)
-    return 30; // data.value || 0;
+    return data.value || 30; // 기본값 30
   } catch (error) {
     console.error('사용자 수 가져오기 실패:', error);
-    return 0; // 실패 시 0 반환
+    return 30; // 실패 시 기본값 반환
   }
 }
 
@@ -69,3 +75,40 @@ function initThemeToggle() {
     });
   }
 }
+
+// Initialize guide tracking
+function initGuideTracking() {
+  // 가이드 페이지인지 확인
+  if (window.location.pathname.includes('/guide')) {
+    // 예시: 가이드 시작 버튼에 이벤트 리스너 추가
+    const startButtons = document.querySelectorAll('.start-guide-btn');
+    startButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const guideId = btn.dataset.guideId || 'setup-guide';
+        const guideName = btn.dataset.guideName || 'Claude Code Setup Guide';
+        GuideTracker.startGuide(guideId, guideName);
+      });
+    });
+    
+    // 단계 완료 버튼
+    const stepButtons = document.querySelectorAll('.complete-step-btn');
+    stepButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const stepNumber = parseInt(btn.dataset.stepNumber) || 1;
+        const stepName = btn.dataset.stepName || 'Step ' + stepNumber;
+        GuideTracker.completeStep(stepNumber, stepName);
+      });
+    });
+    
+    // 가이드 완료 버튼
+    const completeButtons = document.querySelectorAll('.complete-guide-btn');
+    completeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        GuideTracker.completeGuide();
+      });
+    });
+  }
+}
+
+// Export for use in other modules
+window.GuideTracker = GuideTracker;

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가이드 트래킹 예시</title>
+</head>
+<body>
+    <h1>Claude Code Guide - 트래킹 예시</h1>
+    
+    <!-- 가이드 시작 버튼 -->
+    <button class="start-guide-btn" 
+            data-guide-id="installation-guide" 
+            data-guide-name="Claude Code 설치 가이드">
+        가이드 시작하기
+    </button>
+    
+    <!-- 단계별 완료 버튼 -->
+    <div class="guide-steps">
+        <h2>설치 단계</h2>
+        
+        <div class="step">
+            <h3>Step 1: 다운로드</h3>
+            <button class="complete-step-btn" 
+                    data-step-number="1" 
+                    data-step-name="Download Claude Code">
+                이 단계 완료
+            </button>
+        </div>
+        
+        <div class="step">
+            <h3>Step 2: 설치</h3>
+            <button class="complete-step-btn" 
+                    data-step-number="2" 
+                    data-step-name="Install Claude Code">
+                이 단계 완료
+            </button>
+        </div>
+        
+        <div class="step">
+            <h3>Step 3: 설정</h3>
+            <button class="complete-step-btn" 
+                    data-step-number="3" 
+                    data-step-name="Configure Settings">
+                이 단계 완료
+            </button>
+        </div>
+    </div>
+    
+    <!-- 가이드 완료 버튼 -->
+    <button class="complete-guide-btn">
+        가이드 완료!
+    </button>
+    
+    <!-- 에러 테스트 버튼 -->
+    <button onclick="GuideTracker.trackError('테스트 에러', '이것은 테스트 에러입니다')">
+        에러 발생 테스트
+    </button>
+    
+    <!-- 카운터 표시 -->
+    <div class="counter-display">
+        <h3>현재 사용자 수</h3>
+        <span id="visitor-count">로딩중...</span>
+    </div>
+    
+    <script type="module">
+        // 페이지 로드 시 카운터 업데이트
+        import { GuideTracker } from './src/js/modules/guideTracker.js';
+        GuideTracker.updateCounter();
+    </script>
+</body>
+</html>

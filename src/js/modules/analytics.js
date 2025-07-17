@@ -4,7 +4,7 @@ export const Analytics = {
     GA_MEASUREMENT_ID: 'G-2XGK1CF366',
     
     // Google Apps Script 엔드포인트
-    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbx2-xUxVBVFIB1WpIeLwn1Nuz6cidS4BFaX2GtApjmEJvcVQqfMu1qghwvvhcy6jQgWlg/exec',
+    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbw9IG4a8jKUPG9s_ouhY6yk8xn3UUP-sDri8wDm9_WGct4cbGsWp6P1X45Ei5DUf-Q5/exec',
     
     // Google Analytics에서 수집할 이벤트 목록
     GA_EVENTS_TO_SHEETS: [
@@ -261,3 +261,9 @@ export const Analytics = {
         });
     }
 };
+
+// Export to window for debugging (development only)
+if (typeof window !== 'undefined' && import.meta.env.DEV) {
+    window.Analytics = Analytics;
+    console.log('🔍 Analytics module exposed to window for debugging');
+}

@@ -6,6 +6,7 @@ import { FontController } from './modules/font-controller.js';
 import { CodeCopier } from './modules/code-copier.js';
 import { showToast } from './modules/toast.js';
 import { Analytics } from './modules/analytics.js';
+import { GuideTracker } from './modules/guideTracker.js';
 
 // Initialize theme system
 ThemeManager.init();
@@ -15,11 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize analytics
     Analytics.init();
     
+    // Check first visit
+    GuideTracker.checkFirstVisit();
+    
     // Initialize all guide systems
     OSDetector.init();
     FontController.init();
     CodeCopier.init();
     GuideManager.init();
+    
+    // Make GuideTracker available globally
+    window.GuideTracker = GuideTracker;
     
     // Setup theme toggle
     const themeToggle = document.getElementById('themeToggle');
