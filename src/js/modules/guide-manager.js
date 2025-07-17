@@ -738,7 +738,7 @@ export const GuideManager = {
         // Log feedback
         console.log('User feedback:', {
             emoji: this.selectedEmoji,
-            text: feedbackText
+            feedbackText: feedbackText
         });
         
         // Show success message
