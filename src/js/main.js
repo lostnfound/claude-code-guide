@@ -34,23 +34,44 @@ async function initializeLandingCounter() {
   const counterEl = document.getElementById('successCounter');
   if (!counterEl) return;
   
-  // CountAPI에서 실제 사용자 수 가져오기
+  // 사용자 카운터 증가
+  await incrementUserCount();
+  
+  // Google Sheets에서 실제 사용자 수 가져오기
   const actualUserCount = await fetchUserCount();
   
-  if (actualUserCount < 50) {
-    // 50명 미만일 때는 바로 특별한 메시지만 표시
-    counterEl.setAttribute('data-special', 'true');
-    document.getElementById('counter').textContent = '✨';
-    document.getElementById('counterText').textContent = '당신의 특별한 여정을 시작하세요';
-  } else {
-    // 50명 이상일 때만 카운터 애니메이션 표시
+  if (actualUserCount >= 50) {
+    // 50명 이상일 때만 카운터로 변경
+    counterEl.removeAttribute('data-special');
     document.getElementById('counter').textContent = '0';
     document.getElementById('counterText').textContent = '명이 이미 시작했습니다';
     
     // 0부터 올라가는 애니메이션
     setTimeout(() => {
       CounterAnimation.animate('counter', actualUserCount, 2000);
-    }, 800);
+    }, 1200);
+  }
+  // 50명 미만이면 기본 상태 유지 (특별한 메시지)
+}
+
+// 사용자 카운터 증가
+async function incrementUserCount() {
+  try {
+    // 이미 방문했는지 확인 (세션 스토리지 사용)
+    if (sessionStorage.getItem('userCounted')) {
+      return; // 이미 카운트됨
+    }
+    
+    // Apps Script로 카운터 증가 요청
+    const response = await fetch(Analytics.APPS_SCRIPT_URL + '?action=incrementCounter&metric=users');
+    const data = await response.json();
+    
+    if (data.success) {
+      sessionStorage.setItem('userCounted', 'true');
+      console.log('사용자 카운터 증가:', data.value);
+    }
+  } catch (error) {
+    console.error('사용자 카운터 증가 실패:', error);
   }
 }
 
