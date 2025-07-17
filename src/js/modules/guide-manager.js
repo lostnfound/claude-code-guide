@@ -766,31 +766,143 @@ export const GuideManager = {
     },
     
     handleShare() {
-        const url = 'https://claude-code-guide-sooty.vercel.app/';
+        const shareBtn = document.querySelector('.share-btn');
+        const shareMenu = document.querySelector('.share-menu');
         
-        // Copy to clipboard
+        // Toggle share menu visibility
+        if (shareMenu) {
+            shareMenu.classList.toggle('show');
+            shareBtn.classList.toggle('active');
+        } else {
+            this.createShareMenu();
+        }
+    },
+    
+    createShareMenu() {
+        const shareSection = document.querySelector('.modal-share-section');
+        const shareMenu = document.createElement('div');
+        shareMenu.className = 'share-menu';
+        shareMenu.innerHTML = `
+            <div class="share-menu-item" data-action="copy">
+                <i class="fas fa-copy"></i>
+                <span>링크 복사</span>
+            </div>
+            <div class="share-menu-item" data-action="twitter">
+                <i class="fab fa-twitter"></i>
+                <span>트위터</span>
+            </div>
+            <div class="share-menu-item" data-action="facebook">
+                <i class="fab fa-facebook-f"></i>
+                <span>페이스북</span>
+            </div>
+            <div class="share-menu-item" data-action="linkedin">
+                <i class="fab fa-linkedin-in"></i>
+                <span>링크드인</span>
+            </div>
+            <div class="share-menu-item" data-action="kakao">
+                <i class="fas fa-comment"></i>
+                <span>카카오톡</span>
+            </div>
+            <div class="share-menu-item" data-action="telegram">
+                <i class="fab fa-telegram-plane"></i>
+                <span>텔레그램</span>
+            </div>
+        `;
+        
+        shareSection.appendChild(shareMenu);
+        
+        // Add event listeners
+        shareMenu.querySelectorAll('.share-menu-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const action = e.currentTarget.dataset.action;
+                this.handleShareAction(action);
+            });
+        });
+        
+        // Show menu
+        setTimeout(() => {
+            shareMenu.classList.add('show');
+            document.querySelector('.share-btn').classList.add('active');
+        }, 10);
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!shareSection.contains(e.target)) {
+                shareMenu.classList.remove('show');
+                document.querySelector('.share-btn').classList.remove('active');
+            }
+        });
+    },
+    
+    handleShareAction(action) {
+        const url = 'https://claude-code-guide-sooty.vercel.app/';
+        const title = 'Claude Code Guide - 초보자를 위한 바이브 코딩의 시작';
+        const text = 'Claude Code를 6단계로 간단하게 설치하세요. 터미널이 처음이어도 걱정 없습니다!';
+        
+        switch (action) {
+            case 'copy':
+                this.copyToClipboard(url);
+                break;
+            case 'twitter':
+                this.shareToTwitter(url, text);
+                break;
+            case 'facebook':
+                this.shareToFacebook(url);
+                break;
+            case 'linkedin':
+                this.shareToLinkedIn(url, title, text);
+                break;
+            case 'kakao':
+                this.shareToKakao(url, title, text);
+                break;
+            case 'telegram':
+                this.shareToTelegram(url, text);
+                break;
+        }
+        
+        // Hide menu after action
+        const shareMenu = document.querySelector('.share-menu');
+        shareMenu.classList.remove('show');
+        document.querySelector('.share-btn').classList.remove('active');
+    },
+    
+    copyToClipboard(url) {
         navigator.clipboard.writeText(url).then(() => {
-            // Show success toast
             if (window.showToast) {
                 window.showToast('링크가 복사되었습니다!', 'success');
             }
-            
-            // Update button temporarily
-            const shareBtn = document.querySelector('.share-btn');
-            const originalHTML = shareBtn.innerHTML;
-            shareBtn.innerHTML = '<i class="fas fa-check"></i> 복사됨!';
-            shareBtn.classList.add('copied');
-            
-            setTimeout(() => {
-                shareBtn.innerHTML = originalHTML;
-                shareBtn.classList.remove('copied');
-            }, 2000);
         }).catch(err => {
             console.error('Failed to copy:', err);
             if (window.showToast) {
                 window.showToast('복사에 실패했습니다', 'error');
             }
         });
+    },
+    
+    shareToTwitter(url, text) {
+        const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+        window.open(twitterUrl, '_blank', 'width=550,height=420');
+    },
+    
+    shareToFacebook(url) {
+        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+        window.open(facebookUrl, '_blank', 'width=550,height=420');
+    },
+    
+    shareToLinkedIn(url, title, text) {
+        const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(text)}`;
+        window.open(linkedinUrl, '_blank', 'width=550,height=420');
+    },
+    
+    shareToKakao(url, title, text) {
+        // 카카오톡 공유는 Kakao SDK가 필요하므로 대신 카카오스토리로 공유
+        const kakaoUrl = `https://story.kakao.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title + ' - ' + text)}`;
+        window.open(kakaoUrl, '_blank', 'width=550,height=420');
+    },
+    
+    shareToTelegram(url, text) {
+        const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+        window.open(telegramUrl, '_blank', 'width=550,height=420');
     },
     
     closeCompletionModal() {

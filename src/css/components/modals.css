@@ -418,6 +418,88 @@
     background: var(--success-color);
 }
 
+.share-btn.active {
+    background: #CC785C;
+    transform: translateY(-1px);
+}
+
+/* Share Menu */
+.share-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    padding: var(--space-2);
+    margin-top: var(--space-1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    z-index: 1001;
+    min-width: 160px;
+}
+
+.share-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.share-menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.share-menu-item:hover {
+    background: var(--surface);
+    transform: translateX(2px);
+}
+
+.share-menu-item i {
+    width: 16px;
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+.share-menu-item[data-action="copy"] i {
+    color: var(--primary-color);
+}
+
+.share-menu-item[data-action="twitter"] i {
+    color: #1DA1F2;
+}
+
+.share-menu-item[data-action="facebook"] i {
+    color: #1877F2;
+}
+
+.share-menu-item[data-action="linkedin"] i {
+    color: #0A66C2;
+}
+
+.share-menu-item[data-action="kakao"] i {
+    color: #FEE500;
+}
+
+.share-menu-item[data-action="telegram"] i {
+    color: #0088CC;
+}
+
+.modal-share-section {
+    position: relative;
+}
+
 /* Docs link button */
 .docs-link-btn {
     background: transparent;
