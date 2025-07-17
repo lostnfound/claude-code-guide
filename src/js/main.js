@@ -31,16 +31,16 @@ async function initializeLandingCounter() {
   const actualUserCount = await fetchUserCount();
   
   if (actualUserCount < 50) {
-    // 50명 미만일 때 격려 메시지
+    // 50명 미만일 때는 바로 특별한 메시지만 표시
     counterEl.setAttribute('data-special', 'true');
     document.getElementById('counter').textContent = '✨';
     document.getElementById('counterText').textContent = '당신의 특별한 여정을 시작하세요';
   } else {
-    // 50명 이상일 때 실제 사용자 수 표시
+    // 50명 이상일 때만 카운터 애니메이션 표시
     document.getElementById('counter').textContent = '0';
     document.getElementById('counterText').textContent = '명이 이미 시작했습니다';
     
-    // 0부터 올라가는 애니메이션 (재미 요소)
+    // 0부터 올라가는 애니메이션
     setTimeout(() => {
       CounterAnimation.animate('counter', actualUserCount, 2000);
     }, 800);
@@ -52,7 +52,8 @@ async function fetchUserCount() {
   try {
     const response = await fetch('https://api.countapi.xyz/get/claude-code-guide/users');
     const data = await response.json();
-    return data.value || 0;
+    // 테스트를 위해 임시로 30으로 설정 (50 미만)
+    return 30; // data.value || 0;
   } catch (error) {
     console.error('사용자 수 가져오기 실패:', error);
     return 0; // 실패 시 0 반환

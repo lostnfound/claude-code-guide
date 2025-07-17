@@ -3,8 +3,25 @@ export const Analytics = {
     // GA4 측정 ID
     GA_MEASUREMENT_ID: 'G-2XGK1CF366',
     
+    // Google Apps Script 엔드포인트
+    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbx2-xUxVBVFIB1WpIeLwn1Nuz6cidS4BFaX2GtApjmEJvcVQqfMu1qghwvvhcy6jQgWlg/exec',
+    
+    // Google Analytics에서 수집할 이벤트 목록
+    GA_EVENTS_TO_SHEETS: [
+        'page_view',
+        'scroll_depth',
+        'cta_click',
+        'outbound_click'
+    ],
+    
+    // 세션 ID (탭마다 고유)
+    sessionId: null,
+    
     // 초기화
     init() {
+        // 세션 ID 생성
+        this.sessionId = this.generateSessionId();
+        
         // GA4 스크립트 동적 로드
         this.loadGoogleAnalytics();
         
@@ -13,6 +30,14 @@ export const Analytics = {
         
         // 커스텀 이벤트 리스너 설정
         this.setupEventListeners();
+        
+        // 세션 시간 추적 시작
+        this.trackSessionTime();
+    },
+    
+    // 세션 ID 생성
+    generateSessionId() {
+        return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     },
     
     // Google Analytics 스크립트 로드
@@ -45,6 +70,12 @@ export const Analytics = {
                 page_path: window.location.pathname
             });
         }
+        
+        // Google Sheets에도 페이지뷰 기록
+        this.sendToGoogleSheets('page_view', {
+            page_title: document.title,
+            page_path: window.location.pathname
+        });
     },
     
     // 이벤트 추적
@@ -75,18 +106,60 @@ export const Analytics = {
     
     // Google Sheets로 데이터 전송
     sendToGoogleSheets(eventName, parameters) {
-        // GuideManager의 SHEET_URL 사용
-        if (window.GuideManager && window.GuideManager.SHEET_URL) {
-            fetch(window.GuideManager.SHEET_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({
-                    event: eventName,
-                    ...parameters,
-                    timestamp: new Date().toISOString()
-                })
-            }).catch(err => console.error('Failed to send to Google Sheets:', err));
+        // 사용자 ID 가져오기 또는 생성
+        const userId = this.getUserId();
+        
+        const data = {
+            eventType: eventName,
+            userId: userId,
+            sessionId: this.sessionId,
+            ...parameters,
+            timestamp: new Date().toISOString(),
+            pageUrl: window.location.href,
+            os: this.getOS(),
+            browser: this.getBrowser()
+        };
+        
+        // Apps Script 엔드포인트로 전송
+        fetch(this.APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }).catch(err => console.error('Failed to send to Google Sheets:', err));
+    },
+    
+    // 사용자 ID 관리
+    getUserId() {
+        let userId = localStorage.getItem('claude_guide_user_id');
+        if (!userId) {
+            userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('claude_guide_user_id', userId);
         }
+        return userId;
+    },
+    
+    // OS 감지
+    getOS() {
+        const userAgent = navigator.userAgent;
+        if (userAgent.indexOf("Win") !== -1) return "Windows";
+        if (userAgent.indexOf("Mac") !== -1) return "MacOS";
+        if (userAgent.indexOf("Linux") !== -1) return "Linux";
+        if (userAgent.indexOf("Android") !== -1) return "Android";
+        if (userAgent.indexOf("iOS") !== -1) return "iOS";
+        return "Unknown";
+    },
+    
+    // 브라우저 감지
+    getBrowser() {
+        const userAgent = navigator.userAgent;
+        if (userAgent.indexOf("Chrome") !== -1) return "Chrome";
+        if (userAgent.indexOf("Safari") !== -1 && userAgent.indexOf("Chrome") === -1) return "Safari";
+        if (userAgent.indexOf("Firefox") !== -1) return "Firefox";
+        if (userAgent.indexOf("Edge") !== -1) return "Edge";
+        return "Unknown";
     },
     
     // 이벤트 리스너 설정
@@ -174,13 +247,16 @@ export const Analytics = {
             const sessionDuration = Math.round((Date.now() - startTime) / 1000);
             
             // Beacon API 사용하여 페이지 떠날 때도 전송 보장
-            if (navigator.sendBeacon && window.GuideManager) {
+            if (navigator.sendBeacon) {
                 const data = new FormData();
-                data.append('event', 'session_end');
+                data.append('eventType', 'session_end');
+                data.append('userId', this.getUserId());
+                data.append('sessionId', this.sessionId);
                 data.append('duration', sessionDuration);
-                data.append('page', window.location.pathname);
+                data.append('pageUrl', window.location.href);
+                data.append('timestamp', new Date().toISOString());
                 
-                navigator.sendBeacon(window.GuideManager.SHEET_URL, data);
+                navigator.sendBeacon(this.APPS_SCRIPT_URL, data);
             }
         });
     }
