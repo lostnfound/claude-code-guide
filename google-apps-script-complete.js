@@ -411,8 +411,7 @@ function processImportantEvent(data) {
   // 가이드 완료 이벤트
   if (data.eventType === 'guide_completed') {
     updateCompletionStats();
-    // 자체 카운터 증가
-    incrementCounter('completions');
+    // 카운터 증가는 guide-manager.js에서 직접 처리하므로 여기서는 제거
   }
 
   // 오류 발생 이벤트

@@ -733,24 +733,50 @@ export const GuideManager = {
         
         // 이모지만 선택한 경우에도 기본 데이터 전송 (good, neutral의 경우)
         if (emoji === 'good' || emoji === 'neutral') {
-            const params = new URLSearchParams({
-                eventType: 'feedback_submitted',
-                userId: Analytics.getUserId ? Analytics.getUserId() : '',
-                sessionId: this.sessionId,
-                emoji: emoji,
-                feedbackText: '',
-                timestamp: new Date().toISOString()
+            // 프록시 서버를 통한 POST 요청
+            fetch('/api/feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    emoji: emoji,
+                    feedbackText: '',
+                    email: '',
+                    userId: Analytics.getUserId ? Analytics.getUserId() : '',
+                    sessionId: this.sessionId
+                })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    console.log('Emoji feedback sent successfully');
+                } else {
+                    throw new Error(result.error || 'Failed to submit emoji feedback');
+                }
+            })
+            .catch(err => {
+                console.error('Failed to send emoji feedback:', err);
+                // 실패 시 GET 방식으로 폴백
+                const params = new URLSearchParams({
+                    eventType: 'feedback_submitted',
+                    userId: Analytics.getUserId ? Analytics.getUserId() : '',
+                    sessionId: this.sessionId,
+                    emoji: emoji,
+                    feedbackText: '',
+                    timestamp: new Date().toISOString()
+                });
+                
+                const url = `https://script.google.com/macros/s/AKfycbw9IG4a8jKUPG9s_ouhY6yk8xn3UUP-sDri8wDm9_WGct4cbGsWp6P1X45Ei5DUf-Q5/exec?${params.toString()}`;
+                
+                fetch(url, { mode: 'no-cors' })
+                    .then(() => console.log('Emoji feedback sent via fallback'))
+                    .catch(err => console.error('Fallback also failed:', err));
             });
-            
-            const url = `https://script.google.com/macros/s/AKfycbw9IG4a8jKUPG9s_ouhY6yk8xn3UUP-sDri8wDm9_WGct4cbGsWp6P1X45Ei5DUf-Q5/exec?${params.toString()}`;
-            
-            fetch(url, { mode: 'no-cors' })
-                .then(() => console.log('Emoji feedback sent'))
-                .catch(err => console.error('Failed to send emoji feedback:', err));
         }
     },
     
-    submitFeedback() {
+    async submitFeedback() {
         const feedbackText = document.getElementById('feedbackText').value.trim();
         if (!feedbackText) return;
         
@@ -760,15 +786,59 @@ export const GuideManager = {
             feedbackText: feedbackText
         });
         
-        // Show success message
-        const feedbackSection = document.getElementById('feedbackDetailSection');
-        feedbackSection.innerHTML = `
-            <div class="feedback-success">
-                <i class="fas fa-check-circle"></i>
-                <h3>감사합니다!</h3>
-                <p>소중한 의견 잘 받았습니다</p>
-            </div>
-        `;
+        try {
+            // 프록시 서버를 통한 POST 요청
+            const response = await fetch('/api/feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    emoji: this.selectedEmoji,
+                    feedbackText: feedbackText,
+                    email: '', // 나중에 이메일 입력 필드 추가 시 사용
+                    userId: Analytics.getUserId ? Analytics.getUserId() : '',
+                    sessionId: this.sessionId
+                })
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                // Show success message
+                const feedbackSection = document.getElementById('feedbackDetailSection');
+                feedbackSection.innerHTML = `
+                    <div class="feedback-success">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>감사합니다!</h3>
+                        <p>소중한 의견 잘 받았습니다</p>
+                    </div>
+                `;
+                
+                console.log('Feedback submitted successfully:', result);
+            } else {
+                throw new Error(result.error || 'Failed to submit feedback');
+            }
+            
+        } catch (error) {
+            console.error('Failed to send feedback:', error);
+            
+            // 실패 시 기존 GET 방식으로 폴백
+            const params = new URLSearchParams({
+                eventType: 'feedback_submitted',
+                userId: Analytics.getUserId ? Analytics.getUserId() : '',
+                sessionId: this.sessionId,
+                emoji: this.selectedEmoji,
+                feedbackText: feedbackText,
+                timestamp: new Date().toISOString()
+            });
+            
+            const url = `https://script.google.com/macros/s/AKfycbw9IG4a8jKUPG9s_ouhY6yk8xn3UUP-sDri8wDm9_WGct4cbGsWp6P1X45Ei5DUf-Q5/exec?${params.toString()}`;
+            
+            fetch(url, { mode: 'no-cors' })
+                .then(() => console.log('Feedback sent via fallback'))
+                .catch(err => console.error('Fallback also failed:', err));
+        }
         
         // Analytics 상세 피드백 추적
         Analytics.trackEvent('feedback_submitted', {
@@ -776,22 +846,6 @@ export const GuideManager = {
             has_text: feedbackText.length > 0,
             text_length: feedbackText.length
         });
-        
-        // Google Sheets로 상세 피드백 전송 - 간단한 GET 요청으로
-        const params = new URLSearchParams({
-            eventType: 'feedback_submitted',
-            userId: Analytics.getUserId ? Analytics.getUserId() : '',
-            sessionId: this.sessionId,
-            emoji: this.selectedEmoji,
-            feedbackText: feedbackText,
-            timestamp: new Date().toISOString()
-        });
-        
-        const url = `https://script.google.com/macros/s/AKfycbw9IG4a8jKUPG9s_ouhY6yk8xn3UUP-sDri8wDm9_WGct4cbGsWp6P1X45Ei5DUf-Q5/exec?${params.toString()}`;
-        
-        fetch(url, { mode: 'no-cors' })
-            .then(() => console.log('Feedback sent directly'))
-            .catch(err => console.error('Failed to send feedback:', err));
     },
     
     handleShare() {
