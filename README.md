@@ -80,22 +80,16 @@ VITE_GA_MEASUREMENT_ID=your-ga4-measurement-id
 VITE_APPS_SCRIPT_URL=your-apps-script-web-app-url
 ```
 
-## 📊 Analytics Dashboard
+## 📊 분석 시스템
 
-이 프로젝트는 Google Sheets 기반의 커스텀 분석 대시보드를 제공합니다:
+이 프로젝트는 사용자 행동을 추적하고 분석하는 커스텀 시스템을 포함합니다:
 
-- **실시간 사용자 추적**: 방문자 수, 가이드 시작/완료율
-- **상세 이벤트 로깅**: 모든 사용자 인터랙션 기록
-- **오류 모니터링**: 실시간 오류 감지 및 알림
-- **GA4 통합**: Google Analytics 데이터와 통합 분석
+- **실시간 사용자 추적**: 방문자 수, 가이드 시작/완료율 모니터링
+- **상세 이벤트 로깅**: 모든 사용자 인터랙션 기록 및 분석
+- **오류 모니터링**: 실시간 오류 감지 및 개선
+- **GA4 통합**: Google Analytics와 연동하여 종합적인 분석
 
-### Dashboard 구성
-
-1. **Raw_Events**: 모든 이벤트 로그
-2. **GA4_Data**: Google Analytics 통계
-3. **CountAPI_Data**: 사용자 카운터
-4. **Dashboard**: 시각화된 분석 결과
-5. **Error_Log**: 오류 추적
+이 분석 시스템을 통해 사용자 경험을 지속적으로 개선하고 있습니다.
 
 ## 🤝 기여하기
 
