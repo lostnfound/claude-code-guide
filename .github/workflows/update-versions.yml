@@ -43,19 +43,19 @@ jobs:
     - name: Update version files
       run: |
         # Update guide.html
-        sed -i "s|<span class=\"output claude-version\">claude-code/[0-9.]*</span>|<span class=\"output claude-version\">claude-code/${{ steps.versions.outputs.claude_version }}</span>|g" src/pages/guide.html
-        sed -i "s|<div class=\"result-desc claude-version\">예시: claude-code/[0-9.]*</div>|<div class=\"result-desc claude-version\">예시: claude-code/${{ steps.versions.outputs.claude_version }}</div>|g" src/pages/guide.html
+        sed -i "s|<span class=\"output claude-version\">claude-code/[0-9.]*</span>|<span class=\"output claude-version\">claude-code/${{ steps.versions.outputs.claude_version }}</span>|g" src/guide.html
+        sed -i "s|<div class=\"result-desc claude-version\">예시: claude-code/[0-9.]*</div>|<div class=\"result-desc claude-version\">예시: claude-code/${{ steps.versions.outputs.claude_version }}</div>|g" src/guide.html
         
-        sed -i "s|<span class=\"output node-version\">v[0-9.]*</span>|<span class=\"output node-version\">v${{ steps.versions.outputs.node_version }}</span>|g" src/pages/guide.html
-        sed -i "s|<div class=\"result-desc node-version\">예시: v[0-9.]*</div>|<div class=\"result-desc node-version\">예시: v${{ steps.versions.outputs.node_version }}</div>|g" src/pages/guide.html
+        sed -i "s|<span class=\"output node-version\">v[0-9.]*</span>|<span class=\"output node-version\">v${{ steps.versions.outputs.node_version }}</span>|g" src/guide.html
+        sed -i "s|<div class=\"result-desc node-version\">예시: v[0-9.]*</div>|<div class=\"result-desc node-version\">예시: v${{ steps.versions.outputs.node_version }}</div>|g" src/guide.html
         
-        sed -i "s|<span class=\"output npm-version\">[0-9.]*</span>|<span class=\"output npm-version\">${{ steps.versions.outputs.npm_version }}</span>|g" src/pages/guide.html
+        sed -i "s|<span class=\"output npm-version\">[0-9.]*</span>|<span class=\"output npm-version\">${{ steps.versions.outputs.npm_version }}</span>|g" src/guide.html
         
-        sed -i "s|<span class=\"output homebrew-version\">Homebrew [0-9.]*</span>|<span class=\"output homebrew-version\">Homebrew ${{ steps.versions.outputs.homebrew_version }}</span>|g" src/pages/guide.html
-        sed -i "s|<div class=\"result-desc homebrew-version\">예시: Homebrew [0-9.]*</div>|<div class=\"result-desc homebrew-version\">예시: Homebrew ${{ steps.versions.outputs.homebrew_version }}</div>|g" src/pages/guide.html
+        sed -i "s|<span class=\"output homebrew-version\">Homebrew [0-9.]*</span>|<span class=\"output homebrew-version\">Homebrew ${{ steps.versions.outputs.homebrew_version }}</span>|g" src/guide.html
+        sed -i "s|<div class=\"result-desc homebrew-version\">예시: Homebrew [0-9.]*</div>|<div class=\"result-desc homebrew-version\">예시: Homebrew ${{ steps.versions.outputs.homebrew_version }}</div>|g" src/guide.html
         
-        sed -i "s|<span class=\"output git-windows-version\">git version [0-9.]*.windows.1</span>|<span class=\"output git-windows-version\">git version ${{ steps.versions.outputs.git_windows_version }}.windows.1</span>|g" src/pages/guide.html
-        sed -i "s|<div class=\"result-desc git-windows-version\">예: git version [0-9.]*</div>|<div class=\"result-desc git-windows-version\">예: git version ${{ steps.versions.outputs.git_windows_version }}</div>|g" src/pages/guide.html
+        sed -i "s|<span class=\"output git-windows-version\">git version [0-9.]*.windows.1</span>|<span class=\"output git-windows-version\">git version ${{ steps.versions.outputs.git_windows_version }}.windows.1</span>|g" src/guide.html
+        sed -i "s|<div class=\"result-desc git-windows-version\">예: git version [0-9.]*</div>|<div class=\"result-desc git-windows-version\">예: git version ${{ steps.versions.outputs.git_windows_version }}</div>|g" src/guide.html
     
     - name: Check for changes
       id: check_changes
