@@ -136,9 +136,7 @@ export const Analytics = {
             'guide_completed',
             'step_completed',
             'error_occurred',
-            'feedback_submitted',
-            'installation_started',
-            'installation_completed'
+            'feedback_submitted'
         ];
         return importantEvents.includes(eventName);
     },
@@ -172,6 +170,7 @@ export const Analytics = {
             ...parameters,
             timestamp: new Date().toISOString(),
             pageUrl: window.location.href,
+            pageTitle: document.title,  // Page_Title 추가
             os: this.getOS(),
             browser: this.getBrowser(),
             device: this.getDevice(),
