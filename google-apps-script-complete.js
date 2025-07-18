@@ -30,33 +30,11 @@ function getConfig() {
 
 function doPost(e) {
   try {
-    // 디버깅 로그 추가
-    console.log('doPost 호출됨');
-    console.log('e:', JSON.stringify(e));
-    console.log('e.postData:', e.postData);
-    console.log('e.parameter:', e.parameter);
-    
-    // postData가 없거나 contents가 없는 경우 처리
+    // POST 요청 데이터 파싱
     let data;
     if (e.postData && e.postData.contents) {
       data = JSON.parse(e.postData.contents);
-    } else if (e.parameter) {
-      // URL 파라미터로 온 경우 - customData 처리 필요
-      data = e.parameter;
-      
-      // customData가 문자열로 온 경우 파싱
-      if (data.customData && typeof data.customData === 'string') {
-        try {
-          data.customData = JSON.parse(data.customData);
-        } catch (err) {
-          console.log('customData 파싱 실패:', err);
-        }
-      }
-      
-      // 디버깅 로그
-      console.log('Parameter로 받은 data:', JSON.stringify(data));
     } else {
-      console.error('요청 데이터가 없습니다');
       return ContentService
         .createTextOutput(JSON.stringify({
           status: 'error',
@@ -67,7 +45,6 @@ function doPost(e) {
 
     // 프로덕션 URL 체크
     if (data.pageUrl && !data.pageUrl.includes('claude-code-guide-sooty.vercel.app')) {
-      console.log('Non-production URL - skipping:', data.pageUrl);
       return ContentService
         .createTextOutput(JSON.stringify({
           status: 'success',
@@ -81,17 +58,8 @@ function doPost(e) {
 
     // 이벤트 타입에 따라 다른 시트에 저장
     switch(data.eventType) {
-      case 'feedback_submitted':
-        saveFeedbackEvent(ss, data, timestamp);
-        break;
-
       case 'error_occurred':
         saveErrorEvent(ss, data, timestamp);
-        break;
-
-      case 'feedback_emoji_selected':
-        // 이모지 선택은 로그만 남기고 별도 저장하지 않음 (최종 제출시만 저장)
-        console.log('Emoji selected:', data.customData?.emoji);
         break;
 
       default:
@@ -259,13 +227,12 @@ function createErrorEventsSheet(ss) {
 // GET 엔드포인트에 카운터 정보 추가
 function doGet(e) {
   try {
-    // feedback_submitted 이벤트를 GET으로 받는 경우
+    // feedback_submitted 이벤트를 GET으로 받는 경우 - 직접 처리
     if (e.parameter.eventType === 'feedback_submitted') {
-      console.log('GET으로 feedback_submitted 받음');
-      return doPost(e); // doPost로 전달
+      return processFeedback(e.parameter);
     }
     
-    // ⭐ 카운터 증가 액션 추가 (이 부분이 새로 추가됨)
+    // 카운터 증가 액션
     if (e.parameter.action === 'incrementCounter') {
       const metricType = e.parameter.metric || 'users';
       const newValue = incrementCounter(metricType);
@@ -279,7 +246,7 @@ function doGet(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
-    // 경로 파라미터 확인 (기존 코드)
+    // 카운터 조회
     if (e.parameter.action === 'getCounter') {
       const metricType = e.parameter.metric || 'users';
       const value = getCounterValue(metricType);
@@ -293,7 +260,7 @@ function doGet(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
-    // 통계 반환 (이제 여러 시트에서 수집)
+    // 통계 반환
     const stats = getComprehensiveStats();
     return ContentService
       .createTextOutput(JSON.stringify(stats))
@@ -301,6 +268,44 @@ function doGet(e) {
 
   } catch (error) {
     logError('doGet', error);
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: 'error',
+        message: error.toString()
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// 피드백 전용 처리 함수
+function processFeedback(data) {
+  try {
+    // 프로덕션 URL 체크
+    if (data.pageUrl && !data.pageUrl.includes('claude-code-guide-sooty.vercel.app')) {
+      console.log('Non-production URL - skipping:', data.pageUrl);
+      return ContentService
+        .createTextOutput(JSON.stringify({
+          status: 'success',
+          message: 'Non-production URL - not recorded'
+        }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const timestamp = new Date();
+    
+    // 피드백 이벤트 저장
+    saveFeedbackEvent(ss, data, timestamp);
+    
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: 'success',
+        message: 'Feedback recorded successfully'
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    logError('processFeedback', error);
     return ContentService
       .createTextOutput(JSON.stringify({
         status: 'error',
@@ -1104,26 +1109,37 @@ function setupGA4Trigger() {
   // 기존 트리거 제거
   const triggers = ScriptApp.getProjectTriggers();
   triggers.forEach(trigger => {
-    if (trigger.getHandlerFunction() === 'fetchGA4Data') {
+    if (trigger.getHandlerFunction() === 'fetchGA4Data' || trigger.getHandlerFunction() === 'updateGA4Data') {
       ScriptApp.deleteTrigger(trigger);
     }
   });
 
   // 오전 9시 트리거
-  ScriptApp.newTrigger('fetchGA4Data')
+  ScriptApp.newTrigger('updateGA4Data')
     .timeBased()
     .atHour(9)
     .everyDays(1)
     .create();
 
   // 오후 6시 트리거
-  ScriptApp.newTrigger('fetchGA4Data')
+  ScriptApp.newTrigger('updateGA4Data')
     .timeBased()
     .atHour(18)
     .everyDays(1)
     .create();
 
   SpreadsheetApp.getActiveSpreadsheet().toast('GA4 자동 수집이 설정되었습니다 (하루 2번: 오전 9시, 오후 6시)', '완료', 3);
+}
+
+// GA4 데이터 업데이트 메인 함수 (트리거용)
+function updateGA4Data() {
+  try {
+    fetchGA4Data();
+    SpreadsheetApp.getActiveSpreadsheet().toast('GA4 데이터가 업데이트되었습니다', '완료', 3);
+  } catch (error) {
+    console.error('GA4 데이터 업데이트 실패:', error);
+    logError('updateGA4Data', error);
+  }
 }
 
 // GA4 연동 테스트

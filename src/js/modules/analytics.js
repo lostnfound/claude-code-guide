@@ -117,63 +117,10 @@ export const Analytics = {
             return;
         }
         
-        // feedback_submitted 이벤트 특별 처리
+        // feedback_submitted 이벤트는 guide-manager에서 직접 처리하므로 여기서는 GA 트래킹만
         if (eventName === 'feedback_submitted') {
-            // guide-manager에서 보낸 간단한 피드백 데이터를 완전한 payload로 변환
-            if (!parameters.eventType) {
-                // 간단한 형식의 피드백 데이터인 경우
-                const userId = this.getUserId();
-                const fullPayload = {
-                    eventType: 'feedback_submitted',
-                    userId: userId,
-                    sessionId: this.sessionId,
-                    pageUrl: window.location.href,
-                    pageTitle: document.title,
-                    os: this.getOS(),
-                    browser: this.getBrowser(),
-                    timestamp: new Date().toISOString(),
-                    customData: {
-                        emoji: parameters.emoji || '',
-                        feedbackText: parameters.feedbackText || ''
-                    }
-                };
-                
-                console.log('Sending feedback_submitted with converted payload:', fullPayload);
-                
-                // POST body가 전송되지 않으므로 GET 요청으로 변경
-                const params = new URLSearchParams();
-                params.append('eventType', fullPayload.eventType);
-                params.append('userId', fullPayload.userId);
-                params.append('sessionId', fullPayload.sessionId);
-                params.append('pageUrl', fullPayload.pageUrl);
-                params.append('pageTitle', fullPayload.pageTitle);
-                params.append('os', fullPayload.os);
-                params.append('browser', fullPayload.browser);
-                params.append('timestamp', fullPayload.timestamp);
-                
-                // customData는 JSON 문자열로 전송
-                params.append('customData', JSON.stringify(fullPayload.customData));
-                
-                const url = `${this.APPS_SCRIPT_URL}?${params.toString()}`;
-                
-                fetch(url, {
-                    method: 'GET',
-                    mode: 'no-cors'
-                }).catch(err => console.error('Failed to send to Google Sheets:', err));
-                return;
-            } else {
-                // 이미 완전한 payload인 경우 그대로 전송
-                console.log('Sending feedback_submitted with full payload:', parameters);
-                fetch(this.APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(parameters)
-                }).catch(err => console.error('Failed to send to Google Sheets:', err));
-                return;
-            }
+            console.log('Feedback tracking handled by guide-manager directly');
+            return;
         }
         
         // 일반 이벤트의 경우 기존 방식대로 처리

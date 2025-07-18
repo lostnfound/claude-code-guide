@@ -422,6 +422,15 @@ export const GuideManager = {
                 os: window.OSDetector?.getCurrentOS() || 'unknown'
             });
             
+            // 가이드 완료 카운터 증가
+            const url = 'https://script.google.com/macros/s/AKfycbw9IG4a8jKUPG9s_ouhY6yk8xn3UUP-sDri8wDm9_WGct4cbGsWp6P1X45Ei5DUf-Q5/exec';
+            fetch(`${url}?action=incrementCounter&metric=completions`, {
+                method: 'GET',
+                mode: 'no-cors'
+            }).then(() => {
+                console.log('가이드 완료 카운트 증가 요청 전송됨');
+            });
+            
             this.showCompletionModal();
         }
     },
@@ -724,10 +733,20 @@ export const GuideManager = {
         
         // 이모지만 선택한 경우에도 기본 데이터 전송 (good, neutral의 경우)
         if (emoji === 'good' || emoji === 'neutral') {
-            this.sendToGoogleSheets({
+            const params = new URLSearchParams({
+                eventType: 'feedback_submitted',
+                userId: Analytics.getUserId ? Analytics.getUserId() : '',
+                sessionId: this.sessionId,
                 emoji: emoji,
-                feedbackText: ''
+                feedbackText: '',
+                timestamp: new Date().toISOString()
             });
+            
+            const url = `https://script.google.com/macros/s/AKfycbw9IG4a8jKUPG9s_ouhY6yk8xn3UUP-sDri8wDm9_WGct4cbGsWp6P1X45Ei5DUf-Q5/exec?${params.toString()}`;
+            
+            fetch(url, { mode: 'no-cors' })
+                .then(() => console.log('Emoji feedback sent'))
+                .catch(err => console.error('Failed to send emoji feedback:', err));
         }
     },
     
@@ -758,11 +777,21 @@ export const GuideManager = {
             text_length: feedbackText.length
         });
         
-        // Google Sheets로 상세 피드백 전송
-        this.sendToGoogleSheets({
+        // Google Sheets로 상세 피드백 전송 - 간단한 GET 요청으로
+        const params = new URLSearchParams({
+            eventType: 'feedback_submitted',
+            userId: Analytics.getUserId ? Analytics.getUserId() : '',
+            sessionId: this.sessionId,
             emoji: this.selectedEmoji,
-            feedbackText: feedbackText
+            feedbackText: feedbackText,
+            timestamp: new Date().toISOString()
         });
+        
+        const url = `https://script.google.com/macros/s/AKfycbw9IG4a8jKUPG9s_ouhY6yk8xn3UUP-sDri8wDm9_WGct4cbGsWp6P1X45Ei5DUf-Q5/exec?${params.toString()}`;
+        
+        fetch(url, { mode: 'no-cors' })
+            .then(() => console.log('Feedback sent directly'))
+            .catch(err => console.error('Failed to send feedback:', err));
     },
     
     handleShare() {
@@ -1175,57 +1204,6 @@ export const GuideManager = {
         });
     },
     
-    // Google Sheets로 데이터 전송
-    async sendToGoogleSheets(data) {
-        try {
-            // 완료 시간 계산
-            const completionTime = this.startTime ? Math.round((Date.now() - this.startTime) / 1000 / 60) : 0;
-            
-            // 전송할 데이터 준비
-            const payload = {
-                eventType: 'feedback_submitted',
-                userId: Analytics.getUserId ? Analytics.getUserId() : '',
-                sessionId: this.sessionId,
-                pageUrl: window.location.href,
-                pageTitle: document.title,
-                os: window.OSDetector?.getCurrentOS() || 'unknown',
-                browser: this.getBrowserInfo(),
-                userAgent: navigator.userAgent,
-                referrer: document.referrer || 'direct',
-                customData: {
-                    emoji: data.emoji || '',
-                    feedbackText: data.feedbackText || '',
-                    completionTime: `${completionTime}분`,
-                    completedSteps: this.completedSteps.size,
-                    lastStep: Array.from(this.completedSteps).pop() || '',
-                    darkMode: window.ThemeManager?.currentTheme === 'dark' ? 'Yes' : 'No',
-                    firstVisit: !localStorage.getItem('claude-guide-visited') ? 'Yes' : 'No',
-                    errorSteps: this.errorSteps.join(', ') || '',
-                    errorResolved: this.errorSteps.length > 0 && this.completedSteps.size === 6 ? 'Yes' : 'No',
-                    screenResolution: `${window.screen.width}x${window.screen.height}`
-                }
-            };
-            
-            // 첫 방문 표시
-            localStorage.setItem('claude-guide-visited', 'true');
-            
-            // Analytics 모듈을 통해 전송 (전체 payload 전송)
-            if (window.Analytics && window.Analytics.sendToGoogleSheets) {
-                window.Analytics.sendToGoogleSheets('feedback_submitted', payload);
-            } else {
-                // Analytics 모듈이 없으면 직접 전송
-                const response = await fetch(this.SHEET_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify(payload)
-                });
-            }
-            
-            console.log('Feedback sent to Google Sheets');
-        } catch (error) {
-            console.error('Failed to send feedback:', error);
-        }
-    },
     
     getBrowserInfo() {
         const userAgent = navigator.userAgent;
@@ -1378,15 +1356,27 @@ export const GuideManager = {
     async incrementUserCount() {
         try {
             // Google Sheets를 사용하여 카운트 증가
-            const { Analytics } = await import('./analytics.js');
-            const response = await fetch(Analytics.APPS_SCRIPT_URL + '?action=incrementCounter&metric=users');
-            const data = await response.json();
+            const url = 'https://script.google.com/macros/s/AKfycbw9IG4a8jKUPG9s_ouhY6yk8xn3UUP-sDri8wDm9_WGct4cbGsWp6P1X45Ei5DUf-Q5/exec';
             
-            if (data.success) {
-                console.log(`새로운 사용자! 총 사용자 수: ${data.value}`);
-                // 로컬에 카운트 완료 표시
-                this.markUserCounted();
-            }
+            // 사용자 카운트 증가
+            fetch(`${url}?action=incrementCounter&metric=users`, {
+                method: 'GET',
+                mode: 'no-cors'
+            }).then(() => {
+                console.log('사용자 카운트 증가 요청 전송됨');
+            });
+            
+            // 가이드 시작 카운터도 증가
+            fetch(`${url}?action=incrementCounter&metric=starts`, {
+                method: 'GET',
+                mode: 'no-cors'
+            }).then(() => {
+                console.log('가이드 시작 카운트 증가 요청 전송됨');
+            });
+            
+            // 로컬에 카운트 완료 표시
+            this.markUserCounted();
+            
         } catch (error) {
             console.error('사용자 카운트 실패:', error);
             // 실패해도 로컬에는 표시하여 중복 카운트 방지
