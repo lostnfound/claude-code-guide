@@ -49,8 +49,7 @@ claude-code-guide/
 ├── index.html                   # 메인 페이지
 ├── guide.html                   # 가이드 페이지
 ├── about.html                   # 소개 페이지
-├── faq.html                     # FAQ 페이지
-└── google-apps-script-complete.js # 분석 백엔드 코드
+└── faq.html                     # FAQ 페이지
 ```
 
 ## 🚀 시작하기
