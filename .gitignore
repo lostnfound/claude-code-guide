@@ -1,7 +1,126 @@
-node_modules
-dist
-.DS_Store
-.vercel
-*.local
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build
+dist/
+dist-ssr/
+build/
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Logs
+logs/
 *.log
-og-image-template.html
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Package manager
+.npm
+.yarn-integrity
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Google Apps Script local development files
+.clasp.json
+.clasprc.json
+
+# Local test files
+test-*.js
+*.test.js
+
+# Backup files
+*.backup
+*.bak
+
+# Personal notes
+notes.md
+TODO.md
+personal-notes/
+
+# Analytics keys and configs (if any)
+analytics-config.js
+ga-config.json
+
+# Any local development scripts
+scripts/local/
+dev-scripts/
+
+# Generated documentation
+docs/generated/
+
+# Local database files
+*.sqlite
+*.db
+
+# API keys or secrets (if accidentally created)
+*-secret.json
+*-key.json
+secrets/
+keys/
+
+# Project specific files
+CLAUDE.md
+SESSION_LOG.md
+dev-server.log
+ga4-simple-solution.js
+google-apps-script-update.js
+guide-tracking-example.html
+
+# Temporary solution files
+*-solution.js
+*-update.js
+*-example.html
+
+# Local Google Apps Script development
+google-apps-script/
+.clasp.json
+
+# Pages directory (old structure)
+pages/
