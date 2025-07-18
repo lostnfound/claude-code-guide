@@ -91,15 +91,11 @@ VITE_APPS_SCRIPT_URL=your-apps-script-web-app-url
 
 이 분석 시스템을 통해 사용자 경험을 지속적으로 개선하고 있습니다.
 
-## 🤝 기여하기
+## 💌 피드백
 
-프로젝트에 기여하고 싶으신가요? 환영합니다!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+버그를 발견하셨거나 제안사항이 있으신가요?
+- 이메일: me@jongjinchoi.com
+- Issues: [GitHub Issues](https://github.com/jongjinchoi/claude-code-guide/issues)
 
 ## 📝 라이선스
 
