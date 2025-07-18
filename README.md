@@ -97,10 +97,6 @@ VITE_APPS_SCRIPT_URL=your-apps-script-web-app-url
 - 이메일: me@jongjinchoi.com
 - Issues: [GitHub Issues](https://github.com/jongjinchoi/claude-code-guide/issues)
 
-## 📝 라이선스
-
-이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
-
 ## 👨‍💻 개발자
 
 **Jongjin Choi**
