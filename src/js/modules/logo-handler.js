@@ -3,7 +3,7 @@
  * 홈 이동, 가이드 진행 상태 확인, 이스터 에그 등 처리
  */
 
-import Analytics from './analytics.js';
+import { Analytics } from './analytics.js';
 
 export const LogoHandler = {
     clickCount: 0,
@@ -42,48 +42,15 @@ export const LogoHandler = {
         // 이스터 에그 체크
         if (this.clickCount >= 3) {
             this.triggerEasterEgg();
-            return;
+            // 이스터 에그 후에도 정상 동작은 계속
         }
         
-        // 가이드 페이지에서의 특별 처리
-        if (isGuidePage) {
-            this.handleGuidePageClick();
-        } else if (isHomePage) {
-            // 홈페이지에서는 맨 위로 스크롤
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            Analytics.trackEvent('logo_click', { action: 'scroll_to_top' });
-        } else {
-            // 다른 페이지에서는 홈으로 이동
-            window.location.href = '/';
-            Analytics.trackEvent('logo_click', { action: 'navigate_home' });
-        }
-    },
-    
-    handleGuidePageClick() {
-        // GuideManager가 로드되어 있는지 확인
-        if (window.GuideManager && window.GuideManager.currentStep) {
-            const currentStep = window.GuideManager.currentStep;
-            const totalSteps = 7;
-            
-            // 진행 상태 표시
-            const confirmReset = confirm(
-                `현재 설치 진행 중입니다. (${currentStep}/${totalSteps} 단계)\n\n` +
-                `홈으로 돌아가시겠습니까?\n` +
-                `(진행 상태는 저장됩니다)`
-            );
-            
-            if (confirmReset) {
-                window.location.href = '/';
-                Analytics.trackEvent('logo_click', { 
-                    action: 'navigate_home_from_guide',
-                    current_step: currentStep
-                });
-            }
-        } else {
-            // 가이드가 시작되지 않았으면 바로 홈으로
-            window.location.href = '/';
-            Analytics.trackEvent('logo_click', { action: 'navigate_home' });
-        }
+        // 모든 페이지에서 맨 위로 스크롤
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        Analytics.trackEvent('logo_click', { 
+            action: 'scroll_to_top',
+            page: currentPath
+        });
     },
     
     triggerEasterEgg() {
