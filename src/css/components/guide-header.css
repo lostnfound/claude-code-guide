@@ -13,6 +13,18 @@
     align-items: center;
     gap: var(--space-2);
     text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    user-select: none;
+}
+
+.logo:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.logo:active {
+    transform: translateY(0);
 }
 
 .logo i {
