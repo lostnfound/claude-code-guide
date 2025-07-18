@@ -97,7 +97,7 @@ VITE_APPS_SCRIPT_URL=your-apps-script-web-app-url
 - 이메일: me@jongjinchoi.com
 - Issues: [GitHub Issues](https://github.com/jongjinchoi/claude-code-guide/issues)
 
-## 👨‍💻 개발자
+## 👨‍💻 만든 이
 
 **Jongjin Choi**
 - Email: me@jongjinchoi.com
