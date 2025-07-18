@@ -22,6 +22,9 @@ export const Analytics = {
         // 세션 ID 생성
         this.sessionId = this.generateSessionId();
         
+        // 페이지 로드 시간 기록
+        this.pageLoadTime = Date.now();
+        
         // GA4 스크립트 동적 로드
         this.loadGoogleAnalytics();
         
@@ -33,11 +36,47 @@ export const Analytics = {
         
         // 세션 시간 추적 시작
         this.trackSessionTime();
+        
+        // Duration 추적 설정
+        this.setupDurationTracking();
     },
     
     // 세션 ID 생성
     generateSessionId() {
-        return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        const timestamp = Date.now();
+        const random = Math.random().toString(36).substring(2, 15);
+        return `session_${timestamp}_${random}`;
+    },
+    
+    // Duration 추적 설정
+    setupDurationTracking() {
+        // 페이지 이탈 시 체류 시간 기록
+        window.addEventListener('beforeunload', () => {
+            const duration = Math.round((Date.now() - this.pageLoadTime) / 1000); // 초 단위
+            
+            // beacon API를 사용하여 확실히 전송
+            const data = {
+                eventType: 'page_exit',
+                userId: this.getUserId(),
+                sessionId: this.sessionId,
+                duration: duration,
+                pageUrl: window.location.href,
+                timestamp: new Date().toISOString()
+            };
+            
+            const params = new URLSearchParams(data);
+            const url = `${this.APPS_SCRIPT_URL}?${params.toString()}`;
+            
+            // beacon API 사용 (브라우저 종료 시에도 전송 보장)
+            if (navigator.sendBeacon) {
+                navigator.sendBeacon(url);
+            } else {
+                // fallback: 동기 요청
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', url, false);
+                xhr.send();
+            }
+        });
     },
     
     // Google Analytics 스크립트 로드
@@ -134,7 +173,9 @@ export const Analytics = {
             timestamp: new Date().toISOString(),
             pageUrl: window.location.href,
             os: this.getOS(),
-            browser: this.getBrowser()
+            browser: this.getBrowser(),
+            device: this.getDevice(),
+            referrer: this.getReferrer()
         };
         
         // Apps Script 엔드포인트로 전송
@@ -152,10 +193,34 @@ export const Analytics = {
     getUserId() {
         let userId = localStorage.getItem('claude_guide_user_id');
         if (!userId) {
-            userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substring(2, 15);
+            const browserFingerprint = this.generateFingerprint();
+            userId = `user_${timestamp}_${random}_${browserFingerprint}`;
             localStorage.setItem('claude_guide_user_id', userId);
         }
         return userId;
+    },
+    
+    // 브라우저 핑거프린트 생성 (고유성 높이기)
+    generateFingerprint() {
+        const components = [
+            navigator.userAgent,
+            navigator.language,
+            new Date().getTimezoneOffset(),
+            screen.width + 'x' + screen.height,
+            screen.colorDepth
+        ];
+        
+        // 간단한 해시 함수
+        let hash = 0;
+        const str = components.join('|');
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32-bit integer
+        }
+        return Math.abs(hash).toString(36).substring(0, 8);
     },
     
     // OS 감지
@@ -165,7 +230,7 @@ export const Analytics = {
         if (userAgent.indexOf("Mac") !== -1) return "MacOS";
         if (userAgent.indexOf("Linux") !== -1) return "Linux";
         if (userAgent.indexOf("Android") !== -1) return "Android";
-        if (userAgent.indexOf("iOS") !== -1) return "iOS";
+        if (userAgent.indexOf("iPhone") !== -1 || userAgent.indexOf("iPad") !== -1) return "iOS";
         return "Unknown";
     },
     
@@ -177,6 +242,30 @@ export const Analytics = {
         if (userAgent.indexOf("Firefox") !== -1) return "Firefox";
         if (userAgent.indexOf("Edge") !== -1) return "Edge";
         return "Unknown";
+    },
+    
+    // 디바이스 감지
+    getDevice() {
+        const userAgent = navigator.userAgent;
+        
+        // 모바일 기기 검사
+        if (/iPhone|iPad|iPod/.test(userAgent)) return "Mobile";
+        if (/Android/.test(userAgent)) {
+            if (/Mobile/.test(userAgent)) return "Mobile";
+            return "Tablet";
+        }
+        if (/Tablet|iPad/.test(userAgent)) return "Tablet";
+        
+        // 화면 크기 기반 감지
+        if (window.innerWidth < 768) return "Mobile";
+        if (window.innerWidth < 1024) return "Tablet";
+        
+        return "Desktop";
+    },
+    
+    // Referrer 정보 가져오기
+    getReferrer() {
+        return document.referrer || "Direct";
     },
     
     // 이벤트 리스너 설정
