@@ -109,7 +109,8 @@ VITE_APPS_SCRIPT_URL=your-apps-script-web-app-url
 
 **Jongjin Choi**
 - Email: me@jongjinchoi.com
-- GitHub: [@yourusername](https://github.com/yourusername)
+- GitHub: [@jongjinchoi](https://github.com/jongjinchoi)
+- LinkedIn: [jongjinchoi](https://www.linkedin.com/in/jongjinchoi/)
 
 ## 🙏 감사의 말
 
