@@ -1448,7 +1448,7 @@
             </section>
 
             <!-- Windows 6단계: 첫 프로젝트 시작 -->
-             <!--
+            
             <section class="step-section os-specific" data-os="windows" id="step-project-windows">
                 <div class="step-header">
                     <div class="step-number">6</div>
@@ -1458,23 +1458,26 @@
                 <div class="step-content">
                     <div class="simple-check">
                         <h3>프로젝트 폴더 만들기</h3>
-                        <p>Claude Code를 사용할 프로젝트 폴더를 만들어보세요:</p>
-                        <div class="code-block">
-                            <code>mkdir my-first-project</code>
-                            <button class="copy-btn">
-                                <i class="fas fa-copy"></i>
-                                <span>복사</span>
-                            </button>
-                        </div>
-                        <div class="code-block">
-                            <code>cd my-first-project</code>
-                            <button class="copy-btn">
-                                <i class="fas fa-copy"></i>
-                                <span>복사</span>
-                            </button>
-                        </div>
+                        <p>탐색기에서 Claude Code를 사용할 프로젝트 폴더를 만들어보세요:</p>
+                        <img src="images/windows_create_folder.png" alt="프로젝트 폴더 만들기" class="screenshot
                     </div>
-
+                    <div class="simple-check">
+                        <h3>터미널 열기</h3>
+                        <p>프로젝트 폴더에서 오른쪽 클릭을 하고 터미널에서 열기 옵션을 선택하세요:</p>
+                        <img src="images/windows_open_folder.png" alt="프로젝트 폴더 만들기" class="screenshot"
+                    </div>
+                    <div class="simple-check">
+                        <h3>권한 세팅하기</h3>
+                        <p>터미널에서 다음 명령어를 실행해주세요:</p>
+                        <div class="code-block">
+                                <code>Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned</code>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>
+                                    <span>복사</span>
+                                </button>
+                        </div>
+                        <img src="images/windows_permission.png" alt="권한 세팅" class="screenshot">
+                    </div>
                     <div class="simple-check">
                         <h3>Claude Code 시작하기</h3>
                         <p>이제 Claude Code를 시작해보세요:</p>
@@ -1613,7 +1616,6 @@
                     </div>
                 </div>
             </section>
--->
         </main>
 
         <!-- 진행 상태 바 -->
