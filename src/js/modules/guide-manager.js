@@ -109,7 +109,7 @@ export const GuideManager = {
     getTimeEstimate(stepId) {
         const estimates = {
             'start': '2분',
-            'homebrew': '3분',
+            'Xcode': '1분~2시간',
             'node': '2분',
             'claude': '2분',
             'auth': '2분',
@@ -285,7 +285,7 @@ export const GuideManager = {
         // 1단계 완료 시 사용자 카운트 증가
         const stepNames = {
             'start': '시작하기 전에',
-            'homebrew': 'Homebrew 설치',
+            'terminal': 'Terminal 사용법 익히기',
             'node': 'Node.js 설치',
             'start-windows': '시작하기 전에',
             'git-windows': 'Git 설치'
@@ -300,7 +300,7 @@ export const GuideManager = {
         if (window.showToast) {
             const stepNames = {
                 'start': '시작하기 전에',
-                'homebrew': 'Homebrew 설치',
+            'terminal': 'Terminal 사용법 익히기',
                 'node': 'Node.js 설치',
                 'claude': 'Claude Code 설치',
                 'auth': '인증 설정',
@@ -386,7 +386,7 @@ export const GuideManager = {
             if (os === 'windows') {
                 stepIds = ['start-windows', 'git-windows', 'node-windows', 'claude-windows', 'auth-windows', 'project-windows'];
             } else {
-                stepIds = ['start', 'homebrew', 'node', 'claude', 'auth', 'project'];
+                stepIds = ['start', 'terminal', 'node', 'claude', 'auth', 'project'];
             }
             
             // Expand the next step and add "현재 진행 중" tag
@@ -456,7 +456,7 @@ export const GuideManager = {
             steps = ['start-windows', 'git-windows', 'node-windows', 'claude-windows', 'auth-windows', 'project-windows'];
             suffix = '';
         } else {
-            steps = ['start', 'homebrew', 'node', 'claude', 'auth', 'project'];
+            steps = ['start', 'terminal', 'node', 'claude', 'auth', 'project'];
             suffix = '';
         }
         
@@ -494,7 +494,7 @@ export const GuideManager = {
         if (progressTime) {
             const stepNames = {
                 'start': '시작하기 전에',
-                'homebrew': 'Homebrew 설치',
+                'terminal': 'Terminal 사용법 익히기',
                 'node': 'Node.js 설치',
                 'claude': 'Claude Code 설치',
                 'auth': '인증 설정',
@@ -509,7 +509,7 @@ export const GuideManager = {
             
             const currentStepId = os === 'windows' ? 
                 ['start-windows', 'git-windows', 'node-windows', 'claude-windows', 'auth-windows', 'project-windows'][this.currentStep] :
-                ['start', 'homebrew', 'node', 'claude', 'auth', 'project'][this.currentStep];
+                ['start', 'terminal', 'node', 'claude', 'auth', 'project'][this.currentStep];
             
             const currentStepName = stepNames[currentStepId] || '시작하기 전에';
             progressTime.textContent = `현재: ${currentStepName}`;
@@ -533,7 +533,7 @@ export const GuideManager = {
         if (os === 'windows') {
             stepIds = ['start-windows', 'git-windows', 'node-windows', 'claude-windows', 'auth-windows', 'project-windows'];
         } else {
-            stepIds = ['start', 'homebrew', 'node', 'claude', 'auth', 'project'];
+            stepIds = ['start', 'terminal', 'node', 'claude', 'auth', 'project'];
         }
         
         // Remove active from all sections and remove all progress tags
@@ -1024,7 +1024,7 @@ export const GuideManager = {
         if (os === 'windows') {
             stepIdArray = ['start-windows', 'git-windows', 'node-windows', 'claude-windows', 'auth-windows', 'project-windows'];
         } else {
-            stepIdArray = ['start', 'homebrew', 'node', 'claude', 'auth', 'project'];
+            stepIdArray = ['start', 'terminal', 'node', 'claude', 'auth', 'project'];
         }
         
         return stepIds.map(id => stepIdArray.indexOf(id)).filter(index => index !== -1);
@@ -1054,7 +1054,7 @@ export const GuideManager = {
         if (os === 'windows') {
             stepIdArray = ['start-windows', 'git-windows', 'node-windows', 'claude-windows', 'auth-windows', 'project-windows'];
         } else {
-            stepIdArray = ['start', 'homebrew', 'node', 'claude', 'auth', 'project'];
+            stepIdArray = ['start', 'terminal', 'node', 'claude', 'auth', 'project'];
         }
         
         if (doneParam) {
@@ -1113,7 +1113,7 @@ export const GuideManager = {
         if (os === 'windows') {
             stepIds = ['start-windows', 'git-windows', 'node-windows', 'claude-windows', 'auth-windows', 'project-windows'];
         } else {
-            stepIds = ['start', 'homebrew', 'node', 'claude', 'auth', 'project'];
+            stepIds = ['start', 'terminal', 'node', 'claude', 'auth', 'project'];
         }
         
         this.completedSteps.forEach(stepId => {
@@ -1216,7 +1216,7 @@ export const GuideManager = {
         const summaries = {
             'start': { text: '터미널 사용법 숙지 완료 • 기본 명령어 이해' },
             'start-windows': { text: '터미널 사용법 숙지 완료 • 기본 명령어 이해' },
-            'homebrew': { text: 'Homebrew 패키지 관리자 설치 완료' },
+            'terminal': { text: 'Terminal 사용법 숙지 완료' },
             'git-windows': { text: 'Git for Windows 설치 완료' },
             'node': { text: 'Node.js 및 npm 설치 완료' },
             'node-windows': { text: 'Node.js 및 npm 설치 완료' },
